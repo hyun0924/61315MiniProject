@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BackgroundTouch : MonoBehaviour
 {
-    private void OnMouseEnter()
+    private void OnMouseDown()
     {
-        
+        School.getInstance().GetAttack(PlayerStat.atk);
     }
 }
