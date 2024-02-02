@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class School : MonoBehaviour
 {
-    protected int HP;
-    public int MaxHP;
+    protected double HP;
+    public double MaxHP;
     protected static School instance = null;
     void Awake()
     {
@@ -38,6 +38,7 @@ public class School : MonoBehaviour
     }
     public void ReGen()
     {
+        MaxHP *= 1.1;
         HP = MaxHP;
     }
     public void GetAttack(int dmg)
