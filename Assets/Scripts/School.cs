@@ -25,7 +25,7 @@ public class School : MonoBehaviour
         HP-=dmg;
         if(HP < 0 )
         {
-            //대충 죽는 처리&&돈
+            //대충 죽는 처리
             Money.IncreaseMoney(Random.Range(2, 4));
         }
         //대충 애니메이션 
