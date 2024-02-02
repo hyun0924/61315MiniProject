@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class School : MonoBehaviour
 {
-    private int HP;
+    protected int HP;
     public int MaxHP;
-    private static  School instance = new School();
+    protected static  School instance = new School();
     public static School getInstance()
     {
         return instance;
     }
-    private void Start()
+    protected void Start()
     {
         HP = MaxHP;
     }
@@ -26,6 +26,7 @@ public class School : MonoBehaviour
         if(HP < 0 )
         {
             //대충 죽는 처리&&돈
+            Money.IncreaseMoney(Random.Range(2, 4));
         }
         //대충 애니메이션 
     }
