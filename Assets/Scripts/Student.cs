@@ -19,4 +19,14 @@ public class Student : MonoBehaviour
         //수치 조정
         atk = PlayerStat.atk-gap;
     }
+    private void Awake()
+    {
+        StartCoroutine("attack", 5);
+    }
+    IEnumerator attack(float delay)
+    {
+        School.getInstance().GetAttack(atk);
+        yield return new WaitForSeconds(delay);
+        StartCoroutine("attack", 5);
+    }
 }
