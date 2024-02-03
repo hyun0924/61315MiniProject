@@ -1,18 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class School : MonoBehaviour
 {
     protected float HP;
-    public float SchoolHP => HP;
     public float MaxHP;
     protected static School instance = null;
     public static bool levelUp;
-    public static int stack;
+    public static int stack; // nn번째 격파에 사용
 
-    [SerializeField] private GameObject SchoolHPPrefab;
+    [SerializeField] private int bossPeriod;
+
+    [SerializeField] private Slider SchoolHPSlider;
+    [SerializeField] private TextMeshProUGUI SchoolNameText;
+
+    [SerializeField] private float SchoolSpeed;
+    [SerializeField] private float BossSpeed;
+    private float currentSpeed;
 
     void Awake()
     {
@@ -34,42 +42,57 @@ public class School : MonoBehaviour
             //그래서 이미 전역변수인 instance에 인스턴스가 존재한다면 자신(새로운 씬의 GameMgr)을 삭제해준다.
             Destroy(this.gameObject);
         }
-
-        GameObject clone = Instantiate(SchoolHPPrefab);
-        clone.GetComponent<SchoolHP>().School = this;
     }//긁어온겁니다.
+
     public static School getInstance()
     {
         return instance;
     }
+
     protected void Start()
     {
-        HP = MaxHP;
+        ReGen();
     }
+
+    private void Update()
+    {
+        transform.position += Vector3.down * currentSpeed * Time.deltaTime;
+    }
+
     public void ReGen()
     {
-        School.stack++;
-        if (levelUp)
+        stack++;
+        SchoolHPSlider.value = 1;
+        transform.position = new Vector3(0, 7.5f);
+        gameObject.SetActive(true);
+
+        // bossPeriod번째마다 보스 체크
+        if (stack % bossPeriod == 0)
         {
-            MaxHP *= 1.1f;
-            levelUp = false;
-            School.stack = 0;
+            currentSpeed = BossSpeed;
+            SchoolNameText.text = "Boss";
+            HP = MaxHP * 5;
         }
-        else if (School.stack >= 19) levelUp = true;
-
-
-        //보스 체크
-
-
-        HP = !levelUp ? MaxHP : MaxHP * 5;
-
-
+        else
+        {
+            currentSpeed = SchoolSpeed;
+            SchoolNameText.text = "";
+            HP = MaxHP;
+        }
     }
+
+    private void LevelUP()
+    {
+        MaxHP *= 1.1f;
+        SchoolSpeed *= 1.05f; // 임의로 speed +5%
+    }
+
     public void GetAttack(int dmg)
     {
         HP -= dmg;
+        SchoolHPSlider.value = HP / MaxHP;
 
-        if (HP < 0)
+        if (HP <= 0)
         {
             Money.IncreaseMoney(Random.Range(2, 4));
             if (levelUp)
@@ -88,7 +111,11 @@ public class School : MonoBehaviour
     private void Dead()
     {
         //대충 죽는 처리
+        gameObject.SetActive(false);
 
-        Destroy(gameObject);
+        // 보스 잡으면 LevelUp
+        if (stack % bossPeriod == 0) LevelUP();
+
+        ReGen();
     }
 }
