@@ -30,7 +30,5 @@ public class AddStudentBtn : MonoBehaviour
                 studentNum++;
             }
         }
-        
-
     }
 }

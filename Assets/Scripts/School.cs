@@ -62,6 +62,7 @@ public class School : MonoBehaviour
     public void GetAttack(int dmg)
     {
         HP-=dmg;
+        Debug.Log("Attacked!" + dmg + "damge");
         if(HP < 0 )
         {
             //대충 죽는 처리
