@@ -1,71 +1,98 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class School : MonoBehaviour
 {
-    protected double HP;
-    public double MaxHP;
+    protected float HP;
+    public float MaxHP;
     protected static School instance = null;
     public static bool levelUp;
-    public static int stack;
+    public static int stack; // nnÎ≤àÏß∏ Í≤©ÌååÏóê ÏÇ¨Ïö©
+
+    [SerializeField] private int bossPeriod;
+
+    [SerializeField] private Slider SchoolHPSlider;
+    [SerializeField] private TextMeshProUGUI SchoolNameText;
+
+    [SerializeField] private float SchoolSpeed;
+    [SerializeField] private float BossSpeed;
+    private float currentSpeed;
+
     void Awake()
     {
         if (null == instance)
         {
-            //¿Ã ≈¨∑°Ω∫ ¿ŒΩ∫≈œΩ∫∞° ≈∫ª˝«ﬂ¿ª ∂ß ¿¸ø™∫Øºˆ instanceø° ∞‘¿”∏≈¥œ¿˙ ¿ŒΩ∫≈œΩ∫∞° ¥„∞‹¿÷¡ˆ æ ¥Ÿ∏È, ¿⁄Ω≈¿ª ≥÷æÓ¡ÿ¥Ÿ.
+            //Ïù¥ ÌÅ¥ÎûòÏä§ Ïù∏Ïä§ÌÑ¥Ïä§Í∞Ä ÌÉÑÏÉùÌñàÏùÑ Îïå Ï†ÑÏó≠Î≥ÄÏàò instanceÏóê Í≤åÏûÑÎß§ÎãàÏ†Ä Ïù∏Ïä§ÌÑ¥Ïä§Í∞Ä Îã¥Í≤®ÏûàÏßÄ ÏïäÎã§Î©¥, ÏûêÏã†ÏùÑ ÎÑ£Ïñ¥Ï§ÄÎã§.
             instance = this;
-            instance.MaxHP = 100d;
             School.levelUp = false;
             School.stack = 0;
-            //æ¿ ¿¸»Ø¿Ã µ«¥ı∂Ûµµ ∆ƒ±´µ«¡ˆ æ ∞‘ «—¥Ÿ.
-            //gameObject∏∏¿∏∑Œµµ ¿Ã Ω∫≈©∏≥∆Æ∞° ƒƒ∆˜≥Õ∆Æ∑Œº≠ ∫ŸæÓ¿÷¥¬ HierarchyªÛ¿« ∞‘¿”ø¿∫Í¡ß∆Æ∂Û¥¬ ∂Ê¿Ã¡ˆ∏∏, 
-            //≥™¥¬ «Ú∞•∏≤ πÊ¡ˆ∏¶ ¿ß«ÿ this∏¶ ∫Ÿø©¡÷±‚µµ «—¥Ÿ.
+            //Ïî¨ Ï†ÑÌôòÏù¥ ÎêòÎçîÎùºÎèÑ ÌååÍ¥¥ÎêòÏßÄ ÏïäÍ≤å ÌïúÎã§.
+            //gameObjectÎßåÏúºÎ°úÎèÑ Ïù¥ Ïä§ÌÅ¨Î¶ΩÌä∏Í∞Ä Ïª¥Ìè¨ÎÑåÌä∏Î°úÏÑú Î∂ôÏñ¥ÏûàÎäî HierarchyÏÉÅÏùò Í≤åÏûÑÏò§Î∏åÏ†ùÌä∏ÎùºÎäî ÎúªÏù¥ÏßÄÎßå, 
+            //ÎÇòÎäî Ìó∑Í∞àÎ¶º Î∞©ÏßÄÎ•º ÏúÑÌï¥ thisÎ•º Î∂ôÏó¨Ï£ºÍ∏∞ÎèÑ ÌïúÎã§.
             DontDestroyOnLoad(this.gameObject);
         }
         else
         {
-            //∏∏æ‡ æ¿ ¿Ãµø¿Ã µ«æ˙¥¬µ• ±◊ æ¿ø°µµ Hierarchyø° GameMgr¿Ã ¡∏¿Á«“ ºˆµµ ¿÷¥Ÿ.
-            //±◊∑≤ ∞ÊøÏø£ ¿Ã¿¸ æ¿ø°º≠ ªÁøÎ«œ¥¯ ¿ŒΩ∫≈œΩ∫∏¶ ∞Ëº” ªÁøÎ«ÿ¡÷¥¬ ∞ÊøÏ∞° ∏π¿∫ ∞Õ ∞∞¥Ÿ.
-            //±◊∑°º≠ ¿ÃπÃ ¿¸ø™∫Øºˆ¿Œ instanceø° ¿ŒΩ∫≈œΩ∫∞° ¡∏¿Á«—¥Ÿ∏È ¿⁄Ω≈(ªı∑ŒøÓ æ¿¿« GameMgr)¿ª ªË¡¶«ÿ¡ÿ¥Ÿ.
+            //ÎßåÏïΩ Ïî¨ Ïù¥ÎèôÏù¥ ÎêòÏóàÎäîÎç∞ Í∑∏ Ïî¨ÏóêÎèÑ HierarchyÏóê GameMgrÏù¥ Ï°¥Ïû¨Ìï† ÏàòÎèÑ ÏûàÎã§.
+            //Í∑∏Îü¥ Í≤ΩÏö∞Ïóî Ïù¥Ï†Ñ Ïî¨ÏóêÏÑú ÏÇ¨Ïö©ÌïòÎçò Ïù∏Ïä§ÌÑ¥Ïä§Î•º Í≥ÑÏÜç ÏÇ¨Ïö©Ìï¥Ï£ºÎäî Í≤ΩÏö∞Í∞Ä ÎßéÏùÄ Í≤É Í∞ôÎã§.
+            //Í∑∏ÎûòÏÑú Ïù¥ÎØ∏ Ï†ÑÏó≠Î≥ÄÏàòÏù∏ instanceÏóê Ïù∏Ïä§ÌÑ¥Ïä§Í∞Ä Ï°¥Ïû¨ÌïúÎã§Î©¥ ÏûêÏã†(ÏÉàÎ°úÏö¥ Ïî¨Ïùò GameMgr)ÏùÑ ÏÇ≠Ï†úÌï¥Ï§ÄÎã§.
             Destroy(this.gameObject);
         }
-    }//±‹æÓø¬∞Ã¥œ¥Ÿ.
+    }//Í∏ÅÏñ¥Ïò®Í≤ÅÎãàÎã§.
+
     public static School getInstance()
     {
         return instance;
     }
+
     protected void Start()
     {
-        HP = MaxHP;
+        ReGen();
     }
+
+    private void Update()
+    {
+        transform.position += Vector3.down * currentSpeed * Time.deltaTime;
+    }
+
     public void ReGen()
     {
-        School.stack++;
-        if (levelUp)
+        stack++;
+        SchoolHPSlider.value = 1;
+        transform.position = new Vector3(0, 7.5f);
+        gameObject.SetActive(true);
+
+        // bossPeriodÎ≤àÏß∏ÎßàÎã§ Î≥¥Ïä§ Ï≤¥ÌÅ¨
+        if (stack % bossPeriod == 0)
         {
-            MaxHP *= 1.1;
-            levelUp = false;
-            School.stack = 0;
+            currentSpeed = BossSpeed;
+            SchoolNameText.text = "Boss";
+            HP = MaxHP * 5;
         }
-        else if (School.stack >= 19) levelUp = true;
-       
-       
-        //∫∏Ω∫ √º≈©
-        
-        
-        HP = !levelUp?MaxHP:MaxHP*5;
-        
-        
+        else
+        {
+            currentSpeed = SchoolSpeed;
+            SchoolNameText.text = "";
+            HP = MaxHP;
+        }
     }
+
+    private void LevelUP()
+    {
+        MaxHP *= 1.1f;
+        SchoolSpeed *= 1.05f; // ÏûÑÏùòÎ°ú speed +5%
+    }
+
     public void GetAttack(int dmg)
     {
-        HP-=dmg;
+        HP -= dmg;
+        SchoolHPSlider.value = HP / MaxHP;
         Debug.Log("Attacked!" + dmg + "damge");
-        if(HP < 0 )
         {
-            //¥Î√Ê ¡◊¥¬ √≥∏Æ
             Money.IncreaseMoney(Random.Range(2, 4));
             if (levelUp)
             {
@@ -74,7 +101,20 @@ public class School : MonoBehaviour
                 Money.IncreaseMoney(Random.Range(2, 4));
                 Money.IncreaseMoney(Random.Range(2, 4));
             }
+
+            Dead();
         }
-        //¥Î√Ê æ÷¥œ∏ﬁ¿Ãº« 
+        //ÎåÄÏ∂© Ïï†ÎãàÎ©îÏù¥ÏÖò 
+    }
+
+    private void Dead()
+    {
+        //ÎåÄÏ∂© Ï£ΩÎäî Ï≤òÎ¶¨
+        gameObject.SetActive(false);
+
+        // Î≥¥Ïä§ Ïû°ÏúºÎ©¥ LevelUp
+        if (stack % bossPeriod == 0) LevelUP();
+
+        ReGen();
     }
 }
