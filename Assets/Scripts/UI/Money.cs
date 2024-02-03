@@ -17,4 +17,8 @@ public class Money : MonoBehaviour
     {
         money += inc;
     }
+    public static void DecreaseMoney(int dec)
+    {
+        money -= dec;
+    }
 }

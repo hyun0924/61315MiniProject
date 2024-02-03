@@ -8,7 +8,7 @@ public class PlayerStat : MonoBehaviour
     public static int atk;
     void Start()
     {
-        atk = 5;    
+        atk = 10;    
     }
     public static void atkIncrease(int inc)
     {

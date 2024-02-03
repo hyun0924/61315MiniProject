@@ -6,7 +6,9 @@ public class BackgroundTouch : MonoBehaviour
 {
     private void OnMouseDown()
     {
-        School.getInstance().GetAttack(PlayerStat.atk);
+        bool crit = Random.Range(0, 50) == 0;
+        School.getInstance().GetAttack(crit ? PlayerStat.atk*10 : PlayerStat.atk);
         //치명타 추가
+        
     }
 }
