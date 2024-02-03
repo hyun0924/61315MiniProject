@@ -14,6 +14,7 @@ public class ATKUPBtn : MonoBehaviour
         if (Money.GetMoney() >= price)
         {
             Money.DecreaseMoney(price);
+            price += 5;
             PlayerStat.atk += 5;//일단 임시로 5로했음
         }
 
