@@ -22,7 +22,7 @@ public class AddStudentBtn : MonoBehaviour
     {
         if (studentNum <= 9)
         {
-        if (Money.GetMoney() >= price)
+            if (Money.GetMoney() >= price)
             {
                 Money.DecreaseMoney(price);
                 price += 100;
@@ -30,7 +30,7 @@ public class AddStudentBtn : MonoBehaviour
                 studentNum++;
             }
         }
-        
+
 
     }
 }
