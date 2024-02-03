@@ -14,6 +14,4 @@ public class PlayerStat : MonoBehaviour
     {
         atk += inc;
     }
-
-   
 }

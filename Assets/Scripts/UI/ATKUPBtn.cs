@@ -17,6 +17,5 @@ public class ATKUPBtn : MonoBehaviour
             price += 5;
             PlayerStat.atk += 5;//일단 임시로 5로했음
         }
-
     }
 }

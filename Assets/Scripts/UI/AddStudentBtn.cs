@@ -12,7 +12,7 @@ public class AddStudentBtn : MonoBehaviour
     new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,0,0),
     new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,0,0),
     new Vector3(0,0,0)
-    };//¿©±â´Ù ¹èÄ¡
+    };//Â¿Â©Â±Ã¢Â´Ã™ Â¹Ã¨Ã„Â¡
     private void Awake()
     {
         price = 100;
@@ -30,7 +30,5 @@ public class AddStudentBtn : MonoBehaviour
                 studentNum++;
             }
         }
-
-
     }
 }
