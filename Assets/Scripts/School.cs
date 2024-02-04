@@ -25,6 +25,10 @@ public class School : MonoBehaviour
     [SerializeField] private float BossSpeed;
     private float currentSpeed;
 
+    [Header("Shake")]
+    [SerializeField] private float shakeTime;
+    [SerializeField] private float shakeIntensity;
+
     void Awake()
     {
         if (null == instance)
@@ -100,6 +104,9 @@ public class School : MonoBehaviour
         else SchoolHPBar.fillAmount = HP / MaxHP;
         Debug.Log("Attacked!" + dmg + "damge");
 
+        StopCoroutine(Shake());
+        StartCoroutine(Shake());
+        
         if (HP <= 0)
         {
             Money.IncreaseMoney(Random.Range(2, 4));
@@ -114,6 +121,22 @@ public class School : MonoBehaviour
             Dead();
         }
         //대충 애니메이션 
+    }
+
+    private IEnumerator Shake()
+    {
+        Vector3 startPosition = transform.position;
+        float time = shakeTime;
+
+        while (time > 0.0f)
+        {
+            time -= Time.deltaTime;
+            transform.position = startPosition + Random.insideUnitSphere * shakeIntensity;
+
+            yield return null;
+        }
+
+        transform.position = startPosition + Vector3.down * currentSpeed * shakeTime;
     }
 
     private void Dead()

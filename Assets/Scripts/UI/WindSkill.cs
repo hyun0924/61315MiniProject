@@ -22,7 +22,7 @@ public class WindSkill : MonoBehaviour
             School.getInstance().GetAttack(PlayerStat.atk * 5);
             skillCount = 0;
             windSkillGauge.fillAmount = 0;
-            Instantiate(windPrefab);
+            // Instantiate(windPrefab);
         }
         //치명타 추가
     }
