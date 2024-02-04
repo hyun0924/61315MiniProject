@@ -10,17 +10,23 @@ public class School : MonoBehaviour
     protected float HP;
     public float MaxHP;
     protected static School instance = null;
-    public static bool levelUp;
     public static int stack; // nn번째 격파에 사용
+    private bool isBoss;
 
     [SerializeField] private int bossPeriod;
 
-    [SerializeField] private Slider SchoolHPSlider;
+    [Header("UI")]
+    [SerializeField] private Image SchoolHPBar;
     [SerializeField] private TextMeshProUGUI SchoolNameText;
 
+    [Header("Speed")]
     [SerializeField] private float SchoolSpeed;
     [SerializeField] private float BossSpeed;
     private float currentSpeed;
+
+    [Header("Shake")]
+    [SerializeField] private float shakeTime;
+    [SerializeField] private float shakeIntensity;
 
     void Awake()
     {
@@ -28,7 +34,7 @@ public class School : MonoBehaviour
         {
             //이 클래스 인스턴스가 탄생했을 때 전역변수 instance에 게임매니저 인스턴스가 담겨있지 않다면, 자신을 넣어준다.
             instance = this;
-            School.levelUp = false;
+            isBoss = false;
             School.stack = 0;
             //씬 전환이 되더라도 파괴되지 않게 한다.
             //gameObject만으로도 이 스크립트가 컴포넌트로서 붙어있는 Hierarchy상의 게임오브젝트라는 뜻이지만, 
@@ -62,9 +68,10 @@ public class School : MonoBehaviour
     public void ReGen()
     {
         stack++;
-        SchoolHPSlider.value = 1;
+        SchoolHPBar.fillAmount = 1;
         transform.position = new Vector3(0, 7.5f);
         gameObject.SetActive(true);
+        isBoss = false;
 
         // bossPeriod번째마다 보스 체크
         if (stack % bossPeriod == 0)
@@ -72,6 +79,7 @@ public class School : MonoBehaviour
             currentSpeed = BossSpeed;
             SchoolNameText.text = "Boss";
             HP = MaxHP * 5;
+            isBoss = true;
         }
         else
         {
@@ -81,7 +89,7 @@ public class School : MonoBehaviour
         }
     }
 
-    private void LevelUP()
+    private void NextPhase()
     {
         MaxHP *= 1.1f;
         SchoolSpeed *= 1.05f; // 임의로 speed +5%
@@ -90,11 +98,18 @@ public class School : MonoBehaviour
     public void GetAttack(int dmg)
     {
         HP -= dmg;
-        SchoolHPSlider.value = HP / MaxHP;
+        if (isBoss) SchoolHPBar.fillAmount = HP / (MaxHP * 5);
+        else SchoolHPBar.fillAmount = HP / MaxHP;
         Debug.Log("Attacked!" + dmg + "damge");
+
+        StopCoroutine(Shake());
+        StartCoroutine(Shake());
+        
+        if (HP <= 0)
         {
             Money.IncreaseMoney(Random.Range(2, 4));
-            if (levelUp)
+            
+            if (isBoss)
             {
                 Money.IncreaseMoney(Random.Range(2, 4));
                 Money.IncreaseMoney(Random.Range(2, 4));
@@ -107,13 +122,29 @@ public class School : MonoBehaviour
         //대충 애니메이션 
     }
 
+    private IEnumerator Shake()
+    {
+        Vector3 startPosition = transform.position;
+        float time = shakeTime;
+
+        while (time > 0.0f)
+        {
+            time -= Time.deltaTime;
+            transform.position = startPosition + Random.insideUnitSphere * shakeIntensity;
+
+            yield return null;
+        }
+
+        transform.position = startPosition + Vector3.down * currentSpeed * shakeTime;
+    }
+
     private void Dead()
     {
         //대충 죽는 처리
         gameObject.SetActive(false);
 
-        // 보스 잡으면 LevelUp
-        if (stack % bossPeriod == 0) LevelUP();
+        // 보스 잡으면 NextPhase
+        if (isBoss) NextPhase();
 
         ReGen();
     }
