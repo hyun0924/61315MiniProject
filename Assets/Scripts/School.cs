@@ -15,7 +15,7 @@ public class School : MonoBehaviour
 
     [SerializeField] private int bossPeriod;
 
-    [SerializeField] private Slider SchoolHPSlider;
+    [SerializeField] private Image SchoolHPBar;
     [SerializeField] private TextMeshProUGUI SchoolNameText;
 
     [SerializeField] private float SchoolSpeed;
@@ -62,7 +62,7 @@ public class School : MonoBehaviour
     public void ReGen()
     {
         stack++;
-        SchoolHPSlider.value = 1;
+        SchoolHPBar.fillAmount = 1;
         transform.position = new Vector3(0, 7.5f);
         gameObject.SetActive(true);
 
@@ -90,8 +90,10 @@ public class School : MonoBehaviour
     public void GetAttack(int dmg)
     {
         HP -= dmg;
-        SchoolHPSlider.value = HP / MaxHP;
+        SchoolHPBar.fillAmount = HP / MaxHP;
         Debug.Log("Attacked!" + dmg + "damge");
+
+        if (HP <= 0)
         {
             Money.IncreaseMoney(Random.Range(2, 4));
             if (levelUp)
