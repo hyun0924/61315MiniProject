@@ -10,7 +10,6 @@ public class School : MonoBehaviour
     protected float HP;
     public float MaxHP;
     protected static School instance = null;
-    public static bool nextPhase;
     public static int stack; // nn번째 격파에 사용
     private bool isBoss;
 
@@ -36,7 +35,6 @@ public class School : MonoBehaviour
             //이 클래스 인스턴스가 탄생했을 때 전역변수 instance에 게임매니저 인스턴스가 담겨있지 않다면, 자신을 넣어준다.
             instance = this;
             isBoss = false;
-            School.nextPhase = false;
             School.stack = 0;
             //씬 전환이 되더라도 파괴되지 않게 한다.
             //gameObject만으로도 이 스크립트가 컴포넌트로서 붙어있는 Hierarchy상의 게임오브젝트라는 뜻이지만, 
@@ -110,7 +108,8 @@ public class School : MonoBehaviour
         if (HP <= 0)
         {
             Money.IncreaseMoney(Random.Range(2, 4));
-            if (nextPhase)
+            
+            if (isBoss)
             {
                 Money.IncreaseMoney(Random.Range(2, 4));
                 Money.IncreaseMoney(Random.Range(2, 4));
