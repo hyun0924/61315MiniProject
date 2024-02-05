@@ -12,6 +12,9 @@ public class BackgroundTouch : MonoBehaviour
     [SerializeField] private GameObject MoneyPrefab;
     [SerializeField] private GameObject FragmentPrefab;
 
+    [Header("FootPrint")]
+    [SerializeField] private GameObject FootPrintPrefab;
+
     private void Awake() {
         button = GetComponent<Button>();
         button.onClick.AddListener(OnMouseDown);
@@ -32,6 +35,8 @@ public class BackgroundTouch : MonoBehaviour
 
     private void SpawnFragment(Vector3 mousePos)
     {
+        Instantiate(FootPrintPrefab, mousePos, Quaternion.Euler(0, 0, Random.Range(-35f, 35f)));
+        
         Instantiate(MoneyPrefab, mousePos, Quaternion.Euler(0, 0, Random.Range(0, 360)));
         Instantiate(FragmentPrefab, mousePos, Quaternion.Euler(0, 0, Random.Range(0, 360)));
         Instantiate(FragmentPrefab, mousePos, Quaternion.Euler(0, 0, Random.Range(0, 360)));
