@@ -1,16 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BackgroundTouch : MonoBehaviour
 {
     [SerializeField] private WindSkill windSkill;
-    public void OnMouseDown()
+    Button button;
+
+    [Header("Fragment")]
+    [SerializeField] private GameObject MoneyPrefab;
+    [SerializeField] private GameObject FragmentPrefab;
+
+    private void Awake() {
+        button = GetComponent<Button>();
+        button.onClick.AddListener(OnMouseDown);
+    }
+
+    private void OnMouseDown()
     {
         Debug.Log("touched");
         windSkill.IncreaseSkillCount();
         bool crit = Random.Range(0, 50) == 0;
         School.getInstance().GetAttack(crit ? PlayerStat.atk*10 : PlayerStat.atk);
         //Ä¡¸íÅ¸ Ãß°¡
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        SpawnFragment(mousePos);
+    }
+
+    private void SpawnFragment(Vector3 mousePos)
+    {
+        Instantiate(MoneyPrefab, mousePos, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+        Instantiate(FragmentPrefab, mousePos, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+        Instantiate(FragmentPrefab, mousePos, Quaternion.Euler(0, 0, Random.Range(0, 360)));
     }
 }
