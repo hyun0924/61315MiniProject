@@ -209,7 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 134239108}
   m_Layer: 5
-  m_Name: Upgrade
+  m_Name: ATKUP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1223,19 +1223,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1319953458}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1319953457}
-        m_TargetAssemblyTypeName: BackgroundTouch, Assembly-CSharp
-        m_MethodName: OnMouseDown
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1319953457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1249,6 +1237,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windSkill: {fileID: 595414861}
+  MoneyPrefab: {fileID: 185377735702319103, guid: 2fb22f5223990dd41a8cc3a2f643f191, type: 3}
+  FragmentPrefab: {fileID: 8538944672664339245, guid: 0a473fe7fa6cc6a42835b2bcebef4da9, type: 3}
+  FootPrintPrefab: {fileID: 2441735898939848055, guid: 9a5db7f13c87db74c89b60be7e6123de, type: 3}
 --- !u!114 &1319953458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1450,9 +1441,10 @@ GameObject:
   - component: {fileID: 1465760730}
   - component: {fileID: 1465760733}
   - component: {fileID: 1465760732}
+  - component: {fileID: 1465760734}
   - component: {fileID: 1465760731}
   m_Layer: 5
-  m_Name: UpgradeBtn
+  m_Name: ATKUPBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1560,6 +1552,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465760729}
   m_CullTransparentMesh: 1
+--- !u!114 &1465760734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465760729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b639433f6b0da1340aa06d57bfa1cc8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: 5
+  PriceText: {fileID: 2026170579}
 --- !u!1 &1468063791
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,7 +2035,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752408071}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.69, z: 0}
   m_LocalScale: {x: 0.52, y: 0.52, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

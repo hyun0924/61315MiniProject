@@ -12,6 +12,7 @@ public class School : MonoBehaviour
     protected static School instance = null;
     public static int stack; // nn번째 격파에 사용
     private bool isBoss;
+    Rigidbody2D rb;
 
     [SerializeField] private int bossPeriod;
 
@@ -36,6 +37,7 @@ public class School : MonoBehaviour
             instance = this;
             isBoss = false;
             School.stack = 0;
+            rb = GetComponent<Rigidbody2D>();
             //씬 전환이 되더라도 파괴되지 않게 한다.
             //gameObject만으로도 이 스크립트가 컴포넌트로서 붙어있는 Hierarchy상의 게임오브젝트라는 뜻이지만, 
             //나는 헷갈림 방지를 위해 this를 붙여주기도 한다.
@@ -62,7 +64,7 @@ public class School : MonoBehaviour
 
     private void Update()
     {
-        transform.position += Vector3.down * currentSpeed * Time.deltaTime;
+        // transform.position += Vector3.down * currentSpeed * Time.deltaTime;
     }
 
     public void ReGen()
@@ -104,18 +106,20 @@ public class School : MonoBehaviour
 
         StopCoroutine(Shake());
         StartCoroutine(Shake());
+
+        rb.velocity = Vector3.zero;
         
         if (HP <= 0)
         {
-            Money.IncreaseMoney(Random.Range(2, 4));
+            // Money.IncreaseMoney(Random.Range(2, 4));
             
-            if (isBoss)
-            {
-                Money.IncreaseMoney(Random.Range(2, 4));
-                Money.IncreaseMoney(Random.Range(2, 4));
-                Money.IncreaseMoney(Random.Range(2, 4));
-                Money.IncreaseMoney(Random.Range(2, 4));
-            }
+            // if (isBoss)
+            // {
+            //     Money.IncreaseMoney(Random.Range(2, 4));
+            //     Money.IncreaseMoney(Random.Range(2, 4));
+            //     Money.IncreaseMoney(Random.Range(2, 4));
+            //     Money.IncreaseMoney(Random.Range(2, 4));
+            // }
 
             Dead();
         }
