@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
-    // Start is called before the first frame update
     public static int atk;
     void Start()
     {

@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ATKUPBtn : MonoBehaviour
 {
     public int price;
+    [SerializeField] private TextMeshProUGUI PriceText;
+    Button button;
     private void Awake()
     {
-        price = 5;
+        button = GetComponent<Button>();
+        PriceText.text = price.ToString("#,##0");
+        button.onClick.AddListener(OnMouseDown);
     }
     private void OnMouseDown()
     {
@@ -15,7 +21,8 @@ public class ATKUPBtn : MonoBehaviour
         {
             Money.DecreaseMoney(price);
             price += 5;
-            PlayerStat.atk += 5;//일단 임시로 5로했음
+            PriceText.text = price.ToString("#,##0");
+            PlayerStat.atk += 5; //??? ??÷? 5??????
         }
     }
 }
