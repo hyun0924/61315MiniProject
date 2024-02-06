@@ -6,12 +6,16 @@ using UnityEngine.UI;
 
 public class WindSkill : MonoBehaviour
 {
-    [SerializeField] private Image windSkillGauge;
+    [SerializeField] private GameObject windSkillFull;
     [SerializeField] private int maxSkillCount;
+
+    private Image windSkillGauge;
     private int skillCount;
     public GameObject windPrefab;
+
     private void Awake()
     {
+        windSkillGauge = windSkillFull.GetComponent<Image>();
         windSkillGauge.fillAmount = 0;
     }
 
@@ -24,12 +28,27 @@ public class WindSkill : MonoBehaviour
             windSkillGauge.fillAmount = 0;
             // Instantiate(windPrefab);
         }
-        //Ä¡¸íÅ¸ Ãß°¡
+        //Ä¡ï¿½ï¿½Å¸ ï¿½ß°ï¿½
     }
 
     public void IncreaseSkillCount()
     {
-        skillCount = math.min(maxSkillCount, skillCount + 1);
+        if (skillCount >= maxSkillCount) return;
+
+        skillCount++;
         windSkillGauge.fillAmount = (float)skillCount / maxSkillCount;
+
+        if (skillCount >= maxSkillCount)
+        {
+            StartCoroutine(FullFilled());
+        }
+    }
+
+    private IEnumerator FullFilled()
+    {
+        windSkillFull.transform.localScale = new Vector3(1.05f, 1.05f);
+        yield return new WaitForSeconds(0.1f);
+        windSkillFull.transform.localScale = Vector3.one;
+
     }
 }
