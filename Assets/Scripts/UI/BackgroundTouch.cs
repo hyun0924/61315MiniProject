@@ -8,8 +8,8 @@ public class BackgroundTouch : MonoBehaviour
     [SerializeField] private WindSkill windSkill;
     Button button;
 
-    [Header("FootPrint")]
     [SerializeField] private GameObject FootPrintPrefab;
+    [SerializeField] private GameObject DamageTextPrefab;
 
     private void Awake()
     {
@@ -29,6 +29,11 @@ public class BackgroundTouch : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         Instantiate(FootPrintPrefab, mousePos, Quaternion.Euler(0, 0, Random.Range(-35f, 35f)));
+        
+        // Show Damage
+        Vector3 textPos = Input.mousePosition + Vector3.up * 100f;
+        GameObject clone = Instantiate(DamageTextPrefab, textPos, Quaternion.identity);
+        clone.transform.SetParent(transform);
 
         // Money
         Money.IncreaseMoney(Random.Range(1, 3));
