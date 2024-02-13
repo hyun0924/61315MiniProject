@@ -73,10 +73,11 @@ public class School : MonoBehaviour
         // transform.position += Vector3.down * currentSpeed * Time.deltaTime;
     }
 
-    public void ReGen()
+    private void ReGen()
     {
         stack++;
         SchoolHPBar.fillAmount = 1;
+        rb.velocity = Vector2.zero;
         transform.position = new Vector3(0, 7.5f);
         gameObject.SetActive(true);
         isBoss = false;
@@ -105,7 +106,7 @@ public class School : MonoBehaviour
         SchoolSpeed *= 1.05f; // 임의로 speed +5%
     }
 
-    public void GetAttack(int dmg)
+    private void GetAttack(float dmg)
     {
         HP -= dmg;
         if (isBoss)
@@ -119,11 +120,6 @@ public class School : MonoBehaviour
             SchoolHPText.text = (int)Mathf.Max(HP, 0) + "/" + (int)MaxHP;
         }
         Debug.Log("Attacked!" + dmg + "damge");
-
-        StopCoroutine(Shake());
-        StartCoroutine(Shake());
-
-        rb.velocity = Vector3.zero;
 
         // Break stage
         switch (SchoolHPBar.fillAmount)
@@ -144,6 +140,22 @@ public class School : MonoBehaviour
                 sr.sprite = BreakStages[1];
                 break;
         }
+    }
+
+    public void GetAttackByPlayer(float dmg)
+    {
+        GetAttack(dmg);
+
+        rb.velocity = Vector3.zero;
+
+        StopCoroutine(Shake());
+        StartCoroutine(Shake());
+    }
+
+    public void GetAttackByWind(float dmg)
+    {
+        rb.AddForce(Vector2.up * 3, ForceMode2D.Impulse);
+        GetAttack(dmg);
     }
 
     private IEnumerator Shake()

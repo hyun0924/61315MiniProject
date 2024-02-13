@@ -22,7 +22,7 @@ public class BackgroundTouch : MonoBehaviour
         // Debug.Log("touched");
         windSkill.IncreaseSkillCount();
         bool crit = Random.Range(0, 100) == 0;
-        School.getInstance().GetAttack(crit ? PlayerStat.atk * 10 : PlayerStat.atk);
+        School.getInstance().GetAttackByPlayer(crit ? PlayerStat.atk * 10 : PlayerStat.atk);
         //Ä¡¸íÅ¸ Ãß°¡
 
         // Spawn Footprint

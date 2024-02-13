@@ -23,12 +23,11 @@ public class WindSkill : MonoBehaviour
     {
         if (skillCount >= maxSkillCount)
         {
-            School.getInstance().GetAttack(PlayerStat.atk * 5);
+            School.getInstance().GetAttackByWind(PlayerStat.atk * 5);
             skillCount = 0;
             windSkillGauge.fillAmount = 0;
             // Instantiate(windPrefab);
         }
-        //ġ��Ÿ �߰�
     }
 
     public void IncreaseSkillCount()

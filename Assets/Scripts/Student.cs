@@ -17,7 +17,7 @@ public class Student : MonoBehaviour
 
     public static void AtkChange()
     {
-        //¼öÄ¡ Á¶Á¤
+        //ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
         atk = PlayerStat.atk-gap;
     }
     private void Awake()
@@ -34,7 +34,7 @@ public class Student : MonoBehaviour
     IEnumerator attack(float delay)
     {
         
-        School.getInstance().GetAttack(atk);
+        // School.getInstance().GetAttackByStudent(atk);
         yield return new WaitForSeconds(delay);
         StartCoroutine("attack", 5);
     }
