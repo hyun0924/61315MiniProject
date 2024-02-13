@@ -13,6 +13,7 @@ public class School : MonoBehaviour
     public static int stack; // nn번째 격파에 사용
     private bool isBoss;
     Rigidbody2D rb;
+    SpriteRenderer sr;
 
     [SerializeField] private int bossPeriod;
 
@@ -29,6 +30,9 @@ public class School : MonoBehaviour
     [SerializeField] private float shakeTime;
     [SerializeField] private float shakeIntensity;
 
+    [Header("BreakStage")]
+    [SerializeField] private Sprite[] BreakStages;
+
     void Awake()
     {
         if (null == instance)
@@ -38,6 +42,7 @@ public class School : MonoBehaviour
             isBoss = false;
             School.stack = 0;
             rb = GetComponent<Rigidbody2D>();
+            sr = GetComponent<SpriteRenderer>();
             //씬 전환이 되더라도 파괴되지 않게 한다.
             //gameObject만으로도 이 스크립트가 컴포넌트로서 붙어있는 Hierarchy상의 게임오브젝트라는 뜻이지만, 
             //나는 헷갈림 방지를 위해 this를 붙여주기도 한다.
@@ -74,6 +79,7 @@ public class School : MonoBehaviour
         transform.position = new Vector3(0, 7.5f);
         gameObject.SetActive(true);
         isBoss = false;
+        sr.sprite = BreakStages[0];
 
         // bossPeriod번째마다 보스 체크
         if (stack % bossPeriod == 0)
@@ -108,22 +114,26 @@ public class School : MonoBehaviour
         StartCoroutine(Shake());
 
         rb.velocity = Vector3.zero;
-        
-        if (HP <= 0)
-        {
-            // Money.IncreaseMoney(Random.Range(2, 4));
-            
-            // if (isBoss)
-            // {
-            //     Money.IncreaseMoney(Random.Range(2, 4));
-            //     Money.IncreaseMoney(Random.Range(2, 4));
-            //     Money.IncreaseMoney(Random.Range(2, 4));
-            //     Money.IncreaseMoney(Random.Range(2, 4));
-            // }
 
-            Dead();
+        // Break stage
+        switch (SchoolHPBar.fillAmount)
+        {
+            case float hp when hp <= 0 :
+                Dead();
+                break;
+            case float hp when hp <= 0.2f :
+                sr.sprite = BreakStages[4];
+                break;
+            case float hp when hp <= 0.4f :
+                sr.sprite = BreakStages[3];
+                break;
+            case float hp when hp <= 0.6f :
+                sr.sprite = BreakStages[2];
+                break;
+            case float hp when hp <= 0.8f :
+                sr.sprite = BreakStages[1];
+                break;
         }
-        //대충 애니메이션 
     }
 
     private IEnumerator Shake()

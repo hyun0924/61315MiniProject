@@ -2145,6 +2145,12 @@ MonoBehaviour:
   BossSpeed: 1
   shakeTime: 0.1
   shakeIntensity: 0.1
+  BreakStages:
+  - {fileID: -1921391848, guid: cf9fcfdbd42c6e34d96ed4f96868ef71, type: 3}
+  - {fileID: -10331544, guid: d8c6740592792f94f87180769ce52794, type: 3}
+  - {fileID: 1411881919, guid: 66c9d6ca76a4a654e9a8af5f92ece953, type: 3}
+  - {fileID: 998690598, guid: 74b0d27c4eeceee498ece34e59ee27b0, type: 3}
+  - {fileID: 776186350, guid: b1d46cc57b81edb47a4b002dfd36eccc, type: 3}
 --- !u!212 &1752408073
 SpriteRenderer:
   m_ObjectHideFlags: 0
