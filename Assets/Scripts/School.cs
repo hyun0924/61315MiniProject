@@ -92,7 +92,7 @@ public class School : MonoBehaviour
         else
         {
             currentSpeed = SchoolSpeed;
-            SchoolNameText.text = "";
+            SchoolNameText.text = stack + "번째 학교";
             HP = MaxHP;
         }
     }

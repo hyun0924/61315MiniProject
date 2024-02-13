@@ -2029,7 +2029,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD559\uAD50"
+  m_text: "n\uBC88\uC9F8 \uD559\uAD50"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6f13b797a6e72414aba10baeb0539117, type: 2}
   m_sharedMaterial: {fileID: -6380715709025148051, guid: 6f13b797a6e72414aba10baeb0539117, type: 2}
@@ -2138,7 +2138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHP: 100
-  bossPeriod: 3
+  bossPeriod: 6
   SchoolHPBar: {fileID: 106138541}
   SchoolNameText: {fileID: 1548346249}
   SchoolSpeed: 2
