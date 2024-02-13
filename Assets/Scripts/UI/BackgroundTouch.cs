@@ -19,16 +19,20 @@ public class BackgroundTouch : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("touched");
+        // Debug.Log("touched");
         windSkill.IncreaseSkillCount();
-        bool crit = Random.Range(0, 50) == 0;
+        bool crit = Random.Range(0, 100) == 0;
         School.getInstance().GetAttack(crit ? PlayerStat.atk * 10 : PlayerStat.atk);
         //Ä¡¸íÅ¸ Ãß°¡
 
         // Spawn Footprint
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
-        Instantiate(FootPrintPrefab, mousePos, Quaternion.Euler(0, 0, Random.Range(-35f, 35f)));
+        GameObject footprint = Instantiate(FootPrintPrefab, mousePos, Quaternion.Euler(0, 0, Random.Range(-35f, 35f)));
+        if (crit)
+        {
+            footprint.transform.localScale = Vector3.one;
+        }
         
         // Show Damage
         Vector3 textPos = Input.mousePosition + Vector3.up * 100f;
