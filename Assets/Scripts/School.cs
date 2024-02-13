@@ -19,6 +19,7 @@ public class School : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private Image SchoolHPBar;
+    [SerializeField] private TextMeshProUGUI SchoolHPText;
     [SerializeField] private TextMeshProUGUI SchoolNameText;
 
     [Header("Speed")]
@@ -95,6 +96,7 @@ public class School : MonoBehaviour
             SchoolNameText.text = stack + "번째 학교";
             HP = MaxHP;
         }
+        SchoolHPText.text = (int)HP + "/" + (int)HP;
     }
 
     private void NextPhase()
@@ -106,8 +108,16 @@ public class School : MonoBehaviour
     public void GetAttack(int dmg)
     {
         HP -= dmg;
-        if (isBoss) SchoolHPBar.fillAmount = HP / (MaxHP * 5);
-        else SchoolHPBar.fillAmount = HP / MaxHP;
+        if (isBoss)
+        {
+            SchoolHPBar.fillAmount = HP / (MaxHP * 5);
+            SchoolHPText.text = (int)Mathf.Max(HP, 0) + "/" + (int)(MaxHP * 5);
+        }
+        else
+        {
+            SchoolHPBar.fillAmount = HP / MaxHP;
+            SchoolHPText.text = (int)Mathf.Max(HP, 0) + "/" + (int)MaxHP;
+        }
         Debug.Log("Attacked!" + dmg + "damge");
 
         StopCoroutine(Shake());
@@ -118,19 +128,19 @@ public class School : MonoBehaviour
         // Break stage
         switch (SchoolHPBar.fillAmount)
         {
-            case float hp when hp <= 0 :
+            case float hp when hp <= 0:
                 Dead();
                 break;
-            case float hp when hp <= 0.2f :
+            case float hp when hp <= 0.2f:
                 sr.sprite = BreakStages[4];
                 break;
-            case float hp when hp <= 0.4f :
+            case float hp when hp <= 0.4f:
                 sr.sprite = BreakStages[3];
                 break;
-            case float hp when hp <= 0.6f :
+            case float hp when hp <= 0.6f:
                 sr.sprite = BreakStages[2];
                 break;
-            case float hp when hp <= 0.8f :
+            case float hp when hp <= 0.8f:
                 sr.sprite = BreakStages[1];
                 break;
         }
