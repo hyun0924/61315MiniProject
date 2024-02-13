@@ -22,7 +22,7 @@ public class ATKUPBtn : MonoBehaviour
             Money.DecreaseMoney(price);
             price += 20;
             PriceText.text = price.ToString("#,##0");
-            PlayerStat.atk += 5; //??? ??��? 5??????
+            PlayerStat.atk += 5;
         }
     }
 }
