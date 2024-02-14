@@ -35,9 +35,10 @@ public class BackgroundTouch : MonoBehaviour
         }
         
         // Show Damage
-        Vector3 textPos = Input.mousePosition + Vector3.up * 100f;
-        GameObject clone = Instantiate(DamageTextPrefab, textPos, Quaternion.identity);
-        clone.transform.SetParent(transform);
+        // Vector3 textPos = Input.mousePosition + Vector3.up * 100f;
+        // GameObject clone = Instantiate(DamageTextPrefab, textPos, Quaternion.identity);
+        // clone.transform.SetParent(transform);
+        // clone.GetComponent<DamageText>().SetText(crit ? PlayerStat.atk * 10 : PlayerStat.atk);
 
         // Money
         Money.IncreaseMoney(Random.Range(1, 3));

@@ -122,24 +122,33 @@ public class School : MonoBehaviour
         Debug.Log("Attacked!" + dmg + "damge");
 
         // Break stage
-        switch (SchoolHPBar.fillAmount)
+        if (HP <= 0)
         {
-            case float hp when hp <= 0:
-                Dead();
-                break;
-            case float hp when hp <= 0.2f:
-                sr.sprite = BreakStages[4];
-                break;
-            case float hp when hp <= 0.4f:
-                sr.sprite = BreakStages[3];
-                break;
-            case float hp when hp <= 0.6f:
-                sr.sprite = BreakStages[2];
-                break;
-            case float hp when hp <= 0.8f:
-                sr.sprite = BreakStages[1];
-                break;
+            Dead();
+            return;
         }
+        float crit = 1f / BreakStages.Length;
+        int stage = (int)(SchoolHPBar.fillAmount / crit);
+        sr.sprite = BreakStages[BreakStages.Length - stage - 1];
+
+        // switch (SchoolHPBar.fillAmount)
+        // {
+        //     case float hp when hp <= 0:
+        //         Dead();
+        //         break;
+        //     case float hp when hp <= crit:
+        //         sr.sprite = BreakStages[4];
+        //         break;
+        //     case float hp when hp <= 0.4f:
+        //         sr.sprite = BreakStages[3];
+        //         break;
+        //     case float hp when hp <= 0.6f:
+        //         sr.sprite = BreakStages[2];
+        //         break;
+        //     case float hp when hp <= 0.8f:
+        //         sr.sprite = BreakStages[1];
+        //         break;
+        // }
     }
 
     public void GetAttackByPlayer(float dmg)
