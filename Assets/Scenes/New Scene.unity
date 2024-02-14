@@ -2288,6 +2288,14 @@ MonoBehaviour:
   - {fileID: 1411881919, guid: 66c9d6ca76a4a654e9a8af5f92ece953, type: 3}
   - {fileID: 998690598, guid: 74b0d27c4eeceee498ece34e59ee27b0, type: 3}
   - {fileID: 776186350, guid: b1d46cc57b81edb47a4b002dfd36eccc, type: 3}
+  - {fileID: 23987531, guid: 651e201bfcebf6e4ca5b2cc372431b01, type: 3}
+  - {fileID: 577976856, guid: 719852f4369ce864c864c4dbcc32f001, type: 3}
+  - {fileID: 732338987, guid: e87dfebf1a839a24b82955b1d7e6bc11, type: 3}
+  - {fileID: 1497919658, guid: e92cd113b120aec4dbbe1a28c6d94348, type: 3}
+  - {fileID: 627665062, guid: 41a23798095b6d44e9947ac396bdbeb9, type: 3}
+  - {fileID: -861525559, guid: de63b568ff8eefa4d8d7100e31745970, type: 3}
+  - {fileID: -1590219998, guid: 1e27cd9d6153828409d4579830a304f3, type: 3}
+  - {fileID: 1489753316, guid: d6cce42884df98543b60dfbf5dc8ffd4, type: 3}
 --- !u!212 &1752408073
 SpriteRenderer:
   m_ObjectHideFlags: 0
