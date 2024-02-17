@@ -1559,6 +1559,7 @@ GameObject:
   - component: {fileID: 1246869883}
   - component: {fileID: 1246869882}
   - component: {fileID: 1246869881}
+  - component: {fileID: 1246869884}
   m_Layer: 5
   m_Name: FriendsBtn
   m_TagString: Untagged
@@ -1668,6 +1669,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246869879}
   m_CullTransparentMesh: 1
+--- !u!114 &1246869884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246869879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb711ee57702e44cb123d40cd9a9659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: 100
+  PriceText: {fileID: 2124167182}
+  studentPrefab: {fileID: 5078176366735108788, guid: 7ed35d860462ff449a3a6ee4c33c49cb, type: 3}
+  studentNum: 0
 --- !u!1 &1319953454
 GameObject:
   m_ObjectHideFlags: 0
