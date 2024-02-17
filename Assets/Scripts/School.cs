@@ -12,6 +12,7 @@ public class School : MonoBehaviour
     protected static School instance = null;
     public static int stack; // nn번째 격파에 사용
     private bool isBoss;
+    private int BossMoney;
     Rigidbody2D rb;
     SpriteRenderer sr;
 
@@ -56,6 +57,7 @@ public class School : MonoBehaviour
             //그래서 이미 전역변수인 instance에 인스턴스가 존재한다면 자신(새로운 씬의 GameMgr)을 삭제해준다.
             Destroy(this.gameObject);
         }
+        BossMoney = 10;
     }//긁어온겁니다.
 
     public static School getInstance()
@@ -103,7 +105,10 @@ public class School : MonoBehaviour
     private void NextPhase()
     {
         MaxHP *= 1.1f;
+
         SchoolSpeed *= 1.05f; // 임의로 speed +5%
+        Money.IncreaseMoney(BossMoney);
+        BossMoney += 5;
     }
 
     private void GetAttack(float dmg)

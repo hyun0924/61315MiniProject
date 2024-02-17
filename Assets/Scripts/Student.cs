@@ -34,7 +34,7 @@ public class Student : MonoBehaviour
     IEnumerator attack(float delay)
     {
         
-        // School.getInstance().GetAttackByStudent(atk);
+         School.getInstance().GetAttackByPlayer(atk);
         yield return new WaitForSeconds(delay);
         StartCoroutine("attack", 5);
     }
