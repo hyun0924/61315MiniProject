@@ -2995,7 +2995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHP: 100
-  bossPeriod: 6
+  bossPeriod: 5
   SchoolHPBar: {fileID: 106138541}
   SchoolHPText: {fileID: 1246136197}
   SchoolNameText: {fileID: 1548346249}
@@ -3017,6 +3017,7 @@ MonoBehaviour:
   - {fileID: -861525559, guid: de63b568ff8eefa4d8d7100e31745970, type: 3}
   - {fileID: -1590219998, guid: 1e27cd9d6153828409d4579830a304f3, type: 3}
   - {fileID: 1489753316, guid: d6cce42884df98543b60dfbf5dc8ffd4, type: 3}
+  bossTypeCnt: 2
 --- !u!212 &1752408073
 SpriteRenderer:
   m_ObjectHideFlags: 0

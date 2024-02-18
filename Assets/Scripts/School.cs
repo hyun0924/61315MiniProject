@@ -12,6 +12,8 @@ public class School : MonoBehaviour
     protected static School instance = null;
     public static int stack; // nn번째 격파에 사용
     private bool isBoss;
+    private int bossType;
+    private int BossMoney;
     Rigidbody2D rb;
     SpriteRenderer sr;
     BoxCollider2D boxCollider;
@@ -34,6 +36,8 @@ public class School : MonoBehaviour
 
     [Header("BreakStage")]
     [SerializeField] private Sprite[] BreakStages;
+    [SerializeField] private int bossTypeCnt;
+    private Sprite[,] BossBreakStages;
 
     void Awake()
     {
@@ -57,6 +61,17 @@ public class School : MonoBehaviour
             //그럴 경우엔 이전 씬에서 사용하던 인스턴스를 계속 사용해주는 경우가 많은 것 같다.
             //그래서 이미 전역변수인 instance에 인스턴스가 존재한다면 자신(새로운 씬의 GameMgr)을 삭제해준다.
             Destroy(this.gameObject);
+        }
+        BossMoney = 10;
+
+        // Load boss sprites
+        BossBreakStages = new Sprite[bossTypeCnt, 13];
+        for (int i = 0; i < bossTypeCnt; i++)
+        {
+            for (int j = 1; j <= 13; j++)
+            {
+                BossBreakStages[i, j-1] = Resources.Load<Sprite>(i + "/" + j);
+            }
         }
     }//긁어온겁니다.
 
@@ -83,7 +98,6 @@ public class School : MonoBehaviour
         transform.position = new Vector3(0, 7.5f);
         gameObject.SetActive(true);
         isBoss = false;
-        sr.sprite = BreakStages[0];
 
         // bossPeriod번째마다 보스 체크
         if (stack % bossPeriod == 0)
@@ -92,12 +106,16 @@ public class School : MonoBehaviour
             SchoolNameText.text = "Boss";
             HP = MaxHP * 5;
             isBoss = true;
+            bossType = Random.Range(0, bossTypeCnt);
+            Debug.Log(bossType);
+            sr.sprite = Resources.Load<Sprite>(bossType + "/" + 1);
         }
         else
         {
             currentSpeed = SchoolSpeed;
             SchoolNameText.text = stack + "번째 학교";
             HP = MaxHP;
+            sr.sprite = BreakStages[0];
         }
         SchoolHPText.text = (int)HP + "/" + (int)HP;
     }
@@ -123,15 +141,22 @@ public class School : MonoBehaviour
         }
         Debug.Log("Attacked!" + dmg + "damge");
 
-        // Break stage
+        // Change Sprite
         if (HP <= 0)
         {
             Dead();
             return;
         }
-        float crit = 1f / BreakStages.Length;
-        int stage = (int)(SchoolHPBar.fillAmount / crit);
-        sr.sprite = BreakStages[BreakStages.Length - stage - 1];
+        float unit = 1f / BreakStages.Length;
+        int stage = (int)(SchoolHPBar.fillAmount / unit);
+        if (isBoss)
+        {
+            sr.sprite = BossBreakStages[bossType, BreakStages.Length - stage - 1];
+        }
+        else
+        {
+            sr.sprite = BreakStages[BreakStages.Length - stage - 1];
+        }
     }
 
     public void GetAttackByPlayer(float dmg)
