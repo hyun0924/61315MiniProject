@@ -11,10 +11,16 @@ public class BackgroundTouch : MonoBehaviour
     [SerializeField] private GameObject FootPrintPrefab;
     [SerializeField] private GameObject DamageTextPrefab;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip[] AttackSounds;
+    [SerializeField] private AudioClip CriticalSound;
+    AudioSource audioSource;
+
     private void Awake()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(OnMouseDown);
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnMouseDown()
@@ -33,12 +39,24 @@ public class BackgroundTouch : MonoBehaviour
         {
             footprint.transform.localScale = Vector3.one;
         }
-        
+
         // Show Damage
-        // Vector3 textPos = Input.mousePosition + Vector3.up * 100f;
-        // GameObject clone = Instantiate(DamageTextPrefab, textPos, Quaternion.identity);
-        // clone.transform.SetParent(transform);
-        // clone.GetComponent<DamageText>().SetText(crit ? PlayerStat.atk * 10 : PlayerStat.atk);
+        Vector3 textPos = Input.mousePosition + Vector3.up * 100f;
+        GameObject clone = Instantiate(DamageTextPrefab, textPos, Quaternion.identity);
+        clone.transform.SetParent(transform);
+        clone.GetComponent<DamageText>().SetText(crit ? PlayerStat.atk * 10 : PlayerStat.atk);
+
+        // Sounds
+        if (crit)
+        {
+            audioSource.clip = CriticalSound;
+        }
+        else
+        {
+            int randomSound = Random.Range(0, AttackSounds.Length);
+            audioSource.clip = AttackSounds[randomSound];
+        }
+        audioSource.Play();
 
         // Money
         Money.IncreaseMoney(Random.Range(1, 3));
