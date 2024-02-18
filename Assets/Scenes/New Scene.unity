@@ -2190,7 +2190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb711ee57702e44cb123d40cd9a9659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 100
+  price: 500
   PriceText: {fileID: 2124167182}
   studentPrefab: {fileID: 5078176366735108788, guid: 7ed35d860462ff449a3a6ee4c33c49cb, type: 3}
   studentNum: 0
@@ -2733,7 +2733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b639433f6b0da1340aa06d57bfa1cc8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 30
+  price: 100
   PriceText: {fileID: 2026170579}
 --- !u!82 &1465760735
 AudioSource:

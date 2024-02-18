@@ -5,20 +5,20 @@ using UnityEngine;
 public class Student : MonoBehaviour
 {
 
-    public static int atk;
+    public static float atk;
     public static int studentNum;
     public static int gap;
     private void Start()
     {
         gap = 1;
         AtkChange();
-   
+
     }
 
     public static void AtkChange()
     {
         //��ġ ����
-        atk = PlayerStat.atk-gap;
+        atk = PlayerStat.atk - gap;
     }
     private void Awake()
     {
@@ -33,8 +33,7 @@ public class Student : MonoBehaviour
     }
     IEnumerator attack(float delay)
     {
-        
-         School.getInstance().GetAttackByPlayer(atk);
+        School.getInstance().GetAttackByPlayer(atk);
         yield return new WaitForSeconds(delay);
         StartCoroutine("attack", 5);
     }

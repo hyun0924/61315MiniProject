@@ -18,7 +18,6 @@ public class AddStudentBtn : MonoBehaviour
     };//¿©±â´Ù ¹èÄ¡
     private void Awake()
     {
-        price = 100;
         studentNum = 0;
         button = GetComponent<Button>();
         PriceText.text = price.ToString("#,##0");
@@ -32,7 +31,7 @@ public class AddStudentBtn : MonoBehaviour
             if (Money.GetMoney() >= price)
             {
                 Money.DecreaseMoney(price);
-                price += 100;
+                price += 500;
                 PriceText.text = price.ToString("#,##0");
                 Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
                 studentNum++;
