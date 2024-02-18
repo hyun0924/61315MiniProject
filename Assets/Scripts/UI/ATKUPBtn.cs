@@ -20,9 +20,9 @@ public class ATKUPBtn : MonoBehaviour
         if (Money.GetMoney() >= price)
         {
             Money.DecreaseMoney(price);
-            price += 20;
+            price += 200;
             PriceText.text = price.ToString("#,##0");
-            PlayerStat.atk += 5;
+            PlayerStat.atk *= 1.3f;
         }
     }
 }

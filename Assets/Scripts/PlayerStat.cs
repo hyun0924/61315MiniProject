@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
-    public static int atk;
+    public static float atk;
     void Start()
     {
         atk = 10;    
-    }
-    public static void atkIncrease(int inc)
-    {
-        atk += inc;
     }
 }

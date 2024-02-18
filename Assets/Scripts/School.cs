@@ -87,6 +87,10 @@ public class School : MonoBehaviour
 
     private void Update()
     {
+        if (transform.position.y >= 7.25f)
+        {
+            transform.position = new Vector3(0, 7.25f);
+        }
     }
 
     private void ReGen()
@@ -94,7 +98,7 @@ public class School : MonoBehaviour
         stack++;
         SchoolHPBar.fillAmount = 1;
         rb.velocity = Vector2.zero;
-        transform.position = new Vector3(0, 7.5f);
+        transform.position = new Vector3(0, 7.25f);
         gameObject.SetActive(true);
         isBoss = false;
 
@@ -121,7 +125,7 @@ public class School : MonoBehaviour
 
     private void NextPhase()
     {
-        MaxHP *= 1.1f;
+        MaxHP *= 1.3f;
 
         SchoolSpeed *= 1.05f; // 임의로 speed +5%
         Money.IncreaseMoney(BossMoney);
