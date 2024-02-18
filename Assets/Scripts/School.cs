@@ -15,6 +15,7 @@ public class School : MonoBehaviour
     private int BossMoney;
     Rigidbody2D rb;
     SpriteRenderer sr;
+    BoxCollider2D boxCollider;
 
     [SerializeField] private int bossPeriod;
 
@@ -45,10 +46,11 @@ public class School : MonoBehaviour
             School.stack = 0;
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
+            boxCollider = GetComponent<BoxCollider2D>();
             //씬 전환이 되더라도 파괴되지 않게 한다.
             //gameObject만으로도 이 스크립트가 컴포넌트로서 붙어있는 Hierarchy상의 게임오브젝트라는 뜻이지만, 
             //나는 헷갈림 방지를 위해 this를 붙여주기도 한다.
-            DontDestroyOnLoad(this.gameObject);
+            // DontDestroyOnLoad(this.gameObject);
         }
         else
         {
@@ -72,7 +74,7 @@ public class School : MonoBehaviour
 
     private void Update()
     {
-        // transform.position += Vector3.down * currentSpeed * Time.deltaTime;
+        boxCollider.size = sr.sprite.bounds.size;
     }
 
     private void ReGen()
@@ -135,25 +137,6 @@ public class School : MonoBehaviour
         float crit = 1f / BreakStages.Length;
         int stage = (int)(SchoolHPBar.fillAmount / crit);
         sr.sprite = BreakStages[BreakStages.Length - stage - 1];
-
-        // switch (SchoolHPBar.fillAmount)
-        // {
-        //     case float hp when hp <= 0:
-        //         Dead();
-        //         break;
-        //     case float hp when hp <= crit:
-        //         sr.sprite = BreakStages[4];
-        //         break;
-        //     case float hp when hp <= 0.4f:
-        //         sr.sprite = BreakStages[3];
-        //         break;
-        //     case float hp when hp <= 0.6f:
-        //         sr.sprite = BreakStages[2];
-        //         break;
-        //     case float hp when hp <= 0.8f:
-        //         sr.sprite = BreakStages[1];
-        //         break;
-        // }
     }
 
     public void GetAttackByPlayer(float dmg)
@@ -197,5 +180,13 @@ public class School : MonoBehaviour
         if (isBoss) NextPhase();
 
         ReGen();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "GameOver")
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 }
