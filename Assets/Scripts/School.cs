@@ -63,7 +63,7 @@ public class School : MonoBehaviour
             Destroy(this.gameObject);
         }
         BossMoney = 10;
-
+        
         // Load boss sprites
         BossBreakStages = new Sprite[bossTypeCnt, 13];
         for (int i = 0; i < bossTypeCnt; i++)
@@ -123,7 +123,10 @@ public class School : MonoBehaviour
     private void NextPhase()
     {
         MaxHP *= 1.1f;
+
         SchoolSpeed *= 1.05f; // 임의로 speed +5%
+        Money.IncreaseMoney(BossMoney);
+        BossMoney += 5;
     }
 
     private void GetAttack(float dmg)
