@@ -87,7 +87,6 @@ public class School : MonoBehaviour
 
     private void Update()
     {
-        boxCollider.size = sr.sprite.bounds.size;
     }
 
     private void ReGen()
@@ -160,6 +159,7 @@ public class School : MonoBehaviour
         {
             sr.sprite = BreakStages[BreakStages.Length - stage - 1];
         }
+        boxCollider.size = sr.sprite.bounds.size;
     }
 
     public void GetAttackByPlayer(float dmg)
