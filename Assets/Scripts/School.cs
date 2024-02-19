@@ -17,6 +17,7 @@ public class School : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer sr;
     BoxCollider2D boxCollider;
+    AudioSource audioSource;
 
     [SerializeField] private int bossPeriod;
 
@@ -51,6 +52,7 @@ public class School : MonoBehaviour
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
             boxCollider = GetComponent<BoxCollider2D>();
+            audioSource = GetComponent<AudioSource>();
             //씬 전환이 되더라도 파괴되지 않게 한다.
             //gameObject만으로도 이 스크립트가 컴포넌트로서 붙어있는 Hierarchy상의 게임오브젝트라는 뜻이지만, 
             //나는 헷갈림 방지를 위해 this를 붙여주기도 한다.
@@ -181,6 +183,7 @@ public class School : MonoBehaviour
     public void GetAttackByWind(float dmg)
     {
         rb.AddForce(Vector2.up * 3, ForceMode2D.Impulse);
+        audioSource.Play();
         GetAttack(dmg);
     }
 
