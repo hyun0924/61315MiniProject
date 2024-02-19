@@ -39,6 +39,7 @@ public class BackgroundTouch : MonoBehaviour
         {
             footprint.transform.localScale = Vector3.one;
         }
+        footprint.transform.SetParent(transform);
 
         // Show Damage
         Vector3 textPos = Input.mousePosition + Vector3.up * 100f;

@@ -4,37 +4,38 @@ using UnityEngine;
 
 public class Student : MonoBehaviour
 {
-
+    SpriteRenderer sr;
     public static float atk;
     public static int studentNum;
     public static int gap;
-    private void Start()
-    {
-        gap = 1;
-        AtkChange();
-
-    }
-
-    public static void AtkChange()
-    {
-        //��ġ ����
-        atk = PlayerStat.atk - gap;
-    }
+    
     private void Awake()
     {
-        StartCoroutine("attack", 5);
+        sr = GetComponent<SpriteRenderer>();
+        if (transform.position.x > 0) sr.flipX = true;
+
+        // StartCoroutine("attack", 5);
         studentNum++;
         if (studentNum > 10)
         {
             Destroy(gameObject);
         }
-
-
     }
-    IEnumerator attack(float delay)
+
+    private void Start()
     {
-        School.getInstance().GetAttackByPlayer(atk);
-        yield return new WaitForSeconds(delay);
-        StartCoroutine("attack", 5);
+        gap = 1;
+        AtkChange();
+    }
+
+    public static void AtkChange()
+    {
+        atk = PlayerStat.atk - gap;
+    }
+
+    // Animation Event
+    public void Attack()
+    {
+        School.getInstance().GetAttackByStudent(atk);
     }
 }
