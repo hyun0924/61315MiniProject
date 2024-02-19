@@ -184,6 +184,11 @@ public class School : MonoBehaviour
         GetAttack(dmg);
     }
 
+    public void GetAttackByStudent(float dmg)
+    {
+        GetAttack(dmg);
+    }
+
     private IEnumerator Shake()
     {
         Vector3 startPosition = transform.position;
