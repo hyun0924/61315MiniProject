@@ -24,6 +24,7 @@ public class School : MonoBehaviour
     [SerializeField] private Image SchoolHPBar;
     [SerializeField] private TextMeshProUGUI SchoolHPText;
     [SerializeField] private TextMeshProUGUI SchoolNameText;
+    [SerializeField] private GameObject BossAlertLine;
 
     [Header("Speed")]
     [SerializeField] private float SchoolSpeed;
@@ -105,8 +106,9 @@ public class School : MonoBehaviour
         // bossPeriod번째마다 보스 체크
         if (stack % bossPeriod == 0)
         {
+            BossAlertLine.SetActive(true);
             currentSpeed = BossSpeed;
-            SchoolNameText.text = "Boss";
+            SchoolNameText.text = (stack/bossPeriod) + "번째 보스";
             HP = MaxHP * 5;
             isBoss = true;
             bossType = Random.Range(0, bossTypeCnt);
