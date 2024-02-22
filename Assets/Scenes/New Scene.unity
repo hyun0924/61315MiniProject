@@ -3533,7 +3533,9 @@ MonoBehaviour:
   - {fileID: -861525559, guid: de63b568ff8eefa4d8d7100e31745970, type: 3}
   - {fileID: -1590219998, guid: 1e27cd9d6153828409d4579830a304f3, type: 3}
   - {fileID: 1489753316, guid: d6cce42884df98543b60dfbf5dc8ffd4, type: 3}
-  bossTypeCnt: 2
+  bossData:
+  - {fileID: 11400000, guid: a4566d53986505345b595233a8a1f3d3, type: 2}
+  - {fileID: 11400000, guid: ea6aa01fd2300b64891a787b06fed124, type: 2}
 --- !u!212 &1752408073
 SpriteRenderer:
   m_ObjectHideFlags: 0

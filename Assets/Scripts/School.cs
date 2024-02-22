@@ -38,8 +38,7 @@ public class School : MonoBehaviour
 
     [Header("BreakStage")]
     [SerializeField] private Sprite[] BreakStages;
-    [SerializeField] private int bossTypeCnt;
-    private Sprite[,] BossBreakStages;
+    [SerializeField] private BossData[] bossData;
 
     void Awake()
     {
@@ -66,16 +65,6 @@ public class School : MonoBehaviour
             Destroy(this.gameObject);
         }
         BossMoney = 10;
-        
-        // Load boss sprites
-        BossBreakStages = new Sprite[bossTypeCnt, 13];
-        for (int i = 0; i < bossTypeCnt; i++)
-        {
-            for (int j = 1; j <= 13; j++)
-            {
-                BossBreakStages[i, j-1] = Resources.Load<Sprite>(i + "/" + j);
-            }
-        }
     }//긁어온겁니다.
 
     public static School getInstance()
@@ -110,12 +99,11 @@ public class School : MonoBehaviour
         {
             BossAlertLine.SetActive(true);
             currentSpeed = BossSpeed;
-            SchoolNameText.text = (stack/bossPeriod) + "번째 보스";
             HP = MaxHP * 5;
             isBoss = true;
-            bossType = Random.Range(0, bossTypeCnt);
-            Debug.Log(bossType);
-            sr.sprite = Resources.Load<Sprite>(bossType + "/" + 1);
+            bossType = Random.Range(0, bossData.Length);
+            SchoolNameText.text = bossData[bossType].Name + " 학교";
+            sr.sprite = bossData[bossType].Stages[0];
         }
         else
         {
@@ -161,7 +149,7 @@ public class School : MonoBehaviour
         int stage = (int)(SchoolHPBar.fillAmount / unit);
         if (isBoss)
         {
-            sr.sprite = BossBreakStages[bossType, BreakStages.Length - stage - 1];
+            sr.sprite = bossData[bossType].Stages[BreakStages.Length - stage - 1];
         }
         else
         {
