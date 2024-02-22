@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 643325702415788483}
   - component: {fileID: 1526555946960800927}
   m_Layer: 5
-  m_Name: DamageText
+  m_Name: StudentDamageText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,8 +94,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
-  m_fontSizeBase: 150
+  m_fontSize: 55
+  m_fontSizeBase: 55
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

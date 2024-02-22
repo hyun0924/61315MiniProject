@@ -7,9 +7,11 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject GameOverPanel;
+    [SerializeField] private Canvas studentCanvas;
 
     private static GameManager instance;
     public static GameManager Instance => instance;
+    public Canvas StudentCanvas => studentCanvas;
 
     private void Awake()
     {
