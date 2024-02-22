@@ -18,13 +18,15 @@ public class AddStudentBtn : MonoBehaviour
     };//¿©±â´Ù ¹èÄ¡
     private void Awake()
     {
-        studentNum = 0;
         button = GetComponent<Button>();
         PriceText.text = price.ToString("#,##0");
-        button.onClick.AddListener(OnMouseDown);
+        button.onClick.AddListener(AddStudent);
+
+        Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
+        studentNum++;
     }
 
-    private void OnMouseDown()
+    private void AddStudent()
     {
         if (studentNum < stdpos.Length)
         {
