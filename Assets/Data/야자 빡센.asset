@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e6d54175c9662d49a2162942a4e5c0a, type: 3}
+  m_Name: "\uC57C\uC790 \uBE61\uC13C"
+  m_EditorClassIdentifier: 
+  bossName: "\uC57C\uC790 \uBE61\uC13C"
+  stages:
+  - {fileID: -1857008030, guid: 932fdc1fd987f30428d0cdb1a71c5072, type: 3}
+  - {fileID: -1281186720, guid: 445e5db2945fc7b4c8c6b7282600720b, type: 3}
+  - {fileID: -25190574, guid: a57e4bedb5698e848a6bd82a8314de33, type: 3}
+  - {fileID: 34334620, guid: a9b198b92dcacd04594ff5b37684a654, type: 3}
+  - {fileID: 49766326, guid: 89901a6e3138ed94f93bf4d36b663538, type: 3}
+  - {fileID: -798862851, guid: f43e8f0dae0cb9e4eb66db5216da17d6, type: 3}
+  - {fileID: -46502723, guid: 486309ef6e4176a4f88f338280a6d0b9, type: 3}
+  - {fileID: 1173646418, guid: eae0b29a878d829408c5f4c7774f30be, type: 3}
+  - {fileID: -257122209, guid: 4fd8c34b5ab111b4b8291e438ba6e91e, type: 3}
+  - {fileID: 772420592, guid: 385c2392283d7fe47a8e71c52a85fe2d, type: 3}
+  - {fileID: -2121827838, guid: b1140f8e7b84d3f4fb0db1fc0c1caea0, type: 3}
+  - {fileID: 358723847, guid: 65e252ba94a960e46adf335ee5c34293, type: 3}
+  - {fileID: 1754316062, guid: 538d198d286003c4bb757457c236a5e6, type: 3}

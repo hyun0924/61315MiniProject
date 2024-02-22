@@ -45,7 +45,7 @@ public class BackgroundTouch : MonoBehaviour
         Vector3 textPos = Input.mousePosition + Vector3.up * 100f;
         GameObject clone = Instantiate(DamageTextPrefab, textPos, Quaternion.identity);
         clone.transform.SetParent(transform);
-        clone.GetComponent<DamageText>().SetText(crit ? PlayerStat.atk * 10 : PlayerStat.atk);
+        clone.GetComponent<DamageText>().SetText(crit ? PlayerStat.atk * 10 : PlayerStat.atk, 0);
 
         // Sounds
         if (crit)

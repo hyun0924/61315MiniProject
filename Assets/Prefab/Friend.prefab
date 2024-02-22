@@ -98,6 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff951553752e464382084bf938cbc88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamageTextPrefab: {fileID: 643325702415788481, guid: a94882b0e62eb184585730b9ba8507a3, type: 3}
+  canvas: {fileID: 0}
 --- !u!95 &5382886038580889819
 Animator:
   serializedVersion: 5

@@ -23,6 +23,7 @@ public class ATKUPBtn : MonoBehaviour
             price += 200;
             PriceText.text = price.ToString("#,##0");
             PlayerStat.atk *= 1.3f;
+            Student.AtkChange();
         }
     }
 }
