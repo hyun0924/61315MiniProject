@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class AddStudentBtn : MonoBehaviour
 {
-    public int price;
+    [SerializeField] private int initialPrice;
+    [SerializeField] private int increaseAmount;
     [SerializeField] private TextMeshProUGUI PriceText;
     Button button;
     public GameObject studentPrefab;
@@ -19,27 +20,27 @@ public class AddStudentBtn : MonoBehaviour
     private void Awake()
     {
         button = GetComponent<Button>();
-        PriceText.text = price.ToString("#,##0");
+        PriceText.text = initialPrice.ToString("#,##0");
         button.onClick.AddListener(AddStudent);
 
-        Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
-        studentNum++;
+        // Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
+        // studentNum++;
     }
 
     private void AddStudent()
     {
         if (studentNum < stdpos.Length)
         {
-            if (Money.GetMoney() >= price)
+            if (Money.GetMoney() >= initialPrice)
             {
-                Money.DecreaseMoney(price);
-                price += 500;
+                Money.DecreaseMoney(initialPrice);
+                initialPrice += increaseAmount;
                 Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
                 studentNum++;
             }
 
             if (studentNum == stdpos.Length) PriceText.text = "Max";
-            else PriceText.text = price.ToString("#,##0");
+            else PriceText.text = initialPrice.ToString("#,##0");
         }
     }
 }
