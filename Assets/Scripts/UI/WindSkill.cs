@@ -38,26 +38,27 @@ public class WindSkill : MonoBehaviour
 
         if (skillCount >= maxSkillCount)
         {
+            StopCoroutine(FullFilled());
             StartCoroutine(FullFilled());
         }
     }
 
     private IEnumerator FullFilled()
     {
-        // windSkillFull.transform.localScale = new Vector3(1.05f, 1.05f);
-        // yield return new WaitForSeconds(0.1f);
-        // windSkillFull.transform.localScale = Vector3.one;
         GameObject windSkillReady = Instantiate(windSkillFull, transform);
-        float fadeTime = 0.5f;
         Image image = windSkillReady.GetComponent<Image>();
 
-        while (fadeTime > 0f)
+        while(skillCount >= maxSkillCount)
         {
-            fadeTime -= Time.deltaTime;
-            image.color = new Color(1, 1, 1, Mathf.Lerp(0, 1, fadeTime/1f));
-            float f = Mathf.Lerp(1.5f, 1, fadeTime/0.5f);
-            windSkillReady.transform.localScale = new Vector3(f, f);
-            yield return null;
+            float fadeTime = 1f;
+            while (fadeTime > 0f)
+            {
+                fadeTime -= Time.deltaTime;
+                image.color = new Color(1, 1, 1, Mathf.Lerp(0, 1, fadeTime / 1f));
+                float f = Mathf.Lerp(1.5f, 1, fadeTime / 0.5f);
+                windSkillReady.transform.localScale = new Vector3(f, f);
+                yield return null;
+            }
         }
     }
 }

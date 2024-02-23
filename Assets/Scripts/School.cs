@@ -82,6 +82,7 @@ public class School : MonoBehaviour
         if (transform.position.y >= 7.25f)
         {
             transform.position = new Vector3(0, 7.25f);
+            rb.velocity = Vector3.zero;
         }
     }
 
@@ -112,14 +113,17 @@ public class School : MonoBehaviour
             HP = MaxHP;
             sr.sprite = BreakStages[0];
         }
+
         SchoolHPText.text = (int)HP + "/" + (int)HP;
+        rb.gravityScale = 0.35f * currentSpeed;
     }
 
     private void NextPhase()
     {
-        MaxHP *= 1.3f;
-
-        SchoolSpeed *= 1.05f; // 임의로 speed +5%
+        MaxHP *= 1.1f;          // HP +1%
+        SchoolSpeed *= 1.03f;   // speed +3%
+        BossSpeed *= 1.03f;     // speed +3%
+        
         Money.IncreaseMoney(BossMoney);
         BossMoney += 5;
     }
