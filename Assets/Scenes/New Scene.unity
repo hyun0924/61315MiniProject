@@ -1084,7 +1084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windSkillFull: {fileID: 1468063791}
-  maxSkillCount: 50
+  maxSkillCount: 40
   windPrefab: {fileID: 5467174506195479150, guid: 83026f3b4195f4a4f9bbf8258de1a13c, type: 3}
 --- !u!1 &607262234
 GameObject:
@@ -3638,6 +3638,9 @@ MonoBehaviour:
   - {fileID: 1489753316, guid: d6cce42884df98543b60dfbf5dc8ffd4, type: 3}
   bossData:
   - {fileID: 11400000, guid: a4566d53986505345b595233a8a1f3d3, type: 2}
+  - {fileID: 11400000, guid: 70234a15353538641b14a56969382937, type: 2}
+  - {fileID: 11400000, guid: 5b49d762d31ed334089ca13dcd84edc0, type: 2}
+  - {fileID: 11400000, guid: a7c22685185ffc54890e3bc2fc526534, type: 2}
   - {fileID: 11400000, guid: ea6aa01fd2300b64891a787b06fed124, type: 2}
 --- !u!212 &1752408073
 SpriteRenderer:
