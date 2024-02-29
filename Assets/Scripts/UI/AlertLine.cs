@@ -31,7 +31,7 @@ public class AlertLine : MonoBehaviour
             image.color = new Color(0, 0, 0, 0);
             yield return new WaitForSeconds(delay);
         }
-        gameObject.SetActive(false);
         School.getInstance().gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 }
