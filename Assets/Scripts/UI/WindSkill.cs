@@ -21,7 +21,7 @@ public class WindSkill : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if (skillCount >= maxSkillCount)
+        if (skillCount >= maxSkillCount && School.getInstance().gameObject.activeSelf)
         {
             skillCount = 0;
             windSkillGauge.fillAmount = 0;

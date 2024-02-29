@@ -92,7 +92,6 @@ public class School : MonoBehaviour
         SchoolHPBar.fillAmount = 1;
         rb.velocity = Vector2.zero;
         transform.position = new Vector3(0, 7.25f);
-        gameObject.SetActive(true);
         isBoss = false;
 
         // bossPeriod번째마다 보스 체크
@@ -108,6 +107,7 @@ public class School : MonoBehaviour
         }
         else
         {
+            gameObject.SetActive(true);
             currentSpeed = SchoolSpeed;
             SchoolNameText.text = stack + "번째 학교";
             HP = MaxHP;
@@ -123,7 +123,7 @@ public class School : MonoBehaviour
         MaxHP *= 1.1f;          // HP +1%
         SchoolSpeed *= 1.03f;   // speed +3%
         BossSpeed *= 1.03f;     // speed +3%
-        
+
         Money.IncreaseMoney(BossMoney);
         BossMoney += 5;
     }
@@ -168,8 +168,11 @@ public class School : MonoBehaviour
 
         rb.velocity = Vector3.zero;
 
-        StopCoroutine(Shake());
-        StartCoroutine(Shake());
+        if (gameObject.activeSelf)
+        {
+            StopCoroutine(Shake());
+            StartCoroutine(Shake());
+        }
     }
 
     public void GetAttackByWind(float dmg)
@@ -207,7 +210,6 @@ public class School : MonoBehaviour
 
         // 보스 잡으면 NextPhase
         if (isBoss) NextPhase();
-
         ReGen();
     }
 

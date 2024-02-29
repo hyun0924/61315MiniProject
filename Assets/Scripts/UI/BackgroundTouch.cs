@@ -25,7 +25,8 @@ public class BackgroundTouch : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // Debug.Log("touched");
+        if (!School.getInstance().gameObject.activeSelf) return;
+        
         windSkill.IncreaseSkillCount();
         bool crit = Random.Range(0, 100) == 0;
         School.getInstance().GetAttackByPlayer(crit ? PlayerStat.atk * 10 : PlayerStat.atk);
