@@ -94,14 +94,14 @@ public class School : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.y >= 7.25f)
+        if (Mathf.Abs(transform.position.y) >= 7.25f)
         {
             transform.position = new Vector3(0, 7.25f);
             rb.velocity = Vector3.zero;
         }
     }
 
-    private void ReGen()
+    public void ReGen()
     {
         stack++;
         SchoolHPBar.fillAmount = 1;
@@ -261,7 +261,7 @@ public class School : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "GameOver")
+        if (other.gameObject.tag == "GameOver" && GameManager.Instance.IsStart)
         {
             GameManager.Instance.GameOver();
         }

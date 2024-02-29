@@ -5,10 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject GameStartPanel;
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private GameObject ClearPanel;
     [SerializeField] private Canvas studentCanvas;
+    private bool isStart;
+    public bool IsStart => isStart;
 
     private static GameManager instance;
     public static GameManager Instance => instance;
@@ -17,6 +20,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        isStart = false;
     }
 
     private void Update()
@@ -27,7 +31,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Pause()
+    public void GameStart()
+    {
+        isStart = true;
+        GameStartPanel.SetActive(false);
+        Money.SetMoney(0);
+        School.stack = 0;
+        School.getInstance().ReGen();
+    }
+
+    public void Pause()
     {
         Time.timeScale = 0;
         PausePanel.SetActive(true);
