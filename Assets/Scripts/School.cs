@@ -209,7 +209,11 @@ public class School : MonoBehaviour
         gameObject.SetActive(false);
 
         // 보스 잡으면 NextPhase
-        if (isBoss) NextPhase();
+        if (isBoss)
+        {
+            GameManager.Instance.BossClear();
+            NextPhase();
+        }
         ReGen();
     }
 

@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject GameOverPanel;
+    [SerializeField] private GameObject ClearPanel;
     [SerializeField] private Canvas studentCanvas;
 
     private static GameManager instance;
@@ -32,10 +33,17 @@ public class GameManager : MonoBehaviour
         PausePanel.SetActive(true);
     }
 
+    public void BossClear()
+    {
+        Time.timeScale = 0;
+        ClearPanel.SetActive(true);
+    }
+
     public void Resume()
     {
         Time.timeScale = 1;
         PausePanel.SetActive(false);
+        ClearPanel.SetActive(false);
     }
 
     public void GameOver()
