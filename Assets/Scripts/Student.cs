@@ -39,6 +39,8 @@ public class Student : MonoBehaviour
     // Animation Event
     public void Attack()
     {
+        if (!School.getInstance().gameObject.activeSelf) return;
+
         School.getInstance().GetAttackByStudent(atk);
 
         // Show Damage

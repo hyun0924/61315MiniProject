@@ -12,6 +12,7 @@ public class School : MonoBehaviour
     protected static School instance = null;
     public static int stack; // nn번째 격파에 사용
     private bool isBoss;
+    public bool IsBoss => isBoss;
     private int bossType;
     private int BossMoney;
     Rigidbody2D rb;
@@ -19,6 +20,11 @@ public class School : MonoBehaviour
     BoxCollider2D boxCollider;
     AudioSource audioSource;
 
+    private string[] bossScripts =
+    {
+        "지방 방송 꺼라~", "학생이 단정해야지~", "학생의 본분은 공부!",
+        "시험? 쉽게 낼게~", "첫째도 복습 둘째도 복습"
+    };
     [SerializeField] private int bossPeriod;
 
     [Header("UI")]
@@ -26,6 +32,7 @@ public class School : MonoBehaviour
     [SerializeField] private TextMeshProUGUI SchoolHPText;
     [SerializeField] private TextMeshProUGUI SchoolNameText;
     [SerializeField] private GameObject BossAlertLine;
+    [SerializeField] private GameObject BubblePrefab;
 
     [Header("Speed")]
     [SerializeField] private float SchoolSpeed;
@@ -77,22 +84,29 @@ public class School : MonoBehaviour
         ReGen();
     }
 
+    private void OnEnable()
+    {
+        if (isBoss)
+        {
+            StartCoroutine(BossScript());
+        }
+    }
+
     private void Update()
     {
-        if (transform.position.y >= 7.25f)
+        if (Mathf.Abs(transform.position.y) >= 7.25f)
         {
             transform.position = new Vector3(0, 7.25f);
             rb.velocity = Vector3.zero;
         }
     }
 
-    private void ReGen()
+    public void ReGen()
     {
         stack++;
         SchoolHPBar.fillAmount = 1;
         rb.velocity = Vector2.zero;
         transform.position = new Vector3(0, 7.25f);
-        gameObject.SetActive(true);
         isBoss = false;
 
         // bossPeriod번째마다 보스 체크
@@ -108,6 +122,7 @@ public class School : MonoBehaviour
         }
         else
         {
+            gameObject.SetActive(true);
             currentSpeed = SchoolSpeed;
             SchoolNameText.text = stack + "번째 학교";
             HP = MaxHP;
@@ -123,7 +138,7 @@ public class School : MonoBehaviour
         MaxHP *= 1.1f;          // HP +1%
         SchoolSpeed *= 1.03f;   // speed +3%
         BossSpeed *= 1.03f;     // speed +3%
-        
+
         Money.IncreaseMoney(BossMoney);
         BossMoney += 5;
     }
@@ -168,8 +183,11 @@ public class School : MonoBehaviour
 
         rb.velocity = Vector3.zero;
 
-        StopCoroutine(Shake());
-        StartCoroutine(Shake());
+        if (gameObject.activeSelf)
+        {
+            StopCoroutine(Shake());
+            StartCoroutine(Shake());
+        }
     }
 
     public void GetAttackByWind(float dmg)
@@ -200,20 +218,50 @@ public class School : MonoBehaviour
         transform.position = startPosition + Vector3.down * currentSpeed * shakeTime;
     }
 
+    private IEnumerator BossScript()
+    {
+        Transform bossScriptTransform = GameObject.FindWithTag("BossScript").transform;
+        while (true)
+        {
+            GameObject clone = Instantiate(BubblePrefab);
+            float time = Random.Range(2f, 6f);
+            int num = Random.Range(0, bossScripts.Length + bossData[bossType].ScriptsCnt);
+
+            clone.transform.SetParent(bossScriptTransform, false);
+            string text;
+            if (num >= bossScripts.Length) text = bossData[bossType].Scripts[num - bossScripts.Length];
+            else text = bossScripts[num];
+            clone.GetComponent<BossBubble>().SetText(text);
+            yield return new WaitForSeconds(time);
+        }
+    }
+
     private void Dead()
     {
         //대충 죽는 처리
+        StopCoroutine(BossScript());
         gameObject.SetActive(false);
 
         // 보스 잡으면 NextPhase
-        if (isBoss) NextPhase();
+        if (isBoss)
+        {
+            GameManager.Instance.BossClear();
+            NextPhase();
 
+            // Destroy Boss Scripts
+            Transform bossScriptTransform = GameObject.FindWithTag("BossScript").transform;
+            int cnt = bossScriptTransform.childCount;
+            for (int i = 0; i < cnt; i++)
+            {
+                Destroy(bossScriptTransform.GetChild(i).gameObject);
+            }
+        }
         ReGen();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "GameOver")
+        if (other.gameObject.tag == "GameOver" && GameManager.Instance.IsStart)
         {
             GameManager.Instance.GameOver();
         }

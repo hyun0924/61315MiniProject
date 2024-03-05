@@ -27,3 +27,6 @@ MonoBehaviour:
   - {fileID: -1116917843, guid: 77a4a3865c4b64244b62f26d873e9ecc, type: 3}
   - {fileID: 990252464, guid: 35ded20a1f1d78647918fae1de78bbe3, type: 3}
   - {fileID: 1786311098, guid: cce37d48b6073d149af62fb2726c4013, type: 3}
+  scripts:
+  - "\uC624\uB298 7\uC77C\uC774\uC9C0? 7\uBC88~"
+  - "\uC218\uD559\uC740 \uB9E4\uC77C \uD574\uC57C\uC9C0"
