@@ -9,7 +9,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private GameObject ClearPanel;
-    [SerializeField] private Canvas studentCanvas;
+    [SerializeField] private Canvas     studentCanvas;
+    [SerializeField] private GameObject GUI;
+    [SerializeField] private GameObject SchoolObject;
+
     private bool isStart;
     public bool IsStart => isStart;
 
@@ -21,6 +24,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         isStart = false;
+        Time.timeScale = 0;
     }
 
     private void Update()
@@ -35,9 +39,11 @@ public class GameManager : MonoBehaviour
     {
         isStart = true;
         GameStartPanel.SetActive(false);
+        GUI.SetActive(true);
         Money.SetMoney(0);
-        School.stack = 0;
-        School.getInstance().ReGen();
+
+        SchoolObject.SetActive(true);
+        Time.timeScale = 1;
     }
 
     public void Pause()
