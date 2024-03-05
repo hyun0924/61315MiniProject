@@ -202,8 +202,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uBCF4\uC2A4 \uB300\uC0AC"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: acd3583d238f0a945a6e49058eb1bf66, type: 2}
-  m_sharedMaterial: {fileID: -6380715709025148051, guid: acd3583d238f0a945a6e49058eb1bf66, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0dacbe19bc65a9a4da043a7deb1bc133, type: 2}
+  m_sharedMaterial: {fileID: 3802877699892935834, guid: 0dacbe19bc65a9a4da043a7deb1bc133, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -227,8 +227,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -215,7 +215,7 @@ public class School : MonoBehaviour
             yield return null;
         }
 
-        transform.position = startPosition + Vector3.down * currentSpeed * shakeTime;
+        transform.position = new Vector3(0, startPosition.y - currentSpeed * shakeTime, 0);
     }
 
     private IEnumerator BossScript()
@@ -261,7 +261,7 @@ public class School : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "GameOver" && GameManager.Instance.IsStart)
+        if (other.gameObject.tag == "GameOver")
         {
             GameManager.Instance.GameOver();
         }
