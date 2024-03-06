@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class School : MonoBehaviour
 {
     protected float HP;
-    public float MaxHP;
+    private float MaxHP;
+    public float initialHP;
     protected static School instance = null;
     public static int stack; // nn번째 격파에 사용
     private bool isBoss;
@@ -55,6 +56,7 @@ public class School : MonoBehaviour
             instance = this;
             isBoss = false;
             School.stack = 0;
+            MaxHP = initialHP;
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
             boxCollider = GetComponent<BoxCollider2D>();
@@ -131,6 +133,16 @@ public class School : MonoBehaviour
 
         SchoolHPText.text = (int)HP + "/" + (int)HP;
         rb.gravityScale = 0.35f * currentSpeed;
+    }
+
+    public void Reset()
+    {
+        stack = 0;
+        MaxHP = initialHP;
+        SchoolSpeed /= BossSpeed;
+        BossSpeed = 1;
+        
+        ReGen();
     }
 
     private void NextPhase()

@@ -9,22 +9,41 @@ public class ATKUPBtn : MonoBehaviour
     [SerializeField] private int initialPrice;
     [SerializeField] private int increaseAmount;
     [SerializeField] private TextMeshProUGUI PriceText;
+
+    public static ATKUPBtn Instance => instance;
+    private static ATKUPBtn instance;
+
+    public ATKUPBtn()
+    {
+        instance = this;
+    }
+
     Button button;
+    private int price;
+
     private void Awake()
     {
         button = GetComponent<Button>();
-        PriceText.text = initialPrice.ToString("#,##0");
+        price = initialPrice;
+        PriceText.text = price.ToString("#,##0");
         button.onClick.AddListener(OnMouseDown);
     }
     private void OnMouseDown()
     {
-        if (Money.GetMoney() >= initialPrice)
+        if (Money.GetMoney() >= price)
         {
-            Money.DecreaseMoney(initialPrice);
-            initialPrice += increaseAmount;
-            PriceText.text = initialPrice.ToString("#,##0");
-            PlayerStat.atk *= 1.3f;
+            Money.DecreaseMoney(price);
+            price += increaseAmount;
+            PriceText.text = price.ToString("#,##0");
+            PlayerStat.Instance.IncreaseAtk();
             Student.AtkChange();
         }
+    }
+
+    public void Reset()
+    {
+        price = initialPrice;
+        PriceText.text = price.ToString("#,##0");
+        PlayerStat.Instance.Reset();
     }
 }
