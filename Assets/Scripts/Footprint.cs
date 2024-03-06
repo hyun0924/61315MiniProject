@@ -37,6 +37,7 @@ public class Footprint : MonoBehaviour
             yield return null;
         }
 
+        Destroy(transform.parent.gameObject);
         Destroy(gameObject);
     }
 }

@@ -73,8 +73,12 @@ public class School : MonoBehaviour
             //그래서 이미 전역변수인 instance에 인스턴스가 존재한다면 자신(새로운 씬의 GameMgr)을 삭제해준다.
             Destroy(this.gameObject);
         }
+
+        // Resolution
+        float width = Camera.main.orthographicSize * 1.88f * Screen.width / Screen.height / 10.0f;
+        transform.localScale = new Vector3(width, width, width);
         BossMoney = 10;
-    }//긁어온겁니다.
+    }
 
     public static School getInstance()
     {
