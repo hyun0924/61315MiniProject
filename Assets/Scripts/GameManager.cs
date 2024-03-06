@@ -9,9 +9,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private GameObject ClearPanel;
-    [SerializeField] private Canvas     studentCanvas;
+    [SerializeField] private Canvas studentCanvas;
     [SerializeField] private GameObject GUI;
     [SerializeField] private GameObject SchoolObject;
+    [SerializeField] private GameObject BossScript;
 
     private bool isStart;
     public bool IsStart => isStart;
@@ -67,11 +68,35 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Time.timeScale = 0;
         GameOverPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 
-    public void Restart()
+    public void Retry()
+    {
+        GameOverPanel.SetActive(false);
+
+        Time.timeScale = 1;
+        School.getInstance().Reset();
+        Money.SetMoney(0);
+        WindSkill.Instance.Reset();
+        ATKUPBtn.Instance.Reset();
+        AddStudentBtn.Instance.Reset();
+
+        // Destroy BossScripts
+        for (int i = BossScript.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(BossScript.transform.GetChild(i).gameObject);
+        }
+
+        // Destroy BossScripts
+        for (int i = studentCanvas.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(studentCanvas.transform.GetChild(i).gameObject);
+        }
+    }
+
+    public void Exit()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
