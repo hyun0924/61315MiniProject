@@ -75,8 +75,11 @@ public class School : MonoBehaviour
         }
 
         // Resolution
-        float width = Camera.main.orthographicSize * 1.88f * Screen.width / Screen.height / 10.0f;
-        transform.localScale = new Vector3(width, width, width);
+        if (Screen.width < Screen.height)
+        {
+            float width = Camera.main.orthographicSize * 1.88f * Screen.width / Screen.height / 10.0f;
+            transform.localScale = new Vector3(width, width, width);
+        }
         BossMoney = 10;
     }
 
@@ -242,7 +245,7 @@ public class School : MonoBehaviour
 
         while (true)
         {
-            spawnPos -= new Vector3(Random.Range(-rt.rect.x/2f, rt.rect.x/2f), Random.Range(-rt.rect.y/2f, rt.rect.y/2f), 0);
+            spawnPos -= new Vector3(Random.Range(-rt.rect.x / 2f, rt.rect.x / 2f), Random.Range(-rt.rect.y / 2f, rt.rect.y / 2f), 0);
             GameObject clone = Instantiate(BubblePrefab, spawnPos, Quaternion.identity);
             float time = Random.Range(2f, 6f);
             int num = Random.Range(0, bossScripts.Length + bossData[bossType].ScriptsCnt);
