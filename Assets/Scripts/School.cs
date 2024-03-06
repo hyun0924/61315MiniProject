@@ -141,7 +141,7 @@ public class School : MonoBehaviour
         MaxHP = initialHP;
         SchoolSpeed /= BossSpeed;
         BossSpeed = 1;
-        
+
         ReGen();
     }
 
@@ -232,14 +232,18 @@ public class School : MonoBehaviour
 
     private IEnumerator BossScript()
     {
-        Transform bossScriptTransform = GameObject.FindWithTag("BossScript").transform;
+        GameObject bossScriptCanvas = GameObject.FindWithTag("BossScript").gameObject;
+        RectTransform rt = bossScriptCanvas.GetComponent<RectTransform>();
+        Vector3 spawnPos = GetBottomLeftCorner(rt);
+
         while (true)
         {
-            GameObject clone = Instantiate(BubblePrefab);
+            spawnPos -= new Vector3(Random.Range(-rt.rect.x/2f, rt.rect.x/2f), Random.Range(-rt.rect.y/2f, rt.rect.y/2f), 0);
+            GameObject clone = Instantiate(BubblePrefab, spawnPos, Quaternion.identity);
             float time = Random.Range(2f, 6f);
             int num = Random.Range(0, bossScripts.Length + bossData[bossType].ScriptsCnt);
 
-            clone.transform.SetParent(bossScriptTransform, false);
+            clone.transform.SetParent(bossScriptCanvas.transform, false);
             string text;
             if (num >= bossScripts.Length) text = bossData[bossType].Scripts[num - bossScripts.Length];
             else text = bossScripts[num];
@@ -248,13 +252,17 @@ public class School : MonoBehaviour
         }
     }
 
+    Vector3 GetBottomLeftCorner(RectTransform rt)
+    {
+        Vector3[] v = new Vector3[4];
+        rt.GetWorldCorners(v);
+        return v[0];
+    }
+
     private void Dead()
     {
-        //대충 죽는 처리
+        // 대충 죽는 처리
         StopCoroutine(BossScript());
-        gameObject.SetActive(false);
-
-        // 보스 잡으면 NextPhase
         if (isBoss)
         {
             GameManager.Instance.BossClear();
@@ -268,6 +276,9 @@ public class School : MonoBehaviour
                 Destroy(bossScriptTransform.GetChild(i).gameObject);
             }
         }
+        gameObject.SetActive(false);
+
+        // 보스 잡으면 NextPhase
         ReGen();
     }
 
