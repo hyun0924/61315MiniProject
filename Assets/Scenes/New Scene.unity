@@ -3828,8 +3828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windSkill: {fileID: 595414861}
-  FootPrintPrefab: {fileID: 2441735898939848055, guid: 9a5db7f13c87db74c89b60be7e6123de, type: 3}
-  DamageTextPrefab: {fileID: 643325702415788481, guid: 3917a8c8300d1a5439ba3ed23c9529a6, type: 3}
+  FootPrintPrefab: {fileID: 1841994714096618589, guid: af7b750a482a8c7419d9cbb7660d2f7f, type: 3}
   AttackSounds:
   - {fileID: 8300000, guid: bd0f445a94fed2d4e915ce8b406cdcaa, type: 3}
   - {fileID: 8300000, guid: a110ab802f192d4478f84aef85571b98, type: 3}
