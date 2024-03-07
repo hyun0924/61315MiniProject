@@ -9,9 +9,13 @@ public class ATKUPBtn : MonoBehaviour
     [SerializeField] private int initialPrice;
     [SerializeField] private int increaseAmount;
     [SerializeField] private TextMeshProUGUI PriceText;
+    [SerializeField] private float minClickTime;
 
     public static ATKUPBtn Instance => instance;
     private static ATKUPBtn instance;
+    private AudioSource audioSource;
+    private bool isClick;
+    private float clickTime;
 
     public ATKUPBtn()
     {
@@ -24,19 +28,56 @@ public class ATKUPBtn : MonoBehaviour
     private void Awake()
     {
         button = GetComponent<Button>();
+        audioSource = GetComponent<AudioSource>();
         price = initialPrice;
         PriceText.text = price.ToString("#,##0");
-        button.onClick.AddListener(OnMouseDown);
+        isClick = false;
+        clickTime = 0f;
     }
-    private void OnMouseDown()
+
+    private void Update()
     {
+        if (isClick && clickTime < minClickTime)
+        {
+            clickTime += Time.deltaTime;
+            if (clickTime >= minClickTime) StartCoroutine(RepeatUpgrade());
+        }
+    }
+
+    public void PointerDown()
+    {
+        isClick = true;
+        clickTime = 0f;
+
         if (Money.GetMoney() >= price)
         {
-            Money.DecreaseMoney(price);
-            price += increaseAmount;
-            PriceText.text = price.ToString("#,##0");
-            PlayerStat.Instance.IncreaseAtk();
-            Student.AtkChange();
+            Upgrade();
+        }
+    }
+
+    public void PointerUp()
+    {
+        isClick = false;
+        clickTime = 0f;
+    }
+
+    private void Upgrade()
+    {
+        Money.DecreaseMoney(price);
+        price += increaseAmount;
+        PriceText.text = price.ToString("#,##0");
+        PlayerStat.Instance.IncreaseAtk();
+        Student.AtkChange();
+        audioSource.Play();
+    }
+
+    private IEnumerator RepeatUpgrade()
+    {
+        WaitForSeconds seconds = new WaitForSeconds(0.1f);
+        while (Money.GetMoney() >= price && clickTime > 0f)
+        {
+            Upgrade();
+            yield return seconds;
         }
     }
 
