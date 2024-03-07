@@ -73,8 +73,15 @@ public class School : MonoBehaviour
             //그래서 이미 전역변수인 instance에 인스턴스가 존재한다면 자신(새로운 씬의 GameMgr)을 삭제해준다.
             Destroy(this.gameObject);
         }
+
+        // Resolution
+        if (Screen.width < Screen.height)
+        {
+            float width = Camera.main.orthographicSize * 1.88f * Screen.width / Screen.height / 10.0f;
+            transform.localScale = new Vector3(width, width, width);
+        }
         BossMoney = 10;
-    }//긁어온겁니다.
+    }
 
     public static School getInstance()
     {
@@ -141,7 +148,7 @@ public class School : MonoBehaviour
         MaxHP = initialHP;
         SchoolSpeed /= BossSpeed;
         BossSpeed = 1;
-        
+
         ReGen();
     }
 
@@ -232,14 +239,18 @@ public class School : MonoBehaviour
 
     private IEnumerator BossScript()
     {
-        Transform bossScriptTransform = GameObject.FindWithTag("BossScript").transform;
+        GameObject bossScriptCanvas = GameObject.FindWithTag("BossScript").gameObject;
+        RectTransform rt = bossScriptCanvas.GetComponent<RectTransform>();
+        Vector3 spawnPos = GetBottomLeftCorner(rt);
+
         while (true)
         {
-            GameObject clone = Instantiate(BubblePrefab);
+            spawnPos -= new Vector3(Random.Range(-rt.rect.x / 2f, rt.rect.x / 2f), Random.Range(-rt.rect.y / 2f, rt.rect.y / 2f), 0);
+            GameObject clone = Instantiate(BubblePrefab, spawnPos, Quaternion.identity);
             float time = Random.Range(2f, 6f);
             int num = Random.Range(0, bossScripts.Length + bossData[bossType].ScriptsCnt);
 
-            clone.transform.SetParent(bossScriptTransform, false);
+            clone.transform.SetParent(bossScriptCanvas.transform, false);
             string text;
             if (num >= bossScripts.Length) text = bossData[bossType].Scripts[num - bossScripts.Length];
             else text = bossScripts[num];
@@ -248,13 +259,17 @@ public class School : MonoBehaviour
         }
     }
 
+    Vector3 GetBottomLeftCorner(RectTransform rt)
+    {
+        Vector3[] v = new Vector3[4];
+        rt.GetWorldCorners(v);
+        return v[0];
+    }
+
     private void Dead()
     {
-        //대충 죽는 처리
+        // 대충 죽는 처리
         StopCoroutine(BossScript());
-        gameObject.SetActive(false);
-
-        // 보스 잡으면 NextPhase
         if (isBoss)
         {
             GameManager.Instance.BossClear();
@@ -268,6 +283,9 @@ public class School : MonoBehaviour
                 Destroy(bossScriptTransform.GetChild(i).gameObject);
             }
         }
+        gameObject.SetActive(false);
+
+        // 보스 잡으면 NextPhase
         ReGen();
     }
 

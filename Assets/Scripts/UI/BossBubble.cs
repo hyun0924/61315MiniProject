@@ -10,7 +10,6 @@ public class BossBubble : MonoBehaviour
     [SerializeField] private float fadeTime;
     Image image;
     TextMeshProUGUI textMesh;
-    RectTransform rectTransform;
 
     public float bubbleTime => stayTime + fadeTime;
 
@@ -19,9 +18,6 @@ public class BossBubble : MonoBehaviour
         image = GetComponent<Image>();
         textMesh = gameObject.GetComponentInChildren<TextMeshProUGUI>();
         StartCoroutine(Animation());
-
-        rectTransform = GetComponent<RectTransform>();
-        rectTransform.position = new Vector3(Random.Range(-120f, 120f), Random.Range(-450f, 500f));
     }
 
     public void SetText(string script)

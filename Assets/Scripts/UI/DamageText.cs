@@ -7,15 +7,18 @@ public class DamageText : MonoBehaviour
 {
     [SerializeField] private float fadeTime;
     TextMeshProUGUI textMesh;
+    RectTransform rectTransform;
 
     private void Awake()
     {
         textMesh = GetComponent<TextMeshProUGUI>();
+        rectTransform = GetComponent<RectTransform>();
     }
 
     public void SetText(float dmg, float moveSpeed)
     {
-        textMesh.text = dmg.ToString("#,##0");
+        textMesh.text = dmg.ToString();
+        rectTransform.localScale = Vector3.one;
         StartCoroutine(FadeOut(moveSpeed));
     }
 
