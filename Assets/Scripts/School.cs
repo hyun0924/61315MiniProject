@@ -16,6 +16,8 @@ public class School : MonoBehaviour
     public bool IsBoss => isBoss;
     private int bossType;
     private int BossMoney;
+    Coroutine shake;
+    Coroutine bossScript;
     Rigidbody2D rb;
     SpriteRenderer sr;
     BoxCollider2D boxCollider;
@@ -57,10 +59,14 @@ public class School : MonoBehaviour
             isBoss = false;
             School.stack = 0;
             MaxHP = initialHP;
+
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
             boxCollider = GetComponent<BoxCollider2D>();
             audioSource = GetComponent<AudioSource>();
+
+            shake = null;
+            bossScript = null;
             //씬 전환이 되더라도 파괴되지 않게 한다.
             //gameObject만으로도 이 스크립트가 컴포넌트로서 붙어있는 Hierarchy상의 게임오브젝트라는 뜻이지만, 
             //나는 헷갈림 방지를 위해 this를 붙여주기도 한다.
@@ -97,7 +103,7 @@ public class School : MonoBehaviour
     {
         if (isBoss)
         {
-            StartCoroutine(BossScript());
+            bossScript = StartCoroutine(BossScript());
         }
     }
 
@@ -115,6 +121,7 @@ public class School : MonoBehaviour
         stack++;
         SchoolHPBar.fillAmount = 1;
         rb.velocity = Vector2.zero;
+        Debug.Log("pos");
         transform.position = new Vector3(0, 7.25f);
         isBoss = false;
 
@@ -204,8 +211,7 @@ public class School : MonoBehaviour
 
         if (gameObject.activeSelf)
         {
-            StopCoroutine(Shake());
-            StartCoroutine(Shake());
+            shake = StartCoroutine(Shake());
         }
     }
 
@@ -247,7 +253,7 @@ public class School : MonoBehaviour
         {
             spawnPos -= new Vector3(Random.Range(-rt.rect.x / 2f, rt.rect.x / 2f), Random.Range(-rt.rect.y / 2f, rt.rect.y / 2f), 0);
             GameObject clone = Instantiate(BubblePrefab, spawnPos, Quaternion.identity);
-            float time = Random.Range(2f, 6f);
+            float time = Random.Range(2f, 3f);
             int num = Random.Range(0, bossScripts.Length + bossData[bossType].ScriptsCnt);
 
             clone.transform.SetParent(bossScriptCanvas.transform, false);
@@ -269,7 +275,17 @@ public class School : MonoBehaviour
     private void Dead()
     {
         // 대충 죽는 처리
-        StopCoroutine(BossScript());
+        if (shake != null)
+        {
+            StopCoroutine(shake);
+            shake = null;
+        }
+        if (bossScript != null)
+        {
+            StopCoroutine(bossScript);
+            bossScript = null;
+        }
+
         if (isBoss)
         {
             GameManager.Instance.BossClear();
@@ -293,6 +309,12 @@ public class School : MonoBehaviour
     {
         if (other.gameObject.tag == "GameOver")
         {
+            if (shake != null)
+            {
+                Debug.Log("stopshake");
+                StopCoroutine(shake);
+                shake = null;
+            }
             GameManager.Instance.GameOver();
         }
     }
