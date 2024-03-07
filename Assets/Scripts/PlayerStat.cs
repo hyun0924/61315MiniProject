@@ -23,7 +23,7 @@ public class PlayerStat : MonoBehaviour
 
     public void IncreaseAtk()
     {
-        atk *= increaseAmount;
+        atk += increaseAmount;
     }
 
     public void Reset()
