@@ -16,7 +16,7 @@ public class PlayerStat : MonoBehaviour
         instance = this;
     }
 
-    void Start()
+    void Awake()
     {
         atk = initialATK; 
     }

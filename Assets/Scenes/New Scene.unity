@@ -3552,7 +3552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb711ee57702e44cb123d40cd9a9659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialPrice: 100
+  initialPrice: 300
   increaseAmount: 300
   PriceText: {fileID: 2124167182}
   Friends: {fileID: 1785334463}
