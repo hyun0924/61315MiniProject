@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private GameObject ClearPanel;
+    [SerializeField] private GameObject TouchPanel;
     [SerializeField] private Canvas studentCanvas;
     [SerializeField] private GameObject GUI;
     [SerializeField] private GameObject SchoolObject;
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
     {
         isStart = true;
         GameStartPanel.SetActive(false);
+        TouchPanel.SetActive(true);
         GUI.SetActive(true);
         Money.SetMoney(0);
 
@@ -50,33 +52,36 @@ public class GameManager : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0;
+        TouchPanel.SetActive(false);
         PausePanel.SetActive(true);
     }
 
     public void BossClear()
     {
         Time.timeScale = 0;
+        TouchPanel.SetActive(false);
         ClearPanel.SetActive(true);
     }
 
     public void Resume()
     {
         Time.timeScale = 1;
+        TouchPanel.SetActive(true);
         PausePanel.SetActive(false);
         ClearPanel.SetActive(false);
     }
 
     public void GameOver()
     {
+        TouchPanel.SetActive(false);
         GameOverPanel.SetActive(true);
         Time.timeScale = 0;
     }
 
     public void Retry()
     {
+        TouchPanel.SetActive(true);
         GameOverPanel.SetActive(false);
-
-        Time.timeScale = 1;
         School.getInstance().Reset();
         Money.SetMoney(0);
         WindSkill.Instance.Reset();
@@ -94,6 +99,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(studentCanvas.transform.GetChild(i).gameObject);
         }
+
+        Time.timeScale = 1;
     }
 
     public void Exit()

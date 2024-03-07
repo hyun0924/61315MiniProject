@@ -3155,6 +3155,7 @@ MonoBehaviour:
   PausePanel: {fileID: 2069200675}
   GameOverPanel: {fileID: 1545276205}
   ClearPanel: {fileID: 393998244}
+  TouchPanel: {fileID: 1319953454}
   studentCanvas: {fileID: 319742814}
   GUI: {fileID: 2058422146}
   SchoolObject: {fileID: 1752408071}
@@ -3668,7 +3669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1319953455
 RectTransform:
   m_ObjectHideFlags: 0
