@@ -5,12 +5,24 @@ using UnityEngine;
 public class Footprint : MonoBehaviour
 {
     [SerializeField] private float fadeTime;
+    [SerializeField] private GameObject DamageTextObject;
     SpriteRenderer sr;
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        transform.rotation = Quaternion.Euler(0, 0, Random.Range(-35f, 35f));
         StartCoroutine(FadeOut());
+    }
+
+    public void CriticalSize()
+    {
+        transform.localScale = Vector3.one;
+    }
+
+    public void SetDamageText(bool crit)
+    {
+        DamageTextObject.GetComponent<DamageText>().SetText(crit ? PlayerStat.atk * 10 : PlayerStat.atk, 0);
     }
 
     private IEnumerator FadeOut()
@@ -25,6 +37,7 @@ public class Footprint : MonoBehaviour
             yield return null;
         }
 
+        Destroy(transform.parent.gameObject);
         Destroy(gameObject);
     }
 }

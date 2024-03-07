@@ -8,39 +8,67 @@ public class AddStudentBtn : MonoBehaviour
     [SerializeField] private int initialPrice;
     [SerializeField] private int increaseAmount;
     [SerializeField] private TextMeshProUGUI PriceText;
+    [SerializeField] private GameObject Friends;
+
+    public static AddStudentBtn Instance => instance;
+    private static AddStudentBtn instance;
+
     Button button;
     public GameObject studentPrefab;
     public int studentNum;
+    private int price;
     private Vector3[] stdpos = {
     new Vector3(-1,0), new Vector3(-1.8f,-0.75f), new Vector3(-0.41f,-1.1f),
     new Vector3(1.5f,-0.4f), new Vector3(0.4f,-0.27f), new Vector3(0.85f,-1.4f),
     new Vector3(-1.44f,-1.72f), new Vector3(2.17f,0.08f), new Vector3(-2.3f,0.12f),
     new Vector3(2.15f,-1.44f)
-    };//¿©±â´Ù ¹èÄ¡
+    };
+    private AudioSource audioSource;
+
+    public AddStudentBtn()
+    {
+        instance = this;
+    }
+
     private void Awake()
     {
         button = GetComponent<Button>();
-        PriceText.text = initialPrice.ToString("#,##0");
+        audioSource = GetComponent<AudioSource>();
+        price = initialPrice;
+        PriceText.text = price.ToString("#,##0");
         button.onClick.AddListener(AddStudent);
 
-        // Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
-        // studentNum++;
+        Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
+        studentNum++;
     }
 
-    private void AddStudent()
+    public void AddStudent()
     {
         if (studentNum < stdpos.Length)
         {
-            if (Money.GetMoney() >= initialPrice)
+            if (Money.GetMoney() >= price)
             {
-                Money.DecreaseMoney(initialPrice);
-                initialPrice += increaseAmount;
-                Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
+                Money.DecreaseMoney(price);
+                price += increaseAmount;
+                Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity, Friends.transform);
                 studentNum++;
+                audioSource.Play();
             }
 
             if (studentNum == stdpos.Length) PriceText.text = "Max";
-            else PriceText.text = initialPrice.ToString("#,##0");
+            else PriceText.text = price.ToString("#,##0");
+        }
+    }
+
+    public void Reset()
+    {
+        price = initialPrice;
+        PriceText.text = price.ToString("#,##0");
+
+        // Destroy Friends
+        for (int i = Friends.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(Friends.transform.GetChild(i).gameObject);
         }
     }
 }

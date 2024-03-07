@@ -9,22 +9,82 @@ public class ATKUPBtn : MonoBehaviour
     [SerializeField] private int initialPrice;
     [SerializeField] private int increaseAmount;
     [SerializeField] private TextMeshProUGUI PriceText;
+    [SerializeField] private float minClickTime;
+
+    public static ATKUPBtn Instance => instance;
+    private static ATKUPBtn instance;
+    private AudioSource audioSource;
+    private bool isClick;
+    private float clickTime;
+
+    public ATKUPBtn()
+    {
+        instance = this;
+    }
+
     Button button;
+    private int price;
+
     private void Awake()
     {
         button = GetComponent<Button>();
-        PriceText.text = initialPrice.ToString("#,##0");
-        button.onClick.AddListener(OnMouseDown);
+        audioSource = GetComponent<AudioSource>();
+        price = initialPrice;
+        PriceText.text = price.ToString("#,##0");
+        isClick = false;
+        clickTime = 0f;
     }
-    private void OnMouseDown()
+
+    private void Update()
     {
-        if (Money.GetMoney() >= initialPrice)
+        if (isClick && clickTime < minClickTime)
         {
-            Money.DecreaseMoney(initialPrice);
-            initialPrice += increaseAmount;
-            PriceText.text = initialPrice.ToString("#,##0");
-            PlayerStat.atk *= 1.3f;
-            Student.AtkChange();
+            clickTime += Time.deltaTime;
+            if (clickTime >= minClickTime) StartCoroutine(RepeatUpgrade());
         }
+    }
+
+    public void PointerDown()
+    {
+        isClick = true;
+        clickTime = 0f;
+
+        if (Money.GetMoney() >= price)
+        {
+            Upgrade();
+        }
+    }
+
+    public void PointerUp()
+    {
+        isClick = false;
+        clickTime = 0f;
+    }
+
+    private void Upgrade()
+    {
+        Money.DecreaseMoney(price);
+        price += increaseAmount;
+        PriceText.text = price.ToString("#,##0");
+        PlayerStat.Instance.IncreaseAtk();
+        Student.AtkChange();
+        audioSource.Play();
+    }
+
+    private IEnumerator RepeatUpgrade()
+    {
+        WaitForSeconds seconds = new WaitForSeconds(0.1f);
+        while (Money.GetMoney() >= price && clickTime > 0f)
+        {
+            Upgrade();
+            yield return seconds;
+        }
+    }
+
+    public void Reset()
+    {
+        price = initialPrice;
+        PriceText.text = price.ToString("#,##0");
+        PlayerStat.Instance.Reset();
     }
 }
