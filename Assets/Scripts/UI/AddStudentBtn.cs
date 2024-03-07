@@ -22,7 +22,8 @@ public class AddStudentBtn : MonoBehaviour
     new Vector3(1.5f,-0.4f), new Vector3(0.4f,-0.27f), new Vector3(0.85f,-1.4f),
     new Vector3(-1.44f,-1.72f), new Vector3(2.17f,0.08f), new Vector3(-2.3f,0.12f),
     new Vector3(2.15f,-1.44f)
-    };//¿©±â´Ù ¹èÄ¡
+    };
+    private AudioSource audioSource;
 
     public AddStudentBtn()
     {
@@ -32,15 +33,16 @@ public class AddStudentBtn : MonoBehaviour
     private void Awake()
     {
         button = GetComponent<Button>();
+        audioSource = GetComponent<AudioSource>();
         price = initialPrice;
         PriceText.text = price.ToString("#,##0");
         button.onClick.AddListener(AddStudent);
 
-        // Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
-        // studentNum++;
+        Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
+        studentNum++;
     }
 
-    private void AddStudent()
+    public void AddStudent()
     {
         if (studentNum < stdpos.Length)
         {
@@ -50,6 +52,7 @@ public class AddStudentBtn : MonoBehaviour
                 price += increaseAmount;
                 Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity, Friends.transform);
                 studentNum++;
+                audioSource.Play();
             }
 
             if (studentNum == stdpos.Length) PriceText.text = "Max";

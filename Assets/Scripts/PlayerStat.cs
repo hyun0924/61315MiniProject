@@ -16,14 +16,14 @@ public class PlayerStat : MonoBehaviour
         instance = this;
     }
 
-    void Start()
+    void Awake()
     {
         atk = initialATK; 
     }
 
     public void IncreaseAtk()
     {
-        atk *= increaseAmount;
+        atk += increaseAmount;
     }
 
     public void Reset()
