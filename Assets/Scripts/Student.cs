@@ -8,12 +8,12 @@ public class Student : MonoBehaviour
     public static float atk;
     public static int studentNum;
     public static int gap;
-    private Canvas canvas;
+    private GameObject canvas;
     [SerializeField] private GameObject DamageTextPrefab;
     
     private void Awake()
     {
-        canvas = GameManager.Instance.StudentCanvas;
+        canvas = GameManager.Instance.StudentDamageTextSpawner;
         sr = GetComponent<SpriteRenderer>();
         if (transform.position.x > 0) sr.flipX = true;
 

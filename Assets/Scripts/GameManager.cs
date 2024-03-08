@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private GameObject ClearPanel;
     [SerializeField] private GameObject TouchPanel;
-    [SerializeField] private Canvas studentCanvas;
+    [SerializeField] private GameObject studentDamageTextSpawner;
     [SerializeField] private GameObject GUI;
     [SerializeField] private GameObject SchoolObject;
     [SerializeField] private GameObject BossScript;
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     private static GameManager instance;
     public static GameManager Instance => instance;
-    public Canvas StudentCanvas => studentCanvas;
+    public GameObject StudentDamageTextSpawner => studentDamageTextSpawner;
 
     private void Awake()
     {
@@ -95,9 +95,9 @@ public class GameManager : MonoBehaviour
         }
 
         // Destroy BossScripts
-        for (int i = studentCanvas.transform.childCount - 1; i >= 0; i--)
+        for (int i = studentDamageTextSpawner.transform.childCount - 1; i >= 0; i--)
         {
-            Destroy(studentCanvas.transform.GetChild(i).gameObject);
+            Destroy(studentDamageTextSpawner.transform.GetChild(i).gameObject);
         }
 
         Time.timeScale = 1;
