@@ -87,20 +87,23 @@ public class GameManager : MonoBehaviour
         WindSkill.Instance.Reset();
         ATKUPBtn.Instance.Reset();
         AddStudentBtn.Instance.Reset();
+        DestroyBossScripts();
 
-        // Destroy BossScripts
-        for (int i = BossScript.transform.childCount - 1; i >= 0; i--)
-        {
-            Destroy(BossScript.transform.GetChild(i).gameObject);
-        }
-
-        // Destroy BossScripts
+        // Destroy StudentDamageText
         for (int i = studentDamageTextSpawner.transform.childCount - 1; i >= 0; i--)
         {
             Destroy(studentDamageTextSpawner.transform.GetChild(i).gameObject);
         }
 
         Time.timeScale = 1;
+    }
+
+    public void DestroyBossScripts()
+    {
+        for (int i = BossScript.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(BossScript.transform.GetChild(i).gameObject);
+        }
     }
 
     public void Exit()
