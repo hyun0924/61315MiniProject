@@ -109,20 +109,31 @@ public class School : MonoBehaviour
 
     private void Update()
     {
-        if (Mathf.Abs(transform.position.y) >= 7.25f)
+        if (Mathf.Abs(transform.position.y) >= 7.3f)
         {
-            transform.position = new Vector3(0, 7.25f);
+            transform.position = new Vector3(0, 7.3f);
             rb.velocity = Vector3.zero;
         }
     }
 
     public void ReGen()
     {
+        // Stop Coroutines
+        if (shake != null)
+        {
+            StopCoroutine(shake);
+            shake = null;
+        }
+        if (bossScript != null)
+        {
+            StopCoroutine(bossScript);
+            bossScript = null;
+        }
+
         stack++;
         SchoolHPBar.fillAmount = 1;
         rb.velocity = Vector2.zero;
-        Debug.Log("pos");
-        transform.position = new Vector3(0, 7.25f);
+        transform.position = new Vector3(0, 7.3f);
         isBoss = false;
 
         // bossPeriod번째마다 보스 체크
@@ -284,24 +295,16 @@ public class School : MonoBehaviour
         {
             StopCoroutine(bossScript);
             bossScript = null;
+            GameManager.Instance.DestroyBossScripts();
         }
 
+        gameObject.SetActive(false);
         if (isBoss)
         {
             GameManager.Instance.BossClear();
             NextPhase();
-
-            // Destroy Boss Scripts
-            Transform bossScriptTransform = GameObject.FindWithTag("BossScript").transform;
-            int cnt = bossScriptTransform.childCount;
-            for (int i = 0; i < cnt; i++)
-            {
-                Destroy(bossScriptTransform.GetChild(i).gameObject);
-            }
         }
-        gameObject.SetActive(false);
-
-        // 보스 잡으면 NextPhase
+        
         ReGen();
     }
 
@@ -311,7 +314,6 @@ public class School : MonoBehaviour
         {
             if (shake != null)
             {
-                Debug.Log("stopshake");
                 StopCoroutine(shake);
                 shake = null;
             }

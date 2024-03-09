@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,19 +9,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject GameStartPanel;
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject GameOverPanel;
+    [SerializeField] private TextMeshProUGUI ResultText;
     [SerializeField] private GameObject ClearPanel;
     [SerializeField] private GameObject TouchPanel;
-    [SerializeField] private Canvas studentCanvas;
     [SerializeField] private GameObject GUI;
     [SerializeField] private GameObject SchoolObject;
     [SerializeField] private GameObject BossScript;
+
+    [Header("Container")]
+    [SerializeField] private GameObject studentDamageTextContainer;
+    [SerializeField] private GameObject FragmentContainer;
+    [SerializeField] private GameObject FootprintContainer;
 
     private bool isStart;
     public bool IsStart => isStart;
 
     private static GameManager instance;
     public static GameManager Instance => instance;
-    public Canvas StudentCanvas => studentCanvas;
+    public GameObject StudentDamageTextContainer => studentDamageTextContainer;
 
     private void Awake()
     {
@@ -75,6 +81,7 @@ public class GameManager : MonoBehaviour
     {
         TouchPanel.SetActive(false);
         GameOverPanel.SetActive(true);
+        ResultText.text = "학교\n" + (School.stack-1) + "개 격파!";
         Time.timeScale = 0;
     }
 
@@ -88,19 +95,41 @@ public class GameManager : MonoBehaviour
         ATKUPBtn.Instance.Reset();
         AddStudentBtn.Instance.Reset();
 
-        // Destroy BossScripts
+        DestroyBossScripts();
+        DestroyFragments();
+        DestroyFootprints();
+
+        // Destroy StudentDamageText
+        for (int i = studentDamageTextContainer.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(studentDamageTextContainer.transform.GetChild(i).gameObject);
+        }
+
+        Time.timeScale = 1;
+    }
+
+    public void DestroyBossScripts()
+    {
         for (int i = BossScript.transform.childCount - 1; i >= 0; i--)
         {
             Destroy(BossScript.transform.GetChild(i).gameObject);
         }
+    }
 
-        // Destroy BossScripts
-        for (int i = studentCanvas.transform.childCount - 1; i >= 0; i--)
+    private void DestroyFragments()
+    {
+        for (int i = FragmentContainer.transform.childCount - 1; i >= 0; i--)
         {
-            Destroy(studentCanvas.transform.GetChild(i).gameObject);
+            Destroy(FragmentContainer.transform.GetChild(i).gameObject);
         }
+    }
 
-        Time.timeScale = 1;
+    private void DestroyFootprints()
+    {
+        for (int i = FootprintContainer.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(FootprintContainer.transform.GetChild(i).gameObject);
+        }
     }
 
     public void Exit()

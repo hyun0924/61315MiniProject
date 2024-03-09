@@ -8,7 +8,7 @@ public class AddStudentBtn : MonoBehaviour
     [SerializeField] private int initialPrice;
     [SerializeField] private int increaseAmount;
     [SerializeField] private TextMeshProUGUI PriceText;
-    [SerializeField] private GameObject Friends;
+    [SerializeField] private GameObject FriendContainer;
 
     public static AddStudentBtn Instance => instance;
     private static AddStudentBtn instance;
@@ -50,7 +50,7 @@ public class AddStudentBtn : MonoBehaviour
             {
                 Money.DecreaseMoney(price);
                 price += increaseAmount;
-                Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity, Friends.transform);
+                Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity, FriendContainer.transform);
                 studentNum++;
                 audioSource.Play();
             }
@@ -66,9 +66,9 @@ public class AddStudentBtn : MonoBehaviour
         PriceText.text = price.ToString("#,##0");
 
         // Destroy Friends
-        for (int i = Friends.transform.childCount - 1; i >= 0; i--)
+        for (int i = FriendContainer.transform.childCount - 1; i >= 0; i--)
         {
-            Destroy(Friends.transform.GetChild(i).gameObject);
+            Destroy(FriendContainer.transform.GetChild(i).gameObject);
         }
     }
 }
