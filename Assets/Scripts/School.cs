@@ -304,7 +304,8 @@ public class School : MonoBehaviour
             GameManager.Instance.BossClear();
             NextPhase();
         }
-        else ReGen();
+        
+        ReGen();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
