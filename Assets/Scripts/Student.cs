@@ -13,7 +13,7 @@ public class Student : MonoBehaviour
     
     private void Awake()
     {
-        canvas = GameManager.Instance.StudentDamageTextSpawner;
+        canvas = GameManager.Instance.StudentDamageTextContainer;
         sr = GetComponent<SpriteRenderer>();
         if (transform.position.x > 0) sr.flipX = true;
 

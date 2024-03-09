@@ -661,6 +661,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoneyPrefab: {fileID: 185377735702319103, guid: 2fb22f5223990dd41a8cc3a2f643f191, type: 3}
   FragmentPrefab: {fileID: 8538944672664339245, guid: 0a473fe7fa6cc6a42835b2bcebef4da9, type: 3}
+  FragmentContainer: {fileID: 1533927975}
 --- !u!61 &115783561
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1319,7 +1320,7 @@ GameObject:
   - component: {fileID: 319742813}
   - component: {fileID: 319742812}
   m_Layer: 5
-  m_Name: StudentDamageTextSpawner
+  m_Name: StudentDamageTextContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1993,7 +1994,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &535417004
 GameObject:
@@ -2534,7 +2535,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &631351175
 GameObject:
@@ -3077,7 +3078,7 @@ RectTransform:
   - {fileID: 393998245}
   - {fileID: 194562359}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3194,10 +3195,12 @@ MonoBehaviour:
   GameOverPanel: {fileID: 1545276205}
   ClearPanel: {fileID: 393998244}
   TouchPanel: {fileID: 1319953454}
-  studentDamageTextSpawner: {fileID: 193301526}
   GUI: {fileID: 2058422146}
   SchoolObject: {fileID: 1752408071}
   BossScript: {fileID: 295664450}
+  studentDamageTextContainer: {fileID: 319742811}
+  FragmentContainer: {fileID: 1533927975}
+  FootprintContainer: {fileID: 1184708885}
 --- !u!4 &1157340102
 Transform:
   m_ObjectHideFlags: 0
@@ -3211,7 +3214,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1184708885
 GameObject:
@@ -3223,7 +3226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1184708886}
   m_Layer: 0
-  m_Name: FootPrintSpawner
+  m_Name: FootprintContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3625,7 +3628,7 @@ MonoBehaviour:
   initialPrice: 300
   increaseAmount: 300
   PriceText: {fileID: 2124167182}
-  Friends: {fileID: 1785334463}
+  FriendContainer: {fileID: 1785334463}
   studentPrefab: {fileID: 5078176366735108788, guid: 7ed35d860462ff449a3a6ee4c33c49cb, type: 3}
   studentNum: 0
 --- !u!1 &1288088887
@@ -3817,7 +3820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windSkill: {fileID: 595414861}
   FootPrintPrefab: {fileID: 1841994714096618589, guid: af7b750a482a8c7419d9cbb7660d2f7f, type: 3}
-  FootPrintSpawner: {fileID: 1184708885}
+  FootPrintContainer: {fileID: 1184708885}
   AttackSounds:
   - {fileID: 8300000, guid: bd0f445a94fed2d4e915ce8b406cdcaa, type: 3}
   - {fileID: 8300000, guid: a110ab802f192d4478f84aef85571b98, type: 3}
@@ -4778,6 +4781,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1533927975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1533927976}
+  m_Layer: 0
+  m_Name: FragmentContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1533927976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533927975}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.16331315, y: 0.52307516, z: -0.042152695}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1545276205
 GameObject:
   m_ObjectHideFlags: 0
@@ -5411,7 +5445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1785334464}
   m_Layer: 0
-  m_Name: FriendSpawner
+  m_Name: FriendContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5430,7 +5464,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1865732690
 GameObject:

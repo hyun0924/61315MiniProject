@@ -9,7 +9,7 @@ public class BackgroundTouch : MonoBehaviour
     Button button;
 
     [SerializeField] private GameObject FootPrintPrefab;
-    [SerializeField] private GameObject FootPrintSpawner;
+    [SerializeField] private GameObject FootPrintContainer;
 
     [Header("Sounds")]
     [SerializeField] private AudioClip[] AttackSounds;
@@ -38,7 +38,7 @@ public class BackgroundTouch : MonoBehaviour
         GameObject footprint = Instantiate(FootPrintPrefab, mousePos, Quaternion.identity);
         footprint.transform.localScale = Vector3.one;
         footprint.GetComponentInChildren<Footprint>().SetDamageText(crit);
-        footprint.transform.SetParent(FootPrintSpawner.transform);
+        footprint.transform.SetParent(FootPrintContainer.transform);
         if (crit) footprint.GetComponentInChildren<Footprint>().CriticalSize();
 
         // Sounds

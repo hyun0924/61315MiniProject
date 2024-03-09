@@ -10,17 +10,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private GameObject ClearPanel;
     [SerializeField] private GameObject TouchPanel;
-    [SerializeField] private GameObject studentDamageTextSpawner;
     [SerializeField] private GameObject GUI;
     [SerializeField] private GameObject SchoolObject;
     [SerializeField] private GameObject BossScript;
+
+    [Header("Container")]
+    [SerializeField] private GameObject studentDamageTextContainer;
+    [SerializeField] private GameObject FragmentContainer;
+    [SerializeField] private GameObject FootprintContainer;
 
     private bool isStart;
     public bool IsStart => isStart;
 
     private static GameManager instance;
     public static GameManager Instance => instance;
-    public GameObject StudentDamageTextSpawner => studentDamageTextSpawner;
+    public GameObject StudentDamageTextContainer => studentDamageTextContainer;
 
     private void Awake()
     {
@@ -87,12 +91,15 @@ public class GameManager : MonoBehaviour
         WindSkill.Instance.Reset();
         ATKUPBtn.Instance.Reset();
         AddStudentBtn.Instance.Reset();
+
         DestroyBossScripts();
+        DestroyFragments();
+        DestroyFootprints();
 
         // Destroy StudentDamageText
-        for (int i = studentDamageTextSpawner.transform.childCount - 1; i >= 0; i--)
+        for (int i = studentDamageTextContainer.transform.childCount - 1; i >= 0; i--)
         {
-            Destroy(studentDamageTextSpawner.transform.GetChild(i).gameObject);
+            Destroy(studentDamageTextContainer.transform.GetChild(i).gameObject);
         }
 
         Time.timeScale = 1;
@@ -103,6 +110,22 @@ public class GameManager : MonoBehaviour
         for (int i = BossScript.transform.childCount - 1; i >= 0; i--)
         {
             Destroy(BossScript.transform.GetChild(i).gameObject);
+        }
+    }
+
+    private void DestroyFragments()
+    {
+        for (int i = FragmentContainer.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(FragmentContainer.transform.GetChild(i).gameObject);
+        }
+    }
+
+    private void DestroyFootprints()
+    {
+        for (int i = FootprintContainer.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(FootprintContainer.transform.GetChild(i).gameObject);
         }
     }
 
