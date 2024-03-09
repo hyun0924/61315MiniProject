@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject GameStartPanel;
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject GameOverPanel;
+    [SerializeField] private TextMeshProUGUI ResultText;
     [SerializeField] private GameObject ClearPanel;
     [SerializeField] private GameObject TouchPanel;
     [SerializeField] private GameObject GUI;
@@ -79,6 +81,7 @@ public class GameManager : MonoBehaviour
     {
         TouchPanel.SetActive(false);
         GameOverPanel.SetActive(true);
+        ResultText.text = "학교\n" + (School.stack-1) + "개 격파!";
         Time.timeScale = 0;
     }
 
