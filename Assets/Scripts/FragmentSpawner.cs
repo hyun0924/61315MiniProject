@@ -12,6 +12,7 @@ public class FragmentSpawner : MonoBehaviour
     [Header("Fragment")]
     [SerializeField] private GameObject MoneyPrefab;
     [SerializeField] private GameObject FragmentPrefab;
+    [SerializeField] private GameObject FragmentContainer;
 
     public FragmentSpawner()
     {
@@ -25,9 +26,9 @@ public class FragmentSpawner : MonoBehaviour
 
     public void SpawnFragment()
     {
-        Instantiate(MoneyPrefab, RandomPosition(), Quaternion.Euler(0, 0, Random.Range(0, 360)));
-        Instantiate(FragmentPrefab, RandomPosition(), Quaternion.Euler(0, 0, Random.Range(0, 360)));
-        Instantiate(FragmentPrefab, RandomPosition(), Quaternion.Euler(0, 0, Random.Range(0, 360)));
+        Instantiate(MoneyPrefab, RandomPosition(), Quaternion.Euler(0, 0, Random.Range(0, 360)), FragmentContainer.transform);
+        Instantiate(FragmentPrefab, RandomPosition(), Quaternion.Euler(0, 0, Random.Range(0, 360)), FragmentContainer.transform);
+        Instantiate(FragmentPrefab, RandomPosition(), Quaternion.Euler(0, 0, Random.Range(0, 360)), FragmentContainer.transform);
     }
 
     private Vector3 RandomPosition()

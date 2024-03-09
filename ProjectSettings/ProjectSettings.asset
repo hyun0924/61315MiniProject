@@ -252,8 +252,8 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/user/Documents/GitHub/user.keystore
-  AndroidKeyaliasName: hye
+  AndroidKeystoreName: C:/Users/jaehy/Documents/schoolbreak.keystore
+  AndroidKeyaliasName: schoolbreak
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 1

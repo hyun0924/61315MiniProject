@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class BackgroundTouch : MonoBehaviour
     Button button;
 
     [SerializeField] private GameObject FootPrintPrefab;
+    [SerializeField] private GameObject FootPrintContainer;
 
     [Header("Sounds")]
     [SerializeField] private AudioClip[] AttackSounds;
@@ -22,7 +24,29 @@ public class BackgroundTouch : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    private void Update()
+    {
+        // For Mobile Touch
+        if (Input.touchCount > 0)
+        {
+            for (int i = 0; i < Mathf.Min(1, Input.touchCount); i++)
+            {
+                Touch touch = Input.GetTouch(i);
+                if (touch.phase == TouchPhase.Began)
+                {
+                    BreakSchool(touch.position);
+                }
+            }
+        }
+    }
+
+    // For PC Click
     private void OnMouseDown()
+    {
+        // BreakSchool(Input.mousePosition);
+    }
+
+    private void BreakSchool(Vector3 pos)
     {
         if (!School.getInstance().gameObject.activeSelf) return;
 
@@ -32,11 +56,12 @@ public class BackgroundTouch : MonoBehaviour
         //Ä¡¸íÅ¸ Ãß°¡
 
         // Spawn Footprint
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(pos);
         mousePos.z = 0;
         GameObject footprint = Instantiate(FootPrintPrefab, mousePos, Quaternion.identity);
         footprint.transform.localScale = Vector3.one;
         footprint.GetComponentInChildren<Footprint>().SetDamageText(crit);
+        footprint.transform.SetParent(FootPrintContainer.transform);
         if (crit) footprint.GetComponentInChildren<Footprint>().CriticalSize();
 
         // Sounds
