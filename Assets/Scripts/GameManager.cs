@@ -27,12 +27,14 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance => instance;
     public GameObject StudentDamageTextContainer => studentDamageTextContainer;
+    AudioSource gameStartAudio;
 
     private void Awake()
     {
         instance = this;
         isStart = false;
         Time.timeScale = 0;
+        gameStartAudio = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -53,6 +55,7 @@ public class GameManager : MonoBehaviour
 
         SchoolObject.SetActive(true);
         Time.timeScale = 1;
+        gameStartAudio.Play();
     }
 
     public void Pause()

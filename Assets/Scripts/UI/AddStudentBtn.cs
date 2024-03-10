@@ -38,7 +38,7 @@ public class AddStudentBtn : MonoBehaviour
         PriceText.text = price.ToString("#,##0");
         button.onClick.AddListener(AddStudent);
 
-        Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity);
+        Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity, FriendContainer.transform);
         studentNum++;
     }
 
@@ -70,5 +70,9 @@ public class AddStudentBtn : MonoBehaviour
         {
             Destroy(FriendContainer.transform.GetChild(i).gameObject);
         }
+        
+        studentNum = 0;
+        Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity, FriendContainer.transform);
+        studentNum++;
     }
 }
