@@ -15,12 +15,14 @@ public class BackgroundTouch : MonoBehaviour
     [Header("Sounds")]
     [SerializeField] private AudioClip[] AttackSounds;
     [SerializeField] private AudioClip CriticalSound;
+    RectTransform rectTransform;
     AudioSource audioSource;
 
     private void Awake()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(OnMouseDown);
+        rectTransform = GetComponent<RectTransform>();
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -34,7 +36,8 @@ public class BackgroundTouch : MonoBehaviour
                 Touch touch = Input.GetTouch(i);
                 if (touch.phase == TouchPhase.Began)
                 {
-                    BreakSchool(touch.position);
+                    if (Mathf.Abs(touch.position.y - Screen.height / 2f - rectTransform.anchoredPosition.y) <= rectTransform.rect.width / 2f)
+                        BreakSchool(touch.position);
                 }
             }
         }
