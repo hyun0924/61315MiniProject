@@ -8,12 +8,12 @@ public class Student : MonoBehaviour
     public static float atk;
     public static int studentNum;
     public static int gap;
-    private Canvas canvas;
+    private GameObject canvas;
     [SerializeField] private GameObject DamageTextPrefab;
     
     private void Awake()
     {
-        canvas = GameManager.Instance.StudentCanvas;
+        canvas = GameManager.Instance.StudentDamageTextContainer;
         sr = GetComponent<SpriteRenderer>();
         if (transform.position.x > 0) sr.flipX = true;
 
@@ -33,12 +33,14 @@ public class Student : MonoBehaviour
 
     public static void AtkChange()
     {
-        atk = PlayerStat.atk / 2f;
+        atk = (int) (PlayerStat.atk / 2f);
     }
 
     // Animation Event
     public void Attack()
     {
+        if (!School.getInstance().gameObject.activeSelf) return;
+
         School.getInstance().GetAttackByStudent(atk);
 
         // Show Damage

@@ -7,14 +7,14 @@ public class Money : MonoBehaviour
 {
     private static int money;
     [SerializeField] private TextMeshProUGUI MoneyText;
-    private void Start()
-    {
-        money = 0;
-        MoneyText.text = money.ToString("#,##0");
-    }
+    
     public static int GetMoney()
     {
         return money;
+    }
+    public static void SetMoney(int n)
+    {
+        money = n;
     }
     public static void IncreaseMoney(int inc)
     {

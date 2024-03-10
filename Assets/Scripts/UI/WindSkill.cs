@@ -12,6 +12,16 @@ public class WindSkill : MonoBehaviour
     private Image windSkillGauge;
     private int skillCount;
     public GameObject windPrefab;
+    private Coroutine coroutine;
+    private GameObject windSkillReady;
+
+    private static WindSkill instance;
+    public static WindSkill Instance => instance;
+
+    private WindSkill()
+    {
+        instance = this;
+    }
 
     private void Awake()
     {
@@ -21,7 +31,7 @@ public class WindSkill : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if (skillCount >= maxSkillCount)
+        if (skillCount >= maxSkillCount && School.getInstance().gameObject.activeSelf)
         {
             skillCount = 0;
             windSkillGauge.fillAmount = 0;
@@ -38,17 +48,21 @@ public class WindSkill : MonoBehaviour
 
         if (skillCount >= maxSkillCount)
         {
-            StopCoroutine(FullFilled());
-            StartCoroutine(FullFilled());
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+                Destroy(windSkillReady);
+            }
+            coroutine = StartCoroutine(FullFilled());
         }
     }
 
     private IEnumerator FullFilled()
     {
-        GameObject windSkillReady = Instantiate(windSkillFull, transform);
+        windSkillReady = Instantiate(windSkillFull, transform);
         Image image = windSkillReady.GetComponent<Image>();
 
-        while(skillCount >= maxSkillCount)
+        while (skillCount >= maxSkillCount)
         {
             float fadeTime = 1f;
             while (fadeTime > 0f)
@@ -59,6 +73,17 @@ public class WindSkill : MonoBehaviour
                 windSkillReady.transform.localScale = new Vector3(f, f);
                 yield return null;
             }
+        }
+    }
+
+    public void Reset()
+    {
+        skillCount = 0;
+        windSkillGauge.fillAmount = 0;
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            Destroy(windSkillReady);
         }
     }
 }

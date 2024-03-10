@@ -8,17 +8,26 @@ using UnityEngine.UI;
 public class School : MonoBehaviour
 {
     protected float HP;
-    public float MaxHP;
+    private float MaxHP;
+    public float initialHP;
     protected static School instance = null;
     public static int stack; // nn번째 격파에 사용
     private bool isBoss;
+    public bool IsBoss => isBoss;
     private int bossType;
     private int BossMoney;
+    Coroutine shake;
+    Coroutine bossScript;
     Rigidbody2D rb;
     SpriteRenderer sr;
     BoxCollider2D boxCollider;
     AudioSource audioSource;
 
+    private string[] bossScripts =
+    {
+        "지방 방송 꺼라~", "학생이 단정해야지~", "학생의 본분은 공부!",
+        "시험? 쉽게 낼게~", "첫째도 복습 둘째도 복습"
+    };
     [SerializeField] private int bossPeriod;
 
     [Header("UI")]
@@ -26,6 +35,7 @@ public class School : MonoBehaviour
     [SerializeField] private TextMeshProUGUI SchoolHPText;
     [SerializeField] private TextMeshProUGUI SchoolNameText;
     [SerializeField] private GameObject BossAlertLine;
+    [SerializeField] private GameObject BubblePrefab;
 
     [Header("Speed")]
     [SerializeField] private float SchoolSpeed;
@@ -48,10 +58,15 @@ public class School : MonoBehaviour
             instance = this;
             isBoss = false;
             School.stack = 0;
+            MaxHP = initialHP;
+
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
             boxCollider = GetComponent<BoxCollider2D>();
             audioSource = GetComponent<AudioSource>();
+
+            shake = null;
+            bossScript = null;
             //씬 전환이 되더라도 파괴되지 않게 한다.
             //gameObject만으로도 이 스크립트가 컴포넌트로서 붙어있는 Hierarchy상의 게임오브젝트라는 뜻이지만, 
             //나는 헷갈림 방지를 위해 this를 붙여주기도 한다.
@@ -64,8 +79,15 @@ public class School : MonoBehaviour
             //그래서 이미 전역변수인 instance에 인스턴스가 존재한다면 자신(새로운 씬의 GameMgr)을 삭제해준다.
             Destroy(this.gameObject);
         }
+
+        // Resolution
+        if (Screen.width < Screen.height)
+        {
+            float width = Camera.main.orthographicSize * 1.88f * Screen.width / Screen.height / 10.0f;
+            transform.localScale = new Vector3(width, width, width);
+        }
         BossMoney = 10;
-    }//긁어온겁니다.
+    }
 
     public static School getInstance()
     {
@@ -77,22 +99,41 @@ public class School : MonoBehaviour
         ReGen();
     }
 
+    private void OnEnable()
+    {
+        if (isBoss)
+        {
+            bossScript = StartCoroutine(BossScript());
+        }
+    }
+
     private void Update()
     {
-        if (transform.position.y >= 7.25f)
+        if (Mathf.Abs(transform.position.y) >= 7.3f)
         {
-            transform.position = new Vector3(0, 7.25f);
+            transform.position = new Vector3(0, 7.3f);
             rb.velocity = Vector3.zero;
         }
     }
 
-    private void ReGen()
+    public void ReGen()
     {
+        // Stop Coroutines
+        if (shake != null)
+        {
+            StopCoroutine(shake);
+            shake = null;
+        }
+        if (bossScript != null)
+        {
+            StopCoroutine(bossScript);
+            bossScript = null;
+        }
+
         stack++;
         SchoolHPBar.fillAmount = 1;
         rb.velocity = Vector2.zero;
-        transform.position = new Vector3(0, 7.25f);
-        gameObject.SetActive(true);
+        transform.position = new Vector3(0, 7.3f);
         isBoss = false;
 
         // bossPeriod번째마다 보스 체크
@@ -108,6 +149,7 @@ public class School : MonoBehaviour
         }
         else
         {
+            gameObject.SetActive(true);
             currentSpeed = SchoolSpeed;
             SchoolNameText.text = stack + "번째 학교";
             HP = MaxHP;
@@ -118,12 +160,22 @@ public class School : MonoBehaviour
         rb.gravityScale = 0.35f * currentSpeed;
     }
 
+    public void Reset()
+    {
+        stack = 0;
+        MaxHP = initialHP;
+        SchoolSpeed /= BossSpeed;
+        BossSpeed = 1;
+
+        ReGen();
+    }
+
     private void NextPhase()
     {
         MaxHP *= 1.1f;          // HP +1%
         SchoolSpeed *= 1.03f;   // speed +3%
         BossSpeed *= 1.03f;     // speed +3%
-        
+
         Money.IncreaseMoney(BossMoney);
         BossMoney += 5;
     }
@@ -168,8 +220,10 @@ public class School : MonoBehaviour
 
         rb.velocity = Vector3.zero;
 
-        StopCoroutine(Shake());
-        StartCoroutine(Shake());
+        if (gameObject.activeSelf)
+        {
+            shake = StartCoroutine(Shake());
+        }
     }
 
     public void GetAttackByWind(float dmg)
@@ -197,17 +251,60 @@ public class School : MonoBehaviour
             yield return null;
         }
 
-        transform.position = startPosition + Vector3.down * currentSpeed * shakeTime;
+        transform.position = new Vector3(0, startPosition.y - currentSpeed * shakeTime, 0);
+    }
+
+    private IEnumerator BossScript()
+    {
+        GameObject bossScriptCanvas = GameObject.FindWithTag("BossScript").gameObject;
+        RectTransform rt = bossScriptCanvas.GetComponent<RectTransform>();
+        Vector3 spawnPos = GetBottomLeftCorner(rt);
+
+        while (true)
+        {
+            spawnPos -= new Vector3(Random.Range(-rt.rect.x / 2f, rt.rect.x / 2f), Random.Range(-rt.rect.y / 2f, rt.rect.y / 2f), 0);
+            GameObject clone = Instantiate(BubblePrefab, spawnPos, Quaternion.identity);
+            float time = Random.Range(2f, 3f);
+            int num = Random.Range(0, bossScripts.Length + bossData[bossType].ScriptsCnt);
+
+            clone.transform.SetParent(bossScriptCanvas.transform, false);
+            string text;
+            if (num >= bossScripts.Length) text = bossData[bossType].Scripts[num - bossScripts.Length];
+            else text = bossScripts[num];
+            clone.GetComponent<BossBubble>().SetText(text);
+            yield return new WaitForSeconds(time);
+        }
+    }
+
+    Vector3 GetBottomLeftCorner(RectTransform rt)
+    {
+        Vector3[] v = new Vector3[4];
+        rt.GetWorldCorners(v);
+        return v[0];
     }
 
     private void Dead()
     {
-        //대충 죽는 처리
+        // 대충 죽는 처리
+        if (shake != null)
+        {
+            StopCoroutine(shake);
+            shake = null;
+        }
+        if (bossScript != null)
+        {
+            StopCoroutine(bossScript);
+            bossScript = null;
+            GameManager.Instance.DestroyBossScripts();
+        }
+
         gameObject.SetActive(false);
-
-        // 보스 잡으면 NextPhase
-        if (isBoss) NextPhase();
-
+        if (isBoss)
+        {
+            GameManager.Instance.BossClear();
+            NextPhase();
+        }
+        
         ReGen();
     }
 
@@ -215,6 +312,11 @@ public class School : MonoBehaviour
     {
         if (other.gameObject.tag == "GameOver")
         {
+            if (shake != null)
+            {
+                StopCoroutine(shake);
+                shake = null;
+            }
             GameManager.Instance.GameOver();
         }
     }

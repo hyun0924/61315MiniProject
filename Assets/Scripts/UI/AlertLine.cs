@@ -22,7 +22,7 @@ public class AlertLine : MonoBehaviour
 
     private IEnumerator Blink()
     {
-        int count = 2;
+        int count = 3;
         while (count > 0)
         {
             count--;
@@ -31,6 +31,7 @@ public class AlertLine : MonoBehaviour
             image.color = new Color(0, 0, 0, 0);
             yield return new WaitForSeconds(delay);
         }
+        School.getInstance().gameObject.SetActive(true);
         gameObject.SetActive(false);
     }
 }

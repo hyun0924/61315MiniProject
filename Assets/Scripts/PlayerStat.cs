@@ -4,9 +4,30 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
+    [SerializeField] private float initialATK;
+    [SerializeField] private float increaseAmount;
     public static float atk;
-    void Start()
+
+    public static PlayerStat Instance => instance;
+    private static PlayerStat instance;
+
+    public PlayerStat()
     {
-        atk = 10;    
+        instance = this;
+    }
+
+    void Awake()
+    {
+        atk = initialATK; 
+    }
+
+    public void IncreaseAtk()
+    {
+        atk += increaseAmount;
+    }
+
+    public void Reset()
+    {
+        atk = initialATK;
     }
 }
