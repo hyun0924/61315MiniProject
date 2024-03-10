@@ -89,6 +89,8 @@ public class GameManager : MonoBehaviour
     {
         TouchPanel.SetActive(true);
         GameOverPanel.SetActive(false);
+        PausePanel.SetActive(false);
+
         School.getInstance().Reset();
         Money.SetMoney(0);
         WindSkill.Instance.Reset();
