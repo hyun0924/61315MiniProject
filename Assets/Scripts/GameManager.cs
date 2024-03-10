@@ -23,24 +23,66 @@ public class GameManager : MonoBehaviour
 
     private bool isStart;
     public bool IsStart => isStart;
+    private int ClickCount;
 
     private static GameManager instance;
     public static GameManager Instance => instance;
     public GameObject StudentDamageTextContainer => studentDamageTextContainer;
+    AudioSource gameStartAudio;
 
     private void Awake()
     {
         instance = this;
         isStart = false;
         Time.timeScale = 0;
+        ClickCount = 0;
+        gameStartAudio = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Pause();
+            if (isStart) Pause();
+            else
+            {
+                if (ClickCount < 1)
+                {
+                    ClickCount++;
+                    if (!IsInvoking("ResetEsc"))
+                    {
+                        Invoke("ResetEsc", 1.0f);
+                        ShowAndroidToastMessage("\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.");
+                    }
+                }
+                else
+                {
+                    CancelInvoke("ResetEsc");
+                    Application.Quit();
+                }
+            }
         }
+    }
+
+    private void ShowAndroidToastMessage(string message)
+    {
+        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+        if (unityActivity != null)
+        {
+            AndroidJavaClass toastClass = new AndroidJavaClass("android.widget.Toast");
+            unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
+            {
+                AndroidJavaObject toastObject = toastClass.CallStatic<AndroidJavaObject>("makeText", unityActivity, message, 0);
+                toastObject.Call("show");
+            }));
+        }
+    }
+
+    void ResetEsc()
+    {
+        ClickCount = 0;
     }
 
     public void GameStart()
@@ -53,6 +95,7 @@ public class GameManager : MonoBehaviour
 
         SchoolObject.SetActive(true);
         Time.timeScale = 1;
+        gameStartAudio.Play();
     }
 
     public void Pause()
@@ -81,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         TouchPanel.SetActive(false);
         GameOverPanel.SetActive(true);
-        ResultText.text = "학교\n" + (School.stack-1) + "개 격파!";
+        ResultText.text = "학교\n" + (School.stack - 1) + "개 격파!";
         Time.timeScale = 0;
     }
 

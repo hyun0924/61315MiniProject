@@ -6,7 +6,6 @@ public class Student : MonoBehaviour
 {
     SpriteRenderer sr;
     public static float atk;
-    public static int studentNum;
     public static int gap;
     private GameObject canvas;
     [SerializeField] private GameObject DamageTextPrefab;
@@ -16,13 +15,6 @@ public class Student : MonoBehaviour
         canvas = GameManager.Instance.StudentDamageTextContainer;
         sr = GetComponent<SpriteRenderer>();
         if (transform.position.x > 0) sr.flipX = true;
-
-        // StartCoroutine("attack", 5);
-        studentNum++;
-        if (studentNum > 10)
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void Start()
