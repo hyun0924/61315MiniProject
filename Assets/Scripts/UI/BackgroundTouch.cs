@@ -43,7 +43,7 @@ public class BackgroundTouch : MonoBehaviour
     // For PC Click
     private void OnMouseDown()
     {
-        // BreakSchool(Input.mousePosition);
+         //BreakSchool(Input.mousePosition);
     }
 
     private void BreakSchool(Vector3 pos)

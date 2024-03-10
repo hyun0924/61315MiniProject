@@ -14,6 +14,7 @@ public class WindSkill : MonoBehaviour
     public GameObject windPrefab;
     private Coroutine coroutine;
     private GameObject windSkillReady;
+    //public static bool usingWind;
 
     private static WindSkill instance;
     public static WindSkill Instance => instance;
@@ -27,6 +28,7 @@ public class WindSkill : MonoBehaviour
     {
         windSkillGauge = windSkillFull.GetComponent<Image>();
         windSkillGauge.fillAmount = 0;
+        //usingWind = false;
     }
 
     public void OnMouseDown()
@@ -36,6 +38,7 @@ public class WindSkill : MonoBehaviour
             skillCount = 0;
             windSkillGauge.fillAmount = 0;
             Instantiate(windPrefab, new Vector3(0, -6), Quaternion.identity);
+            //usingWind = true;
         }
     }
 
