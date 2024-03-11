@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         isStart = false;
-        Time.timeScale = 0;
+        Time.timeScale = 1;
         ClickCount = 0;
         gameStartAudio = GetComponent<AudioSource>();
     }
