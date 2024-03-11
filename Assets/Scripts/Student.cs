@@ -31,6 +31,8 @@ public class Student : MonoBehaviour
     // Animation Event
     public void Attack()
     {
+        if (!GameManager.Instance.IsStart) return;
+
         if (!School.getInstance().gameObject.activeSelf) return;
 
         School.getInstance().GetAttackByStudent(atk);

@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject studentDamageTextContainer;
     [SerializeField] private GameObject FragmentContainer;
     [SerializeField] private GameObject FootprintContainer;
+    [SerializeField] private GameObject TitleFriends;
 
     private bool isStart;
     public bool IsStart => isStart;
@@ -30,13 +31,29 @@ public class GameManager : MonoBehaviour
     public GameObject StudentDamageTextContainer => studentDamageTextContainer;
     AudioSource gameStartAudio;
 
-    private void Awake()
+    GameManager()
     {
         instance = this;
+    }
+
+    private void Awake()
+    {
         isStart = false;
         Time.timeScale = 1;
         ClickCount = 0;
         gameStartAudio = GetComponent<AudioSource>();
+
+        ActiveFriendsRandom();
+    }
+
+    private void ActiveFriendsRandom()
+    {
+        for (int i = 0; i < TitleFriends.transform.childCount; i++)
+        {
+            if (isStart) break;
+            GameObject friend = TitleFriends.transform.GetChild(i).gameObject;
+            friend.GetComponent<Animator>().Play("Friend", -1, Random.Range(0f, 1f));
+        }
     }
 
     private void Update()
@@ -91,8 +108,9 @@ public class GameManager : MonoBehaviour
         GameStartPanel.SetActive(false);
         TouchPanel.SetActive(true);
         GUI.SetActive(true);
-        Money.SetMoney(0);
+        TitleFriends.SetActive(false);
 
+        Money.SetMoney(0);
         SchoolObject.SetActive(true);
         Time.timeScale = 1;
         gameStartAudio.Play();
