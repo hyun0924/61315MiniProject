@@ -4435,6 +4435,7 @@ MonoBehaviour:
   increaseAmount: 300
   PriceText: {fileID: 2124167182}
   FriendContainer: {fileID: 1785334463}
+  BtnImage: {fileID: 2616401927122217278, guid: cdbcb68c5ad9df34c9d09e988e8c9414, type: 3}
   studentPrefab: {fileID: 5078176366735108788, guid: 7ed35d860462ff449a3a6ee4c33c49cb, type: 3}
   studentNum: 0
 --- !u!1 &1288088887
@@ -5265,6 +5266,7 @@ MonoBehaviour:
   increaseAmount: 10
   PriceText: {fileID: 2026170579}
   minClickTime: 0.2
+  BtnImage: {fileID: 2616401927122217278, guid: 2e53109b9938f43469ab31bc35a4075b, type: 3}
 --- !u!82 &1465760735
 AudioSource:
   m_ObjectHideFlags: 0
