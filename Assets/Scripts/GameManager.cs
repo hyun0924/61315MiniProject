@@ -108,7 +108,6 @@ public class GameManager : MonoBehaviour
         GameStartPanel.SetActive(false);
         TouchPanel.SetActive(true);
         GUI.SetActive(true);
-        TitleFriends.SetActive(false);
 
         Money.SetMoney(0);
         SchoolObject.SetActive(true);

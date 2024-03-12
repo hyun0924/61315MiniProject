@@ -263,7 +263,6 @@ public class School : MonoBehaviour
         {
             bossbubbleSpawn[0].StopSpawnBubble();
             bossbubbleSpawn[1].StopSpawnBubble();
-            IsBoss = false;
             GameManager.Instance.DestroyBossBubbles();
         }
 
@@ -272,6 +271,7 @@ public class School : MonoBehaviour
         {
             GameManager.Instance.BossClear();
             NextPhase();
+            IsBoss = false;
         }
         
         ReGen();
