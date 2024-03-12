@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject TouchPanel;
     [SerializeField] private GameObject GUI;
     [SerializeField] private GameObject SchoolObject;
-    [SerializeField] private GameObject BossScript;
+    [SerializeField] private GameObject[] BossBubbleContainers;
 
     [Header("Container")]
     [SerializeField] private GameObject studentDamageTextContainer;
@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
         ATKUPBtn.Instance.Reset();
         AddStudentBtn.Instance.Reset();
 
-        DestroyBossScripts();
+        DestroyBossBubbles();
         DestroyFragments();
         DestroyFootprints();
 
@@ -171,11 +171,14 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void DestroyBossScripts()
+    public void DestroyBossBubbles()
     {
-        for (int i = BossScript.transform.childCount - 1; i >= 0; i--)
+        for (int i = 0; i < BossBubbleContainers.Length; i++)
         {
-            Destroy(BossScript.transform.GetChild(i).gameObject);
+            for (int j = BossBubbleContainers[i].transform.childCount - 1; j >= 0; j--)
+            {
+                Destroy(BossBubbleContainers[i].transform.GetChild(j).gameObject);
+            }
         }
     }
 
