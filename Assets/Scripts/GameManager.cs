@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
+        BackGroundMusic.Pause();
         Time.timeScale = 0;
         TouchPanel.SetActive(false);
         PausePanel.SetActive(true);
@@ -124,6 +125,7 @@ public class GameManager : MonoBehaviour
 
     public void BossClear()
     {
+        BackGroundMusic.Pause();
         Time.timeScale = 0;
         TouchPanel.SetActive(false);
         ClearPanel.SetActive(true);
@@ -131,6 +133,7 @@ public class GameManager : MonoBehaviour
 
     public void Resume()
     {
+        BackGroundMusic.Resume();
         Time.timeScale = 1;
         TouchPanel.SetActive(true);
         PausePanel.SetActive(false);
@@ -139,6 +142,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        BackGroundMusic.Pause();
         TouchPanel.SetActive(false);
         GameOverPanel.SetActive(true);
         ResultText.text = "학교\n" + (School.stack - 1) + "개 격파!";
@@ -156,6 +160,7 @@ public class GameManager : MonoBehaviour
         WindSkill.Instance.Reset();
         ATKUPBtn.Instance.Reset();
         AddStudentBtn.Instance.Reset();
+        BurningGauge.Instance.Reset();
 
         DestroyBossBubbles();
         DestroyFragments();
