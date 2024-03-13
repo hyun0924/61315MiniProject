@@ -12,22 +12,17 @@ public class School : MonoBehaviour
     public float initialHP;
     protected static School instance = null;
     public static int stack; // nn번째 격파에 사용
-    private bool isBoss;
-    public bool IsBoss => isBoss;
+    private static bool IsBoss;
+    private bool isShake;
     private int bossType;
     private int BossMoney;
     Coroutine shake;
-    Coroutine bossScript;
     Rigidbody2D rb;
     SpriteRenderer sr;
     BoxCollider2D boxCollider;
     AudioSource audioSource;
+    BossBubbleSpawn[] bossbubbleSpawn = new BossBubbleSpawn[2];
 
-    private string[] bossScripts =
-    {
-        "지방 방송 꺼라~", "학생이 단정해야지~", "학생의 본분은 공부!",
-        "시험? 쉽게 낼게~", "첫째도 복습 둘째도 복습"
-    };
     [SerializeField] private int bossPeriod;
 
     [Header("UI")]
@@ -35,7 +30,7 @@ public class School : MonoBehaviour
     [SerializeField] private TextMeshProUGUI SchoolHPText;
     [SerializeField] private TextMeshProUGUI SchoolNameText;
     [SerializeField] private GameObject BossAlertLine;
-    [SerializeField] private GameObject BubblePrefab;
+    [SerializeField] private GameObject[] BubbleCanvas;
 
     [Header("Speed")]
     [SerializeField] private float SchoolSpeed;
@@ -56,7 +51,8 @@ public class School : MonoBehaviour
         {
             //이 클래스 인스턴스가 탄생했을 때 전역변수 instance에 게임매니저 인스턴스가 담겨있지 않다면, 자신을 넣어준다.
             instance = this;
-            isBoss = false;
+            IsBoss = false;
+            isShake = false;
             School.stack = 0;
             MaxHP = initialHP;
 
@@ -64,9 +60,10 @@ public class School : MonoBehaviour
             sr = GetComponent<SpriteRenderer>();
             boxCollider = GetComponent<BoxCollider2D>();
             audioSource = GetComponent<AudioSource>();
+            bossbubbleSpawn[0] = transform.GetChild(1).gameObject.GetComponent<BossBubbleSpawn>();
+            bossbubbleSpawn[1] = transform.GetChild(2).gameObject.GetComponent<BossBubbleSpawn>();
 
             shake = null;
-            bossScript = null;
             //씬 전환이 되더라도 파괴되지 않게 한다.
             //gameObject만으로도 이 스크립트가 컴포넌트로서 붙어있는 Hierarchy상의 게임오브젝트라는 뜻이지만, 
             //나는 헷갈림 방지를 위해 this를 붙여주기도 한다.
@@ -101,9 +98,10 @@ public class School : MonoBehaviour
 
     private void OnEnable()
     {
-        if (isBoss)
+        if (IsBoss)
         {
-            bossScript = StartCoroutine(BossScript());
+            bossbubbleSpawn[0].StartSpawnBubble(bossData[bossType]);
+            bossbubbleSpawn[1].StartSpawnBubble(bossData[bossType]);
         }
     }
 
@@ -119,22 +117,22 @@ public class School : MonoBehaviour
     public void ReGen()
     {
         // Stop Coroutines
-        if (shake != null)
+        if (isShake)
         {
             StopCoroutine(shake);
-            shake = null;
+            isShake = false;;
         }
-        if (bossScript != null)
+        if (IsBoss)
         {
-            StopCoroutine(bossScript);
-            bossScript = null;
+            bossbubbleSpawn[0].StopSpawnBubble();
+            bossbubbleSpawn[1].StopSpawnBubble();
+            IsBoss = false;
         }
 
         stack++;
         SchoolHPBar.fillAmount = 1;
         rb.velocity = Vector2.zero;
         transform.position = new Vector3(0, 7.3f);
-        isBoss = false;
 
         // bossPeriod번째마다 보스 체크
         if (stack % bossPeriod == 0)
@@ -142,7 +140,7 @@ public class School : MonoBehaviour
             BossAlertLine.SetActive(true);
             currentSpeed = BossSpeed;
             HP = MaxHP * 5;
-            isBoss = true;
+            IsBoss = true;
             bossType = Random.Range(0, bossData.Length);
             SchoolNameText.text = bossData[bossType].Name + " 학교";
             sr.sprite = bossData[bossType].Stages[0];
@@ -183,7 +181,7 @@ public class School : MonoBehaviour
     private void GetAttack(float dmg)
     {
         HP -= dmg;
-        if (isBoss)
+        if (IsBoss)
         {
             SchoolHPBar.fillAmount = HP / (MaxHP * 5);
             SchoolHPText.text = (int)Mathf.Max(HP, 0) + "/" + (int)(MaxHP * 5);
@@ -193,7 +191,6 @@ public class School : MonoBehaviour
             SchoolHPBar.fillAmount = HP / MaxHP;
             SchoolHPText.text = (int)Mathf.Max(HP, 0) + "/" + (int)MaxHP;
         }
-        Debug.Log("Attacked!" + dmg + "damge");
 
         // Change Sprite
         if (HP <= 0)
@@ -203,7 +200,7 @@ public class School : MonoBehaviour
         }
         float unit = 1f / BreakStages.Length;
         int stage = (int)(SchoolHPBar.fillAmount / unit);
-        if (isBoss)
+        if (IsBoss)
         {
             sr.sprite = bossData[bossType].Stages[BreakStages.Length - stage - 1];
         }
@@ -254,55 +251,27 @@ public class School : MonoBehaviour
         transform.position = new Vector3(0, startPosition.y - currentSpeed * shakeTime, 0);
     }
 
-    private IEnumerator BossScript()
-    {
-        GameObject bossScriptCanvas = GameObject.FindWithTag("BossScript").gameObject;
-        RectTransform rt = bossScriptCanvas.GetComponent<RectTransform>();
-        Vector3 spawnPos = GetBottomLeftCorner(rt);
-
-        while (true)
-        {
-            spawnPos -= new Vector3(Random.Range(-rt.rect.x / 2f, rt.rect.x / 2f), Random.Range(-rt.rect.y / 2f, rt.rect.y / 2f), 0);
-            GameObject clone = Instantiate(BubblePrefab, spawnPos, Quaternion.identity);
-            float time = Random.Range(2f, 3f);
-            int num = Random.Range(0, bossScripts.Length + bossData[bossType].ScriptsCnt);
-
-            clone.transform.SetParent(bossScriptCanvas.transform, false);
-            string text;
-            if (num >= bossScripts.Length) text = bossData[bossType].Scripts[num - bossScripts.Length];
-            else text = bossScripts[num];
-            clone.GetComponent<BossBubble>().SetText(text);
-            yield return new WaitForSeconds(time);
-        }
-    }
-
-    Vector3 GetBottomLeftCorner(RectTransform rt)
-    {
-        Vector3[] v = new Vector3[4];
-        rt.GetWorldCorners(v);
-        return v[0];
-    }
-
     private void Dead()
     {
         // 대충 죽는 처리
-        if (shake != null)
+        if (isShake)
         {
             StopCoroutine(shake);
-            shake = null;
+            isShake = false;
         }
-        if (bossScript != null)
+        if (IsBoss)
         {
-            StopCoroutine(bossScript);
-            bossScript = null;
-            GameManager.Instance.DestroyBossScripts();
+            bossbubbleSpawn[0].StopSpawnBubble();
+            bossbubbleSpawn[1].StopSpawnBubble();
+            GameManager.Instance.DestroyBossBubbles();
         }
 
         gameObject.SetActive(false);
-        if (isBoss)
+        if (IsBoss)
         {
             GameManager.Instance.BossClear();
             NextPhase();
+            IsBoss = false;
         }
         
         ReGen();

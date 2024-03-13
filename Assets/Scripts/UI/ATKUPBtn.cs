@@ -10,6 +10,7 @@ public class ATKUPBtn : MonoBehaviour
     [SerializeField] private int increaseAmount;
     [SerializeField] private TextMeshProUGUI PriceText;
     [SerializeField] private float minClickTime;
+    [SerializeField] private GameObject BtnImage;
 
     public static ATKUPBtn Instance => instance;
     private static ATKUPBtn instance;
@@ -24,6 +25,7 @@ public class ATKUPBtn : MonoBehaviour
 
     Button button;
     private int price;
+    private bool isReady;
 
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class ATKUPBtn : MonoBehaviour
         PriceText.text = price.ToString("#,##0");
         isClick = false;
         clickTime = 0f;
+        isReady = false;
     }
 
     private void Update()
@@ -42,6 +45,34 @@ public class ATKUPBtn : MonoBehaviour
             clickTime += Time.deltaTime;
             if (clickTime >= minClickTime) StartCoroutine(RepeatUpgrade());
         }
+
+        if (!isReady && Money.GetMoney() >= price)
+        {
+            StartCoroutine(FullFilled());
+        }
+    }
+
+    private IEnumerator FullFilled()
+    {
+        GameObject ButtonReady = Instantiate(BtnImage, transform);
+        Image image = ButtonReady.GetComponent<Image>();
+        isReady = true;
+
+        while (Money.GetMoney() >= price)
+        {
+            float fadeTime = .75f;
+            while (fadeTime > 0f && Money.GetMoney() >= price)
+            {
+                fadeTime -= Time.deltaTime;
+                image.color = new Color(1, 1, 1, Mathf.Lerp(0, 1, fadeTime / 1f));
+                float f = Mathf.Lerp(1.3f, 1, fadeTime / 0.5f);
+                ButtonReady.transform.localScale = new Vector3(f, f);
+                yield return null;
+            }
+        }
+
+        Destroy(ButtonReady);
+        isReady = false;
     }
 
     public void PointerDown()

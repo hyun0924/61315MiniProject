@@ -9,6 +9,7 @@ public class AddStudentBtn : MonoBehaviour
     [SerializeField] private int increaseAmount;
     [SerializeField] private TextMeshProUGUI PriceText;
     [SerializeField] private GameObject FriendContainer;
+    [SerializeField] private GameObject BtnImage;
 
     public static AddStudentBtn Instance => instance;
     private static AddStudentBtn instance;
@@ -24,6 +25,7 @@ public class AddStudentBtn : MonoBehaviour
     new Vector3(2.15f,-1.44f)
     };
     private AudioSource audioSource;
+    private bool isReady;
 
     public AddStudentBtn()
     {
@@ -37,9 +39,41 @@ public class AddStudentBtn : MonoBehaviour
         price = initialPrice;
         PriceText.text = price.ToString("#,##0");
         button.onClick.AddListener(AddStudent);
+        isReady = false;
 
         Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity, FriendContainer.transform);
         studentNum++;
+    }
+
+    private void Update()
+    {
+        if (!isReady && Money.GetMoney() >= price)
+        {
+            StartCoroutine(FullFilled());
+        }
+    }
+
+    private IEnumerator FullFilled()
+    {
+        GameObject ButtonReady = Instantiate(BtnImage, transform);
+        Image image = ButtonReady.GetComponent<Image>();
+        isReady = true;
+
+        while (Money.GetMoney() >= price)
+        {
+            float fadeTime = .75f;
+            while (fadeTime > 0f && Money.GetMoney() >= price)
+            {
+                fadeTime -= Time.deltaTime;
+                image.color = new Color(1, 1, 1, Mathf.Lerp(0, 1, fadeTime / 1f));
+                float f = Mathf.Lerp(1.3f, 1, fadeTime / 0.5f);
+                ButtonReady.transform.localScale = new Vector3(f, f);
+                yield return null;
+            }
+        }
+
+        Destroy(ButtonReady);
+        isReady = false;
     }
 
     public void AddStudent()
@@ -70,7 +104,7 @@ public class AddStudentBtn : MonoBehaviour
         {
             Destroy(FriendContainer.transform.GetChild(i).gameObject);
         }
-        
+
         studentNum = 0;
         Instantiate(studentPrefab, stdpos[studentNum], Quaternion.identity, FriendContainer.transform);
         studentNum++;
