@@ -9,6 +9,7 @@ public class BackgroundTouch : MonoBehaviour
     [SerializeField] private WindSkill windSkill;
     Button button;
 
+    [SerializeField] private GameObject BurningFootPrintPrefab;
     [SerializeField] private GameObject FootPrintPrefab;
     [SerializeField] private GameObject FootPrintContainer;
 
@@ -73,7 +74,7 @@ public class BackgroundTouch : MonoBehaviour
         BurningGauge.Instance.ChargeBurningPower();
         //Ä¡¸íÅ¸ Ãß°¡
 
-        SpawnFootprint(crit, pos);
+        SpawnFootprint(crit, pos, FootPrintPrefab);
 
         // Sounds
         if (crit)
@@ -93,11 +94,11 @@ public class BackgroundTouch : MonoBehaviour
         FragmentSpawner.Instance.SpawnFragment();
     }
 
-    private void SpawnFootprint(bool crit, Vector3 pos)
+    private void SpawnFootprint(bool crit, Vector3 pos, GameObject prefab)
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(pos);
         mousePos.z = 0;
-        GameObject footprint = Instantiate(FootPrintPrefab, mousePos, Quaternion.identity);
+        GameObject footprint = Instantiate(prefab, mousePos, Quaternion.identity);
         footprint.transform.localScale = Vector3.one;
         footprint.GetComponentInChildren<Footprint>().SetDamageText(crit);
         footprint.transform.SetParent(FootPrintContainer.transform);
@@ -111,7 +112,7 @@ public class BackgroundTouch : MonoBehaviour
         School.getInstance().GetAttackByPlayer(PlayerStat.atk);
 
         Vector3 randomPos = new Vector3(Random.Range(0, Screen.width), Random.Range(400f, Screen.height - 400f));
-        SpawnFootprint(false, randomPos);
+        SpawnFootprint(false, randomPos, BurningFootPrintPrefab);
 
         int randomSound = Random.Range(0, AttackSounds.Length);
         audioSource.clip = AttackSounds[randomSound];

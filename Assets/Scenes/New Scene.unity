@@ -4833,6 +4833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windSkill: {fileID: 595414861}
+  BurningFootPrintPrefab: {fileID: 1841994714096618589, guid: d229f764c3a39c3449f44fdc7eea5b8d, type: 3}
   FootPrintPrefab: {fileID: 1841994714096618589, guid: af7b750a482a8c7419d9cbb7660d2f7f, type: 3}
   FootPrintContainer: {fileID: 1184708885}
   AttackSounds:
