@@ -156,6 +156,7 @@ public class GameManager : MonoBehaviour
         WindSkill.Instance.Reset();
         ATKUPBtn.Instance.Reset();
         AddStudentBtn.Instance.Reset();
+        BurningGauge.Instance.Reset();
 
         DestroyBossBubbles();
         DestroyFragments();

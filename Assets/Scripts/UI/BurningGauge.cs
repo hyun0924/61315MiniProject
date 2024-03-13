@@ -45,7 +45,7 @@ public class BurningGauge : MonoBehaviour
     {
         float remainTime = burningDuration;
 
-        while (remainTime > 0f)
+        while (remainTime > 0f && isBurning)
         {
             remainTime -= Time.deltaTime;
             BurningGaugeFull.fillAmount = remainTime / burningDuration;

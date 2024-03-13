@@ -19,14 +19,12 @@ public class BackGroundMusic : MonoBehaviour
     {
         if (BurningGauge.IsBurning && !isBurning)
         {
-            Debug.Log("Burning Time!");
             isBurning = true;
             audioSource.clip = burningBGM;
             audioSource.Play();
         }
         else if (!BurningGauge.IsBurning && isBurning)
         {
-            Debug.Log("Normal Time!");
             isBurning = false;
             audioSource.clip = normalBGM;
             audioSource.Play();
