@@ -7,7 +7,7 @@ public class BackGroundMusic : MonoBehaviour
     [SerializeField] private AudioClip normalBGM;
     [SerializeField] private AudioClip burningBGM;
     private bool isBurning;
-    AudioSource audioSource;
+    static AudioSource audioSource;
 
     private void Awake()
     {
@@ -31,12 +31,12 @@ public class BackGroundMusic : MonoBehaviour
         }
     }
 
-    public void Pause()
+    public static void Pause()
     {
         audioSource.Pause();
     }
 
-    public void Resume()
+    public static void Resume()
     {
         audioSource.UnPause();
     }
