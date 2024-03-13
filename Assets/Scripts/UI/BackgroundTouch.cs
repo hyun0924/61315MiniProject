@@ -56,6 +56,7 @@ public class BackgroundTouch : MonoBehaviour
         windSkill.IncreaseSkillCount();
         bool crit = Random.Range(0, 100) == 0;
         School.getInstance().GetAttackByPlayer(crit ? PlayerStat.atk * 10 : PlayerStat.atk);
+        BurningGauge.Instance.ChargeBurningPower();
         //Ä¡¸íÅ¸ Ãß°¡
 
         // Spawn Footprint
