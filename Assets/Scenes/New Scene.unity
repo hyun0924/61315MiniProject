@@ -5471,7 +5471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialPrice: 50
-  increaseAmount: 10
+  increaseAmount: 5
   PriceText: {fileID: 2026170579}
   minClickTime: 0.2
   BtnImage: {fileID: 2616401927122217278, guid: 2e53109b9938f43469ab31bc35a4075b, type: 3}

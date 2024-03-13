@@ -170,12 +170,12 @@ public class School : MonoBehaviour
 
     private void NextPhase()
     {
-        MaxHP *= 1.1f;          // HP +1%
-        SchoolSpeed *= 1.03f;   // speed +3%
-        BossSpeed *= 1.03f;     // speed +3%
+        MaxHP *= 1.15f;          // HP +1%
+        SchoolSpeed += 0.03f;   // speed +0.03
+        BossSpeed += 0.03f;     // speed +0.03
 
         Money.IncreaseMoney(BossMoney);
-        BossMoney += 5;
+        BossMoney = (int) (BossMoney * 1.2f);
     }
 
     private void GetAttack(float dmg)
