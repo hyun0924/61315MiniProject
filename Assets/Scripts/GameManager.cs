@@ -14,12 +14,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject TouchPanel;
     [SerializeField] private GameObject GUI;
     [SerializeField] private GameObject SchoolObject;
-    [SerializeField] private GameObject BossScript;
+    [SerializeField] private GameObject[] BossBubbleContainers;
 
     [Header("Container")]
     [SerializeField] private GameObject studentDamageTextContainer;
     [SerializeField] private GameObject FragmentContainer;
     [SerializeField] private GameObject FootprintContainer;
+    [SerializeField] private GameObject TitleFriends;
 
     private bool isStart;
     public bool IsStart => isStart;
@@ -30,13 +31,29 @@ public class GameManager : MonoBehaviour
     public GameObject StudentDamageTextContainer => studentDamageTextContainer;
     AudioSource gameStartAudio;
 
-    private void Awake()
+    GameManager()
     {
         instance = this;
+    }
+
+    private void Awake()
+    {
         isStart = false;
-        Time.timeScale = 0;
+        Time.timeScale = 1;
         ClickCount = 0;
         gameStartAudio = GetComponent<AudioSource>();
+
+        ActiveFriendsRandom();
+    }
+
+    private void ActiveFriendsRandom()
+    {
+        for (int i = 0; i < TitleFriends.transform.childCount; i++)
+        {
+            if (isStart) break;
+            GameObject friend = TitleFriends.transform.GetChild(i).gameObject;
+            friend.GetComponent<Animator>().Play("Friend", -1, Random.Range(0f, 1f));
+        }
     }
 
     private void Update()
@@ -91,8 +108,8 @@ public class GameManager : MonoBehaviour
         GameStartPanel.SetActive(false);
         TouchPanel.SetActive(true);
         GUI.SetActive(true);
-        Money.SetMoney(0);
 
+        Money.SetMoney(0);
         SchoolObject.SetActive(true);
         Time.timeScale = 1;
         gameStartAudio.Play();
@@ -100,6 +117,7 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
+        BackGroundMusic.Pause();
         Time.timeScale = 0;
         TouchPanel.SetActive(false);
         PausePanel.SetActive(true);
@@ -107,13 +125,16 @@ public class GameManager : MonoBehaviour
 
     public void BossClear()
     {
+        BackGroundMusic.Pause();
         Time.timeScale = 0;
         TouchPanel.SetActive(false);
         ClearPanel.SetActive(true);
+        ClearPanel.GetComponent<AudioSource>().Play();
     }
 
     public void Resume()
     {
+        BackGroundMusic.Resume();
         Time.timeScale = 1;
         TouchPanel.SetActive(true);
         PausePanel.SetActive(false);
@@ -122,6 +143,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        BackGroundMusic.Pause();
         TouchPanel.SetActive(false);
         GameOverPanel.SetActive(true);
         ResultText.text = "학교\n" + (School.stack - 1) + "개 격파!";
@@ -139,8 +161,10 @@ public class GameManager : MonoBehaviour
         WindSkill.Instance.Reset();
         ATKUPBtn.Instance.Reset();
         AddStudentBtn.Instance.Reset();
+        BurningGauge.Instance.Reset();
+        BackGroundMusic.Resume();
 
-        DestroyBossScripts();
+        DestroyBossBubbles();
         DestroyFragments();
         DestroyFootprints();
 
@@ -153,11 +177,14 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void DestroyBossScripts()
+    public void DestroyBossBubbles()
     {
-        for (int i = BossScript.transform.childCount - 1; i >= 0; i--)
+        for (int i = 0; i < BossBubbleContainers.Length; i++)
         {
-            Destroy(BossScript.transform.GetChild(i).gameObject);
+            for (int j = BossBubbleContainers[i].transform.childCount - 1; j >= 0; j--)
+            {
+                Destroy(BossBubbleContainers[i].transform.GetChild(j).gameObject);
+            }
         }
     }
 
@@ -179,7 +206,13 @@ public class GameManager : MonoBehaviour
 
     public void Exit()
     {
-        Time.timeScale = 1;
+        School.getInstance().Reset();
+        Money.SetMoney(0);
+        WindSkill.Instance.Reset();
+        ATKUPBtn.Instance.Reset();
+        AddStudentBtn.Instance.Reset();
+        BurningGauge.Instance.Reset();
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

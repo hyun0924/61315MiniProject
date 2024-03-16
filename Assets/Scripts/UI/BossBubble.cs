@@ -20,9 +20,14 @@ public class BossBubble : MonoBehaviour
         StartCoroutine(Animation());
     }
 
-    public void SetText(string script)
+    /* 
+    Set Text
+    return : width of textbox
+    */
+    public float SetText(string bubble)
     {
-        textMesh.text = script;
+        textMesh.text = bubble;
+        return textMesh.preferredWidth;
     }
 
     private IEnumerator Animation()

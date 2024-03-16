@@ -25,12 +25,14 @@ public class Student : MonoBehaviour
 
     public static void AtkChange()
     {
-        atk = (int) (PlayerStat.atk / 2f);
+        atk = (int) (PlayerStat.atk / 5f);
     }
 
     // Animation Event
     public void Attack()
     {
+        if (!GameManager.Instance.IsStart) return;
+
         if (!School.getInstance().gameObject.activeSelf) return;
 
         School.getInstance().GetAttackByStudent(atk);
