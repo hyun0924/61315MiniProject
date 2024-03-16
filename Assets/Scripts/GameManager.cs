@@ -129,6 +129,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         TouchPanel.SetActive(false);
         ClearPanel.SetActive(true);
+        ClearPanel.GetComponent<AudioSource>().Play();
     }
 
     public void Resume()

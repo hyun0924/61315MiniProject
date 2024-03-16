@@ -30,6 +30,7 @@ public class School : MonoBehaviour
     [SerializeField] private TextMeshProUGUI SchoolHPText;
     [SerializeField] private TextMeshProUGUI SchoolNameText;
     [SerializeField] private GameObject BossAlertLine;
+    [SerializeField] private TextMeshProUGUI RewardText;
     [SerializeField] private GameObject[] BubbleCanvas;
 
     [Header("Speed")]
@@ -176,6 +177,7 @@ public class School : MonoBehaviour
 
         Money.IncreaseMoney(BossMoney);
         BossMoney = (int) (BossMoney * 1.2f);
+        RewardText.text = BossMoney.ToString("+#,##0");
     }
 
     private void GetAttack(float dmg)
@@ -269,8 +271,8 @@ public class School : MonoBehaviour
         gameObject.SetActive(false);
         if (IsBoss)
         {
-            GameManager.Instance.BossClear();
             NextPhase();
+            GameManager.Instance.BossClear();
             IsBoss = false;
         }
         
