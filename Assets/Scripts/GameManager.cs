@@ -206,7 +206,13 @@ public class GameManager : MonoBehaviour
 
     public void Exit()
     {
-        Time.timeScale = 1;
+        School.getInstance().Reset();
+        Money.SetMoney(0);
+        WindSkill.Instance.Reset();
+        ATKUPBtn.Instance.Reset();
+        AddStudentBtn.Instance.Reset();
+        BurningGauge.Instance.Reset();
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

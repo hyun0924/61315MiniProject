@@ -15,6 +15,7 @@ public class WindSkill : MonoBehaviour
     public GameObject windPrefab;
     private Coroutine coroutine;
     private GameObject windSkillReady;
+    private GameObject windSkillClone;
     private bool isFilled;
 
     private static WindSkill instance;
@@ -30,6 +31,7 @@ public class WindSkill : MonoBehaviour
         windSkillGauge = windSkillFull.GetComponent<Image>();
         windSkillGauge.fillAmount = 0;
         isFilled = false;
+        windSkillClone = null;
     }
 
     private void Update()
@@ -43,7 +45,7 @@ public class WindSkill : MonoBehaviour
         {
             skillCount = 0;
             windSkillGauge.fillAmount = 0;
-            Instantiate(windPrefab, new Vector3(0, -6), Quaternion.identity);
+            windSkillClone = Instantiate(windPrefab, new Vector3(0, -6), Quaternion.identity);
         }
     }
 
@@ -100,6 +102,12 @@ public class WindSkill : MonoBehaviour
         {
             StopCoroutine(coroutine);
             Destroy(windSkillReady);
+        }
+
+        if (windSkillClone != null)
+        {
+            Destroy(windSkillClone);
+            windSkillClone = null;
         }
     }
 }

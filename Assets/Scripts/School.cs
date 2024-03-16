@@ -165,6 +165,12 @@ public class School : MonoBehaviour
         MaxHP = initialHP;
         SchoolSpeed /= BossSpeed;
         BossSpeed = 1;
+        
+        if (isShake)
+        {
+            StopCoroutine(shake);
+            isShake = false;
+        }
 
         ReGen();
     }
@@ -244,7 +250,7 @@ public class School : MonoBehaviour
 
         while (time > 0.0f)
         {
-            time -= Time.deltaTime;
+            time -= Time.unscaledDeltaTime;
             transform.position = startPosition + Random.insideUnitSphere * shakeIntensity;
 
             yield return null;
@@ -283,7 +289,7 @@ public class School : MonoBehaviour
     {
         if (other.gameObject.tag == "GameOver")
         {
-            if (shake != null)
+            if (isShake)
             {
                 StopCoroutine(shake);
                 shake = null;

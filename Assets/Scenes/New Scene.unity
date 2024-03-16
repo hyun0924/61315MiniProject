@@ -3626,6 +3626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b3b0f9fd3f16c4eaad4da6e35084a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  burningPower: 0
   maxBurningPower: 100
   BurningGaugeFull: {fileID: 1479683614}
   burningDuration: 10
