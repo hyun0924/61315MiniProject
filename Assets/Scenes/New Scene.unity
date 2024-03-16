@@ -3066,7 +3066,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windSkillFull: {fileID: 1468063791}
-  maxSkillCount: 40
+  maxSkillCount: 12
+  AutoSkill: {fileID: 1736809848}
   windPrefab: {fileID: 5467174506195479150, guid: 83026f3b4195f4a4f9bbf8258de1a13c, type: 3}
 --- !u!1 &626491070
 GameObject:

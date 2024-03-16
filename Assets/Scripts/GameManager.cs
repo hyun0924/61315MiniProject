@@ -162,6 +162,7 @@ public class GameManager : MonoBehaviour
         ATKUPBtn.Instance.Reset();
         AddStudentBtn.Instance.Reset();
         BurningGauge.Instance.Reset();
+        BackGroundMusic.Resume();
 
         DestroyBossBubbles();
         DestroyFragments();

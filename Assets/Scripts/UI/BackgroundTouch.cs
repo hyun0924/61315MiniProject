@@ -68,7 +68,6 @@ public class BackgroundTouch : MonoBehaviour
     {
         if (!School.getInstance().gameObject.activeSelf) return;
 
-        windSkill.IncreaseSkillCount();
         bool crit = Random.Range(0, 100) == 0;
         School.getInstance().GetAttackByPlayer(crit ? PlayerStat.atk * 10 : PlayerStat.atk);
         BurningGauge.Instance.ChargeBurningPower();
