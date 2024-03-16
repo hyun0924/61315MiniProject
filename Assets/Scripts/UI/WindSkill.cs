@@ -7,14 +7,17 @@ using UnityEngine.UI;
 public class WindSkill : MonoBehaviour
 {
     [SerializeField] private GameObject windSkillFull;
-    [SerializeField] private int maxSkillCount;
+    [SerializeField] private float maxSkillCount;
+    [SerializeField] private Toggle AutoSkill;
 
     private Image windSkillGauge;
-    private int skillCount;
+    private float skillCount;
     public GameObject windPrefab;
     private Coroutine coroutine;
     private GameObject windSkillReady;
     //public static bool usingWind;
+    private GameObject windSkillClone;
+    private bool isFilled;
 
     private static WindSkill instance;
     public static WindSkill Instance => instance;
@@ -29,6 +32,13 @@ public class WindSkill : MonoBehaviour
         windSkillGauge = windSkillFull.GetComponent<Image>();
         windSkillGauge.fillAmount = 0;
         //usingWind = false;
+        isFilled = false;
+        windSkillClone = null;
+    }
+
+    private void Update()
+    {
+        IncreaseSkillCount();
     }
 
     public void OnMouseDown()
@@ -37,21 +47,25 @@ public class WindSkill : MonoBehaviour
         {
             skillCount = 0;
             windSkillGauge.fillAmount = 0;
-            Instantiate(windPrefab, new Vector3(0, -6), Quaternion.identity);
             //usingWind = true;
+            windSkillClone = Instantiate(windPrefab, new Vector3(0, -6), Quaternion.identity);
         }
     }
 
     public void IncreaseSkillCount()
     {
-        if (skillCount >= maxSkillCount) return;
+        if (skillCount >= maxSkillCount)
+        {
+            if (AutoSkill.isOn) OnMouseDown();
+            else return;
+        }
 
-        skillCount++;
-        windSkillGauge.fillAmount = (float)skillCount / maxSkillCount;
+        skillCount += Time.deltaTime;
+        windSkillGauge.fillAmount = skillCount / maxSkillCount;
 
         if (skillCount >= maxSkillCount)
         {
-            if (coroutine != null)
+            if (!isFilled && coroutine != null)
             {
                 StopCoroutine(coroutine);
                 Destroy(windSkillReady);
@@ -62,6 +76,7 @@ public class WindSkill : MonoBehaviour
 
     private IEnumerator FullFilled()
     {
+        isFilled = true;
         windSkillReady = Instantiate(windSkillFull, transform);
         Image image = windSkillReady.GetComponent<Image>();
 
@@ -77,16 +92,25 @@ public class WindSkill : MonoBehaviour
                 yield return null;
             }
         }
+
+        isFilled = false;
     }
 
     public void Reset()
     {
+        isFilled = false;
         skillCount = 0;
         windSkillGauge.fillAmount = 0;
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
             Destroy(windSkillReady);
+        }
+
+        if (windSkillClone != null)
+        {
+            Destroy(windSkillClone);
+            windSkillClone = null;
         }
     }
 }

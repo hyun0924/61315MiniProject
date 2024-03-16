@@ -24,6 +24,8 @@ public class PlayerStat : MonoBehaviour
     public void IncreaseAtk()
     {
         atk += increaseAmount;
+
+        increaseAmount = 1 + (int) (atk / 25);
     }
 
     public void Reset()
