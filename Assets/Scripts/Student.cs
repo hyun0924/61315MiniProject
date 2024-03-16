@@ -25,7 +25,7 @@ public class Student : MonoBehaviour
 
     public static void AtkChange()
     {
-        atk = (int) (PlayerStat.atk / 2f);
+        atk = (int) (PlayerStat.atk / 5f);
     }
 
     // Animation Event

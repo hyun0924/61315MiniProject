@@ -7,7 +7,7 @@ public class BurningGauge : MonoBehaviour
 {
     private static bool isBurning;
     public static bool IsBurning => isBurning;
-    private float burningPower;
+    public float burningPower;
     [SerializeField] private float maxBurningPower;
     [SerializeField] private Image BurningGaugeFull;
     [SerializeField] private float burningDuration;

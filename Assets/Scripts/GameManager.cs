@@ -129,6 +129,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         TouchPanel.SetActive(false);
         ClearPanel.SetActive(true);
+        ClearPanel.GetComponent<AudioSource>().Play();
     }
 
     public void Resume()
@@ -161,6 +162,7 @@ public class GameManager : MonoBehaviour
         ATKUPBtn.Instance.Reset();
         AddStudentBtn.Instance.Reset();
         BurningGauge.Instance.Reset();
+        BackGroundMusic.Resume();
 
         DestroyBossBubbles();
         DestroyFragments();
@@ -204,7 +206,13 @@ public class GameManager : MonoBehaviour
 
     public void Exit()
     {
-        Time.timeScale = 1;
+        School.getInstance().Reset();
+        Money.SetMoney(0);
+        WindSkill.Instance.Reset();
+        ATKUPBtn.Instance.Reset();
+        AddStudentBtn.Instance.Reset();
+        BurningGauge.Instance.Reset();
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

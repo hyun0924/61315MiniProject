@@ -30,6 +30,7 @@ public class School : MonoBehaviour
     [SerializeField] private TextMeshProUGUI SchoolHPText;
     [SerializeField] private TextMeshProUGUI SchoolNameText;
     [SerializeField] private GameObject BossAlertLine;
+    [SerializeField] private TextMeshProUGUI RewardText;
     [SerializeField] private GameObject[] BubbleCanvas;
 
     [Header("Speed")]
@@ -164,18 +165,25 @@ public class School : MonoBehaviour
         MaxHP = initialHP;
         SchoolSpeed /= BossSpeed;
         BossSpeed = 1;
+        
+        if (isShake)
+        {
+            StopCoroutine(shake);
+            isShake = false;
+        }
 
         ReGen();
     }
 
     private void NextPhase()
     {
-        MaxHP *= 1.1f;          // HP +1%
-        SchoolSpeed *= 1.03f;   // speed +3%
-        BossSpeed *= 1.03f;     // speed +3%
+        MaxHP *= 1.15f;          // HP +1%
+        SchoolSpeed += 0.03f;   // speed +0.03
+        BossSpeed += 0.03f;     // speed +0.03
 
         Money.IncreaseMoney(BossMoney);
-        BossMoney += 5;
+        BossMoney = (int) (BossMoney * 1.2f);
+        RewardText.text = BossMoney.ToString("+#,##0");
     }
 
     private void GetAttack(float dmg)
@@ -242,7 +250,7 @@ public class School : MonoBehaviour
 
         while (time > 0.0f)
         {
-            time -= Time.deltaTime;
+            time -= Time.unscaledDeltaTime;
             transform.position = startPosition + Random.insideUnitSphere * shakeIntensity;
 
             yield return null;
@@ -269,8 +277,8 @@ public class School : MonoBehaviour
         gameObject.SetActive(false);
         if (IsBoss)
         {
-            GameManager.Instance.BossClear();
             NextPhase();
+            GameManager.Instance.BossClear();
             IsBoss = false;
         }
         
@@ -281,7 +289,7 @@ public class School : MonoBehaviour
     {
         if (other.gameObject.tag == "GameOver")
         {
-            if (shake != null)
+            if (isShake)
             {
                 StopCoroutine(shake);
                 shake = null;
