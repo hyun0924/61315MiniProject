@@ -161,8 +161,6 @@ public class GameManager : MonoBehaviour
     public void Retry()
     {
         TouchPanel.SetActive(true);
-        GameOverPanel.SetActive(false);
-        PausePanel.SetActive(false);
 
         School.getInstance().Reset();
         Money.SetMoney(0);
@@ -183,6 +181,8 @@ public class GameManager : MonoBehaviour
         }
 
         Time.timeScale = 1;
+        GameOverPanel.SetActive(false);
+        PausePanel.SetActive(false);
     }
 
     public void DestroyBossBubbles()
