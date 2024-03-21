@@ -222,8 +222,8 @@ public class School : MonoBehaviour
     public void GetAttackByPlayer(float dmg)
     {
         GetAttack(dmg);
-
-        rb.velocity = Vector3.zero;
+        //if(!WindSkill.usingWind)
+            rb.velocity = rb.velocity.y>0f?rb.velocity:Vector3.zero;
 
         if (gameObject.activeSelf)
         {

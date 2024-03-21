@@ -26,6 +26,7 @@ public class WindScript : MonoBehaviour
         if (other.gameObject.tag == "School")
         {
             School.getInstance().GetAttackByWind(PlayerStat.atk * 5);
+            //WindSkill.usingWind = false;
             Destroy(gameObject);
         }
     }
