@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class WindSkill : MonoBehaviour
 {
     [SerializeField] private GameObject windSkillFull;
-    [SerializeField] private float maxSkillCount;
-    [SerializeField] private Toggle AutoSkill;
+    [SerializeField] private int maxSkillCount;
+    [SerializeField] private Toggle AutoWind;
 
     private Image windSkillGauge;
     private float skillCount;
@@ -38,7 +38,8 @@ public class WindSkill : MonoBehaviour
 
     private void Update()
     {
-        IncreaseSkillCount();
+        if (!isFilled) IncreaseSkillCount();
+        else if (AutoWind.isOn) OnMouseDown();
     }
 
     public void OnMouseDown()
@@ -56,7 +57,7 @@ public class WindSkill : MonoBehaviour
     {
         if (skillCount >= maxSkillCount)
         {
-            if (AutoSkill.isOn) OnMouseDown();
+            if (AutoWind.isOn) OnMouseDown();
             else return;
         }
 
