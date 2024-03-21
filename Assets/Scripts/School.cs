@@ -165,6 +165,7 @@ public class School : MonoBehaviour
         MaxHP = initialHP;
         SchoolSpeed /= BossSpeed;
         BossSpeed = 1;
+        BossMoney = 10;
         
         if (isShake)
         {
@@ -182,8 +183,8 @@ public class School : MonoBehaviour
         BossSpeed += 0.03f;     // speed +0.03
 
         Money.IncreaseMoney(BossMoney);
-        BossMoney = (int) (BossMoney * 1.2f);
         RewardText.text = BossMoney.ToString("+#,##0");
+        BossMoney = (int) (BossMoney * 1.2f);
     }
 
     private void GetAttack(float dmg)
@@ -277,8 +278,8 @@ public class School : MonoBehaviour
         gameObject.SetActive(false);
         if (IsBoss)
         {
-            NextPhase();
             GameManager.Instance.BossClear();
+            NextPhase();
             IsBoss = false;
         }
         
