@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class ButtonAnimation : MonoBehaviour
 {
-    [SerializeField] private float pauseTime;
     RectTransform rectTransform;
     Button button;
 
@@ -18,25 +17,25 @@ public class ButtonAnimation : MonoBehaviour
     private void OnEnable()
     {
         button.onClick.RemoveAllListeners();
-        StartCoroutine(ScaleUp());
+        StartCoroutine(ChangeScale());
     }
     
 
-    private IEnumerator ScaleUp()
-    {
-        yield return new WaitForSecondsRealtime(pauseTime);
-        button.onClick.AddListener(GameManager.Instance.Resume);
+    // private IEnumerator ScaleUp()
+    // {
+    //     yield return new WaitForSecondsRealtime(pauseTime);
+    //     button.onClick.AddListener(GameManager.Instance.Resume);
 
-        float scale = 0;
-        float currentTime = 0;
-        while (scale < 1)
-        {
-            currentTime += Time.unscaledDeltaTime;
-            scale = Mathf.Lerp(0f, 1f, currentTime/pauseTime);
-            rectTransform.localScale = new Vector3(scale, scale);
-            yield return null;
-        }
-    }
+    //     float scale = 0;
+    //     float currentTime = 0;
+    //     while (scale < 1)
+    //     {
+    //         currentTime += Time.unscaledDeltaTime;
+    //         scale = Mathf.Lerp(0f, 1f, currentTime/pauseTime);
+    //         rectTransform.localScale = new Vector3(scale, scale);
+    //         yield return null;
+    //     }
+    // }
 
     private IEnumerator ChangeScale()
     {
@@ -45,7 +44,7 @@ public class ButtonAnimation : MonoBehaviour
 
         while (true)
         {
-            currentTime += Time.unscaledDeltaTime * trigger;
+            currentTime = Mathf.Min(0.5f, Mathf.Max(0, currentTime + Time.unscaledDeltaTime * trigger));
             float scale = Mathf.Lerp(1f, 1.05f, currentTime/0.3f);
             rectTransform.localScale = new Vector3(scale, scale);
 
