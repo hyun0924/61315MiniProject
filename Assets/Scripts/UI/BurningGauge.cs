@@ -13,6 +13,7 @@ public class BurningGauge : MonoBehaviour
     [SerializeField] private Image BurningGaugeFull;
     [SerializeField] private Sprite BurningOnSprite;
     [SerializeField] private Sprite BurningOffSprite;
+    [SerializeField] private GameObject BurningTimeObject;
 
     private static BurningGauge instance;
     public static BurningGauge Instance => instance;
@@ -47,6 +48,7 @@ public class BurningGauge : MonoBehaviour
     private IEnumerator Burning()
     {
         float remainTime = burningDuration;
+        BurningTimeObject.SetActive(true);
 
         while (remainTime > 0f && isBurning)
         {
@@ -58,6 +60,8 @@ public class BurningGauge : MonoBehaviour
         isBurning = false;
         burningPower = 0;
         BurningGaugeFull.GetComponent<Image>().sprite = BurningOffSprite;
+        BurningTimeObject.SetActive(false);
+
     }
 
     public void Reset()
@@ -66,5 +70,6 @@ public class BurningGauge : MonoBehaviour
         burningPower = 0;
         BurningGaugeFull.fillAmount = 0f;
         BurningGaugeFull.GetComponent<Image>().sprite = BurningOffSprite;
+        BurningTimeObject.SetActive(false);
     }
 }
