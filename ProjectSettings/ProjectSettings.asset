@@ -252,7 +252,7 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/jaehy/Documents/schoolbreak.keystore
+  AndroidKeystoreName: '{inproject}: userjks.keystore'
   AndroidKeyaliasName: schoolbreak
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
