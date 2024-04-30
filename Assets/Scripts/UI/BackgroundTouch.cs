@@ -39,7 +39,7 @@ public class BackgroundTouch : MonoBehaviour
                 Touch touch = Input.GetTouch(i);
                 if (touch.phase == TouchPhase.Began)
                 {
-                    if (Screen.height - touch.position.y >= 400f && touch.position.y >= 400f)
+                    if (Screen.height - touch.position.y >= 500f && touch.position.y >= 500f)
                         BreakSchool(touch.position);
                 }
             }
