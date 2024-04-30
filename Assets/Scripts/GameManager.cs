@@ -44,14 +44,6 @@ public class GameManager : MonoBehaviour
         gameStartAudio = GetComponent<AudioSource>();
 
         ActiveFriendsRandom();
-
-        Social.localUser.Authenticate((bool success) => 
-        {
-            if(success)
-            {
-                Debug.Log(Social.localUser.id);
-            }
-        });//시작할때 Authenticate를 해줘야 리더보드에 접근 할 수 있다.
     }
 
     private void ActiveFriendsRandom()
