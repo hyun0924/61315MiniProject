@@ -34,4 +34,9 @@ public class GPGSHelper : MonoBehaviour
         ((PlayGamesPlatform)Social.Active).SignOut();
         txtLoginResult.text = "Logout";
     }
+
+    public void ShowLeaderBoard()
+    {
+        PlayGamesPlatform.Instance.ShowLeaderboardUI();
+    }
 }
