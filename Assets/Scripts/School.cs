@@ -295,6 +295,7 @@ public class School : MonoBehaviour
                 StopCoroutine(shake);
                 shake = null;
             }
+            GPGSHelper.Instance.AddLeaderBoard(stack);
             GameManager.Instance.GameOver();
         }
     }

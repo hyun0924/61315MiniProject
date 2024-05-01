@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ShowAndroidToastMessage(string message)
+    public void ShowAndroidToastMessage(string message)
     {
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
