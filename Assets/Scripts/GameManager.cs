@@ -44,14 +44,6 @@ public class GameManager : MonoBehaviour
         gameStartAudio = GetComponent<AudioSource>();
 
         ActiveFriendsRandom();
-
-        Social.localUser.Authenticate((bool success) => 
-        {
-            if(success)
-            {
-                Debug.Log(Social.localUser.id);
-            }
-        });//시작할때 Authenticate를 해줘야 리더보드에 접근 할 수 있다.
     }
 
     private void ActiveFriendsRandom()
@@ -89,7 +81,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ShowAndroidToastMessage(string message)
+    public void ShowAndroidToastMessage(string message)
     {
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
