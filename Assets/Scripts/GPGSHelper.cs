@@ -58,10 +58,6 @@ public class GPGSHelper : MonoBehaviour
                     {
                         GameManager.Instance.ShowAndroidToastMessage("랭킹 등록 성공!");
                     }
-                    else
-                    {
-                        GameManager.Instance.ShowAndroidToastMessage("랭킹 등록에 실패했습니다. 다시 한 번 시도해주세요.");
-                    }
                 });
             }
         });
