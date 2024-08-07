@@ -39,7 +39,7 @@ public class ScaleAnimation : MonoBehaviour
             currentTime = Mathf.Min(entireTime, Mathf.Max(0, currentTime + timescale * Time.unscaledDeltaTime * trigger));
             float scale = Mathf.Lerp(minScale, maxScale, currentTime / changeTime);
             rectTransform.localScale = new Vector3(scale, scale);
-            Debug.Log(currentTime);
+            
             if (currentTime >= entireTime || currentTime <= 0f)
             {
                 if (BurningTimeObject) count--;

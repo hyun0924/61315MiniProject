@@ -136,7 +136,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.0
+  bundleVersion: 2.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -164,7 +164,7 @@ PlayerSettings:
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 7
+  AndroidBundleVersionCode: 13
   AndroidMinSdkVersion: 27
   AndroidTargetSdkVersion: 33
   AndroidPreferredInstallLocation: 1
@@ -879,11 +879,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 34d06037-35fe-4132-b2d5-34d541749dd9
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: "\uD559\uAD50 \uBD80\uC218\uAE30"
+  organizationId: jaehyun668712
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
